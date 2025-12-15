@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { HeroSection, HeroSkeleton } from "@/components/HeroSection";
-import { FibonacciGrid } from "@/components/FibonacciGrid";
+import { MasonryGrid } from "@/components/MasonryGrid";
 import type { ArticlesResponse } from "@shared/schema";
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
         <HeroSection article={heroArticle} />
       ) : null}
 
-      <FibonacciGrid 
+      <MasonryGrid 
         articles={gridArticles} 
         isLoading={isLoading} 
       />
