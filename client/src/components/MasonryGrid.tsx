@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 import { ArticleCard, ArticleCardSkeleton } from "./ArticleCard";
 import type { Article } from "@shared/schema";
 
@@ -18,16 +19,95 @@ const containerVariants = {
   }
 };
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1]
+    }
+  }
+};
+
+function formatDate(date: Date | string): string {
+  const d = new Date(date);
+  return d.toLocaleDateString("uk-UA", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function FeaturedCard({ article }: { article: Article }) {
+  return (
+    <motion.article
+      variants={itemVariants}
+      className="featured-card"
+      data-testid={`featured-card-${article.slug}`}
+    >
+      <Link 
+        href={`/article/${article.slug}`} 
+        className="featured-link"
+        data-testid={`link-featured-${article.slug}`}
+      >
+        <div className="featured-image">
+          <img
+            src={article.imageUrl}
+            alt={article.title}
+            loading="eager"
+          />
+          <span 
+            className="category-badge"
+            data-testid={`badge-featured-${article.slug}`}
+          >
+            {article.category}
+          </span>
+        </div>
+
+        <div className="featured-content">
+          <h3 
+            className="featured-headline"
+            data-testid={`title-featured-${article.slug}`}
+          >
+            {article.title}
+          </h3>
+          
+          <p 
+            className="featured-excerpt"
+            data-testid={`excerpt-featured-${article.slug}`}
+          >
+            {article.excerpt}
+          </p>
+          
+          <div className="meta">
+            <time dateTime={new Date(article.publishedAt).toISOString()}>
+              {formatDate(article.publishedAt)}
+            </time>
+            <span className="meta-separator">•</span>
+            <span>{article.readTime} хв читання</span>
+          </div>
+        </div>
+      </Link>
+    </motion.article>
+  );
+}
+
 export function MasonryGrid({ articles, isLoading = false }: MasonryGridProps) {
   const [columns, setColumns] = useState(4);
+  const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      const width = window.innerWidth;
+      setIsDesktop(width >= 1024);
+      
+      if (width < 768) {
         setColumns(1);
-      } else if (window.innerWidth < 1024) {
+      } else if (width < 1024) {
         setColumns(2);
-      } else if (window.innerWidth < 1280) {
+      } else if (width < 1280) {
         setColumns(3);
       } else {
         setColumns(4);
@@ -39,9 +119,12 @@ export function MasonryGrid({ articles, isLoading = false }: MasonryGridProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const featuredArticle = isDesktop && articles.length > 0 ? articles[0] : null;
+  const gridArticles = isDesktop && articles.length > 0 ? articles.slice(1) : articles;
+
   const columnArticles: Article[][] = Array.from({ length: columns }, () => []);
   
-  articles.forEach((article, index) => {
+  gridArticles.forEach((article, index) => {
     const columnIndex = index % columns;
     columnArticles[columnIndex].push(article);
   });
@@ -72,28 +155,36 @@ export function MasonryGrid({ articles, isLoading = false }: MasonryGridProps) {
   return (
     <section className="py-12" data-testid="masonry-grid">
       <motion.div 
-        className="masonry-container"
+        className="masonry-wrapper"
         variants={containerVariants}
         initial="hidden"
         animate="show"
       >
-        {columnArticles.map((colArticles, columnIndex) => (
-          <div key={columnIndex} className="masonry-column">
-            {colArticles.map((article, indexInColumn) => {
-              const globalIndex = columnIndex + (indexInColumn * columns);
-              const cardConfig = getCardConfig(globalIndex);
-              
-              return (
-                <ArticleCard
-                  key={article.id}
-                  article={article}
-                  height={cardConfig.height}
-                  priority={globalIndex < 4}
-                />
-              );
-            })}
+        {featuredArticle && (
+          <div className="featured-wrapper">
+            <FeaturedCard article={featuredArticle} />
           </div>
-        ))}
+        )}
+        
+        <div className="masonry-container">
+          {columnArticles.map((colArticles, columnIndex) => (
+            <div key={columnIndex} className="masonry-column">
+              {colArticles.map((article, indexInColumn) => {
+                const globalIndex = columnIndex + (indexInColumn * columns);
+                const cardConfig = getCardConfig(globalIndex);
+                
+                return (
+                  <ArticleCard
+                    key={article.id}
+                    article={article}
+                    height={cardConfig.height}
+                    priority={globalIndex < 4}
+                  />
+                );
+              })}
+            </div>
+          ))}
+        </div>
       </motion.div>
     </section>
   );
