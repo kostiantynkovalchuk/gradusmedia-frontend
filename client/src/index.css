@@ -348,7 +348,7 @@
   padding: 32px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
   background: linear-gradient(135deg, hsl(var(--bg-dark)) 0%, hsl(var(--bg-darker)) 100%);
 }
