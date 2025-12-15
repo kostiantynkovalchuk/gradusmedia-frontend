@@ -6,11 +6,33 @@ export default {
   theme: {
     extend: {
       borderRadius: {
-        lg: ".5625rem", /* 9px */
-        md: ".375rem", /* 6px */
-        sm: ".1875rem", /* 3px */
+        lg: ".5625rem",
+        md: ".375rem",
+        sm: ".1875rem",
+      },
+      fontSize: {
+        "h1": ["3.5rem", { lineHeight: "1.2", fontWeight: "700" }],
+        "h2": ["2.5rem", { lineHeight: "1.3", fontWeight: "600" }],
+        "h3": ["1.75rem", { lineHeight: "1.4", fontWeight: "600" }],
+        "h4": ["1.25rem", { lineHeight: "1.5", fontWeight: "600" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.8" }],
+        "body-md": ["1rem", { lineHeight: "1.6" }],
+        "body-sm": ["0.875rem", { lineHeight: "1.5" }],
+        "body-xs": ["0.75rem", { lineHeight: "1.4" }],
       },
       colors: {
+        amber: {
+          primary: "hsl(var(--amber-primary) / <alpha-value>)",
+          secondary: "hsl(var(--amber-secondary) / <alpha-value>)",
+          neon: "hsl(var(--amber-neon) / <alpha-value>)",
+        },
+        "bg-dark": "hsl(var(--bg-dark) / <alpha-value>)",
+        "bg-darker": "hsl(var(--bg-darker) / <alpha-value>)",
+        "bg-darkest": "hsl(var(--bg-darkest) / <alpha-value>)",
+        "wood-accent": "hsl(var(--wood-accent) / <alpha-value>)",
+        "text-primary": "hsl(var(--text-primary) / <alpha-value>)",
+        "text-secondary": "hsl(var(--text-secondary) / <alpha-value>)",
+        "text-tertiary": "hsl(var(--text-tertiary) / <alpha-value>)",
         // Flat / base colors (regular buttons)
         background: "hsl(var(--background) / <alpha-value>)",
         foreground: "hsl(var(--foreground) / <alpha-value>)",
