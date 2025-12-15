@@ -8,8 +8,15 @@ Gradus Media is a premium AI-powered news platform for Ukraine's hospitality bev
 **Current State:** MVP complete with full-stack implementation.
 
 ## Recent Changes
+- **December 15, 2024:** Enhanced Masonry Grid System
+  - Replaced FibonacciGrid with new column-based MasonryGrid component
+  - Responsive columns: 4 (desktop) → 3 (small desktop) → 2 (tablet) → 1 (mobile)
+  - Fibonacci-inspired height patterns for visual variety (360-600px)
+  - Round-robin article distribution for perfect fill (no gaps)
+  - Updated ArticleCard with variable height support and framer-motion animations
+  - Added comprehensive masonry CSS styles with shimmer loading skeletons
+  
 - **December 15, 2024:** Initial MVP launch
-  - Implemented Fibonacci masonry grid layout
   - Created Header with logo, navigation, and mobile menu
   - Built Hero section with featured article
   - Designed ArticleCard components with amber glow hover effects
@@ -42,7 +49,7 @@ client/
 │   │   ├── Footer.tsx
 │   │   ├── ArticleCard.tsx
 │   │   ├── HeroSection.tsx
-│   │   ├── FibonacciGrid.tsx
+│   │   ├── MasonryGrid.tsx
 │   │   ├── Breadcrumbs.tsx
 │   │   ├── RelatedArticles.tsx
 │   │   └── ui/         # Shadcn components
@@ -74,9 +81,9 @@ shared/
 - **Breakpoints:** Mobile (<768px), Tablet (768-1199px), Desktop (1200px+)
 
 ## Key Features
-1. **Fibonacci Masonry Grid** - Dynamic article sizing based on importance
+1. **Column-Based Masonry Grid** - Responsive columns with Fibonacci-inspired heights (600, 450, 520, 380, 500, 420, 360, 480px pattern)
 2. **Hero Section** - Full-width featured article display
-3. **Article Cards** - Amber glow hover effects, category badges
-4. **Responsive Design** - Adapts layout per device
+3. **Article Cards** - Variable heights, amber glow hover effects, category badges
+4. **Responsive Design** - 4/3/2/1 columns based on viewport, adapts layout per device
 5. **Ukrainian Content** - Sample HoReCa industry articles
-6. **Framer Motion Animations** - Staggered entrance effects
+6. **Framer Motion Animations** - Staggered entrance effects with smooth card animations
