@@ -1,21 +1,44 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { Link } from "wouter";
+import { Home, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
-        </CardContent>
-      </Card>
-    </div>
+    <main 
+      className="min-h-screen pt-20 flex items-center justify-center"
+      data-testid="page-not-found"
+    >
+      <div className="max-w-md mx-auto px-6 text-center">
+        <div className="text-[120px] font-bold text-amber-primary/20 leading-none mb-4">
+          404
+        </div>
+        <h1 className="text-text-primary text-h2 font-bold mb-4">
+          Сторінку не знайдено
+        </h1>
+        <p className="text-text-secondary text-body-md mb-8">
+          На жаль, сторінка, яку ви шукаєте, не існує або була переміщена.
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link href="/">
+            <Button 
+              className="bg-amber-primary text-bg-dark font-semibold hover:bg-amber-neon hover:amber-glow transition-all"
+              data-testid="button-go-home"
+            >
+              <Home className="w-4 h-4 mr-2" />
+              На головну
+            </Button>
+          </Link>
+          <Button 
+            variant="outline"
+            className="border-border text-text-secondary hover:text-text-primary"
+            onClick={() => window.history.back()}
+            data-testid="button-go-back"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Назад
+          </Button>
+        </div>
+      </div>
+    </main>
   );
 }
