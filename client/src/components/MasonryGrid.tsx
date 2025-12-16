@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArticleCard, ArticleCardSkeleton } from "./ArticleCard";
 import type { Article } from "@shared/schema";
+import { getArticleImageUrl } from "@/lib/queryClient";
+
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=800&q=80";
 
 interface MasonryGridProps {
   articles: Article[];
@@ -71,9 +74,15 @@ function FeaturedCard({ article }: { article: Article }) {
       >
         <div className="featured-image">
           <img
-            src={article.imageUrl}
+            src={article.imageUrl || getArticleImageUrl(article.id)}
             alt={article.title}
             loading="eager"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src !== PLACEHOLDER_IMAGE) {
+                target.src = PLACEHOLDER_IMAGE;
+              }
+            }}
           />
           <span 
             className="category-badge"

@@ -3,6 +3,9 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { Article } from "@shared/schema";
+import { getArticleImageUrl } from "@/lib/queryClient";
+
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=1200&q=80";
 
 interface HeroSectionProps {
   article: Article;
@@ -42,9 +45,15 @@ export function HeroSection({ article }: HeroSectionProps) {
     >
       <div className="absolute inset-0 overflow-hidden">
         <img
-          src={article.imageUrl}
+          src={article.imageUrl || getArticleImageUrl(article.id)}
           alt={article.title}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (target.src !== PLACEHOLDER_IMAGE) {
+              target.src = PLACEHOLDER_IMAGE;
+            }
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/60 to-transparent" />
       </div>

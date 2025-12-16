@@ -1,6 +1,10 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-const API_BASE_URL = "https://gradus-ai.onrender.com";
+export const API_BASE_URL = "https://gradus-ai.onrender.com";
+
+export function getArticleImageUrl(articleId: number): string {
+  return `${API_BASE_URL}/api/images/serve/${articleId}`;
+}
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
