@@ -40,17 +40,28 @@ function formatDate(date: Date | string): string {
   });
 }
 
+function getExcerpt(article: Article): string {
+  if (article.excerpt) return article.excerpt;
+  if (article.content) {
+    const text = article.content.replace(/<[^>]*>/g, '');
+    return text.length > 200 ? text.slice(0, 200).trim() + "..." : text;
+  }
+  return "";
+}
+
 function FeaturedCard({ article }: { article: Article }) {
+  const excerpt = getExcerpt(article);
+  
   return (
     <motion.article
       variants={itemVariants}
       className="featured-card"
-      data-testid={`featured-card-${article.slug}`}
+      data-testid={`featured-card-${article.id}`}
     >
       <Link 
-        href={`/article/${article.slug}`} 
+        href={`/article/${article.id}`} 
         className="featured-link"
-        data-testid={`link-featured-${article.slug}`}
+        data-testid={`link-featured-${article.id}`}
       >
         <div className="featured-image">
           <img
@@ -60,7 +71,7 @@ function FeaturedCard({ article }: { article: Article }) {
           />
           <span 
             className="category-badge"
-            data-testid={`badge-featured-${article.slug}`}
+            data-testid={`badge-featured-${article.id}`}
           >
             {article.category}
           </span>
@@ -69,16 +80,16 @@ function FeaturedCard({ article }: { article: Article }) {
         <div className="featured-content">
           <h3 
             className="featured-headline"
-            data-testid={`title-featured-${article.slug}`}
+            data-testid={`title-featured-${article.id}`}
           >
             {article.title}
           </h3>
           
           <p 
             className="featured-excerpt"
-            data-testid={`excerpt-featured-${article.slug}`}
+            data-testid={`excerpt-featured-${article.id}`}
           >
-            {article.excerpt}
+            {excerpt}
           </p>
           
           <div className="meta">
