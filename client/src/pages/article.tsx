@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { Share2, Facebook, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RelatedArticles } from "@/components/RelatedArticles";
-import type { ArticleDetailResponse } from "@shared/schema";
+import type { Article, ArticlesResponse } from "@shared/schema";
 
 function formatDate(date: Date | string): string {
   const d = new Date(date);
@@ -22,15 +22,30 @@ function getCategoryPath(category: string): string {
     "Новини": "/category/news",
     "Огляди": "/category/reviews",
     "Тренди": "/category/trends",
+    "facebook": "/category/facebook",
+    "linkedin": "/category/linkedin",
   };
-  return categoryMap[category] || "/category/news";
+  return categoryMap[category] || "/";
+}
+
+function getCategoryLabel(category: string): string {
+  const labelMap: Record<string, string> = {
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+  };
+  return labelMap[category] || category;
 }
 
 export default function ArticlePage() {
-  const { slug } = useParams<{ slug: string }>();
+  const { id } = useParams<{ id: string }>();
 
-  const { data, isLoading, error } = useQuery<ArticleDetailResponse>({
-    queryKey: ["/api/articles", slug],
+  const { data: article, isLoading: articleLoading, error } = useQuery<Article>({
+    queryKey: [`/api/articles/${id}`],
+    enabled: !!id,
+  });
+
+  const { data: allArticles } = useQuery<ArticlesResponse>({
+    queryKey: ["/api/articles"],
   });
 
   if (error) {
@@ -48,7 +63,7 @@ export default function ArticlePage() {
     );
   }
 
-  if (isLoading) {
+  if (articleLoading || !article) {
     return (
       <div className="pt-20" data-testid="article-loading">
         <ArticleSkeleton />
@@ -56,13 +71,20 @@ export default function ArticlePage() {
     );
   }
 
-  const { article, relatedArticles } = data!;
+  const relatedArticles = allArticles?.articles
+    .filter(a => a.id !== article.id && a.category === article.category)
+    .slice(0, 3) || [];
 
   const breadcrumbs = [
     { label: "Головна", href: "/" },
-    { label: article.category, href: getCategoryPath(article.category) },
+    { label: getCategoryLabel(article.category), href: getCategoryPath(article.category) },
     { label: article.title },
   ];
+
+  const contentHtml = article.content
+    .split('\n\n')
+    .map(para => `<p>${para}</p>`)
+    .join('');
 
   return (
     <article className="pt-20" data-testid="page-article">
@@ -80,7 +102,7 @@ export default function ArticlePage() {
             className="absolute top-4 left-4 bg-amber-primary/90 text-bg-dark font-semibold text-body-xs uppercase tracking-wide border-0"
             data-testid="article-category-badge"
           >
-            {article.category}
+            {getCategoryLabel(article.category)}
           </Badge>
         </div>
 
@@ -100,8 +122,12 @@ export default function ArticlePage() {
             </time>
             <span className="text-text-tertiary">•</span>
             <span>{article.readTime} хв читання</span>
-            <span className="text-text-tertiary">•</span>
-            <span>Автор: {article.author}</span>
+            {article.author && (
+              <>
+                <span className="text-text-tertiary">•</span>
+                <span>Автор: {article.author}</span>
+              </>
+            )}
 
             <div className="flex items-center gap-2 ml-auto">
               <Button
@@ -138,7 +164,7 @@ export default function ArticlePage() {
         >
           <div 
             className="text-text-primary text-body-lg leading-relaxed [&_p]:mb-6 [&_h2]:text-h2 [&_h2]:text-text-primary [&_h2]:font-semibold [&_h2]:mt-12 [&_h2]:mb-6 [&_h3]:text-h3 [&_h3]:text-text-primary [&_h3]:font-semibold [&_h3]:mt-10 [&_h3]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-amber-primary [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:text-text-secondary [&_blockquote]:my-8 [&_a]:text-amber-primary [&_a]:no-underline hover:[&_a]:underline [&_img]:rounded-lg [&_img]:my-8 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_li]:mb-2"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
         </div>
 

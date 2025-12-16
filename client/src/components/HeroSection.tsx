@@ -17,7 +17,18 @@ function formatDate(date: Date | string): string {
   });
 }
 
+function getExcerpt(article: Article): string {
+  if (article.excerpt) return article.excerpt;
+  if (article.content) {
+    const text = article.content.replace(/<[^>]*>/g, '');
+    return text.length > 200 ? text.slice(0, 200).trim() + "..." : text;
+  }
+  return "";
+}
+
 export function HeroSection({ article }: HeroSectionProps) {
+  const excerpt = getExcerpt(article);
+
   return (
     <section 
       className="relative w-full h-[70vh] md:h-[70vh] min-h-[500px] max-h-[800px]"
@@ -53,11 +64,11 @@ export function HeroSection({ article }: HeroSectionProps) {
           className="text-text-secondary text-body-md md:text-body-lg max-w-2xl mb-6 line-clamp-2"
           data-testid="hero-excerpt"
         >
-          {article.excerpt}
+          {excerpt}
         </p>
 
         <div className="flex flex-wrap items-center gap-4">
-          <Link href={`/article/${article.slug}`} data-testid="link-hero-article">
+          <Link href={`/article/${article.id}`} data-testid="link-hero-article">
             <Button 
               className="bg-amber-primary text-bg-dark font-semibold hover:bg-amber-neon hover:amber-glow transition-all"
               data-testid="button-hero-cta"

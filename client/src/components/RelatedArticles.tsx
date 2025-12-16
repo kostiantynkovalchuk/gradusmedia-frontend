@@ -42,7 +42,7 @@ export function RelatedArticles({ articles, isLoading = false }: RelatedArticles
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[...Array(3)].map((_, index) => (
             <div key={index} className="h-[320px]">
-              <ArticleCardSkeleton size="medium" />
+              <ArticleCardSkeleton height={320} />
             </div>
           ))}
         </div>
@@ -76,7 +76,7 @@ export function RelatedArticles({ articles, isLoading = false }: RelatedArticles
           >
             <ArticleCard 
               article={article} 
-              size="medium" 
+              height={320}
               className="h-full"
             />
           </motion.div>
