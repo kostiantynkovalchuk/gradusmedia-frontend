@@ -1,6 +1,9 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import type { Article } from "@shared/schema";
+import { getArticleImageUrl } from "@/lib/queryClient";
+
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=800&q=80";
 
 interface ArticleCardProps {
   article: Article;
@@ -64,9 +67,15 @@ export function ArticleCard({ article, height = 400, priority = false, className
       >
         <div className="image-container">
           <img
-            src={article.imageUrl}
+            src={article.imageUrl || getArticleImageUrl(article.id)}
             alt={article.title}
             loading={priority ? "eager" : "lazy"}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src !== PLACEHOLDER_IMAGE) {
+                target.src = PLACEHOLDER_IMAGE;
+              }
+            }}
           />
           <span 
             className="category-badge"

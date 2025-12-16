@@ -7,6 +7,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RelatedArticles } from "@/components/RelatedArticles";
 import type { Article, ArticlesResponse } from "@shared/schema";
+import { getArticleImageUrl } from "@/lib/queryClient";
+
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=1200&q=80";
 
 function formatDate(date: Date | string | undefined | null): string {
   if (!date) return "";
@@ -99,10 +102,16 @@ export default function ArticlePage() {
 
         <div className="relative w-full h-[50vh] max-h-[600px] rounded-xl overflow-hidden mb-10">
           <img
-            src={article.imageUrl}
+            src={article.imageUrl || getArticleImageUrl(article.id)}
             alt={article.title}
             className="w-full h-full object-cover"
             data-testid="article-hero-image"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src !== PLACEHOLDER_IMAGE) {
+                target.src = PLACEHOLDER_IMAGE;
+              }
+            }}
           />
           <Badge 
             className="absolute top-4 left-4 bg-amber-primary/90 text-bg-dark font-semibold text-body-xs uppercase tracking-wide border-0"

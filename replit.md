@@ -8,6 +8,14 @@ Gradus Media is a premium AI-powered news platform for Ukraine's hospitality bev
 **Current State:** MVP complete with full-stack implementation.
 
 ## Recent Changes
+- **December 16, 2024:** External API Integration
+  - Migrated from local Express backend to external FastAPI backend (https://gradus-ai.onrender.com)
+  - Updated routing to use numeric article IDs (/article/:id) instead of slugs
+  - Implemented image loading from API endpoint: /api/images/serve/{id}
+  - Added safe date handling for optional publishedAt field
+  - Added fallback placeholder images when API images fail to load
+  - All components updated: HeroSection, MasonryGrid, ArticleCard, article page, RelatedArticles
+
 - **December 15, 2024:** Enhanced Masonry Grid System
   - Replaced FibonacciGrid with new column-based MasonryGrid component
   - Responsive columns: 4 (desktop) → 3 (small desktop) → 2 (tablet) → 1 (mobile)
@@ -68,11 +76,12 @@ shared/
 └── schema.ts          # TypeScript types and Zod schemas
 ```
 
-### API Endpoints
-- `GET /api/articles` - List articles (with pagination, category filter)
-- `GET /api/articles/:slug` - Get single article with related articles
+### External API (FastAPI on Render.com)
+- **Base URL:** https://gradus-ai.onrender.com
+- `GET /api/articles` - List articles (returns { articles: [], total: number, hasMore: boolean })
+- `GET /api/articles/{id}` - Get single article by numeric ID
 - `GET /api/articles/search?q=query` - Search articles
-- `GET /api/categories` - Get all categories
+- `GET /api/images/serve/{id}` - Get article image by article ID
 
 ### Design System
 - **Primary Color:** Amber (#F5B971, HSL 36 85% 65%)
