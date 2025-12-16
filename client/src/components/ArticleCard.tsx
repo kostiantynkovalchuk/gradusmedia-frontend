@@ -30,8 +30,18 @@ function formatDate(date: Date | string): string {
   });
 }
 
+function getExcerpt(article: Article): string {
+  if (article.excerpt) return article.excerpt;
+  if (article.content) {
+    const text = article.content.replace(/<[^>]*>/g, '');
+    return text.length > 160 ? text.slice(0, 160).trim() + "..." : text;
+  }
+  return "";
+}
+
 export function ArticleCard({ article, height = 400, priority = false, className = "" }: ArticleCardProps) {
   const sizeClass = height >= 500 ? "large" : height >= 400 ? "medium" : "small";
+  const excerpt = getExcerpt(article);
 
   return (
     <motion.article
@@ -39,12 +49,12 @@ export function ArticleCard({ article, height = 400, priority = false, className
       className={`article-card ${className}`}
       data-size={sizeClass}
       style={{ height: `${height}px` }}
-      data-testid={`article-card-${article.slug}`}
+      data-testid={`article-card-${article.id}`}
     >
       <Link 
-        href={`/article/${article.slug}`} 
+        href={`/article/${article.id}`} 
         className="card-link"
-        data-testid={`link-article-${article.slug}`}
+        data-testid={`link-article-${article.id}`}
       >
         <div className="image-container">
           <img
@@ -54,7 +64,7 @@ export function ArticleCard({ article, height = 400, priority = false, className
           />
           <span 
             className="category-badge"
-            data-testid={`badge-category-${article.slug}`}
+            data-testid={`badge-category-${article.id}`}
           >
             {article.category}
           </span>
@@ -63,17 +73,17 @@ export function ArticleCard({ article, height = 400, priority = false, className
         <div className="card-content">
           <h3 
             className="headline"
-            data-testid={`title-${article.slug}`}
+            data-testid={`title-${article.id}`}
           >
             {article.title}
           </h3>
           
-          {article.excerpt && (
+          {excerpt && (
             <p 
               className="excerpt"
-              data-testid={`excerpt-${article.slug}`}
+              data-testid={`excerpt-${article.id}`}
             >
-              {article.excerpt}
+              {excerpt}
             </p>
           )}
           
