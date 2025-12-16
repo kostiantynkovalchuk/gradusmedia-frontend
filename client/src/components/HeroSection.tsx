@@ -8,13 +8,19 @@ interface HeroSectionProps {
   article: Article;
 }
 
-function formatDate(date: Date | string): string {
-  const d = new Date(date);
-  return d.toLocaleDateString("uk-UA", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+function formatDate(date: Date | string | undefined | null): string {
+  if (!date) return "";
+  try {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("uk-UA", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return "";
+  }
 }
 
 function getExcerpt(article: Article): string {
@@ -79,11 +85,15 @@ export function HeroSection({ article }: HeroSectionProps) {
           </Link>
 
           <div className="flex items-center gap-2 text-text-tertiary text-body-sm">
-            <time dateTime={new Date(article.publishedAt).toISOString()}>
-              {formatDate(article.publishedAt)}
-            </time>
-            <span className="text-text-tertiary/50">•</span>
-            <span>{article.readTime} хв читання</span>
+            {article.publishedAt && (
+              <>
+                <time dateTime={new Date(article.publishedAt).toISOString()}>
+                  {formatDate(article.publishedAt)}
+                </time>
+                <span className="text-text-tertiary/50">•</span>
+              </>
+            )}
+            <span>{article.readTime || 5} хв читання</span>
           </div>
         </div>
       </div>

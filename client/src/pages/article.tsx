@@ -8,13 +8,19 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RelatedArticles } from "@/components/RelatedArticles";
 import type { Article, ArticlesResponse } from "@shared/schema";
 
-function formatDate(date: Date | string): string {
-  const d = new Date(date);
-  return d.toLocaleDateString("uk-UA", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+function formatDate(date: Date | string | undefined | null): string {
+  if (!date) return "";
+  try {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("uk-UA", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return "";
+  }
 }
 
 function getCategoryPath(category: string): string {
@@ -117,11 +123,15 @@ export default function ArticlePage() {
           <div className="w-16 h-1 bg-amber-primary mb-6" />
 
           <div className="flex flex-wrap items-center gap-3 text-text-secondary text-body-sm">
-            <time dateTime={new Date(article.publishedAt).toISOString()}>
-              {formatDate(article.publishedAt)}
-            </time>
-            <span className="text-text-tertiary">•</span>
-            <span>{article.readTime} хв читання</span>
+            {article.publishedAt && (
+              <>
+                <time dateTime={new Date(article.publishedAt).toISOString()}>
+                  {formatDate(article.publishedAt)}
+                </time>
+                <span className="text-text-tertiary">•</span>
+              </>
+            )}
+            <span>{article.readTime || 5} хв читання</span>
             {article.author && (
               <>
                 <span className="text-text-tertiary">•</span>
