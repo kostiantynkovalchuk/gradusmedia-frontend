@@ -6,6 +6,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { useCategorizedArticles } from "@/hooks/useCategorizedArticles";
 import type { ArticlesResponse } from "@shared/schema";
 
+// Client-side categorization system active
+
 const categoryNames: Record<string, string> = {
   news: "Новини",
   reviews: "Огляди", 
