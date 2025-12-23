@@ -23,10 +23,10 @@ export function Header() {
     >
       <div className="max-w-[1400px] mx-auto h-full px-6 flex items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-3 shrink-0" data-testid="link-logo-home">
-          <img 
-            src={logoMedium} 
-            alt="Gradus Media" 
-            className="w-12 h-12 md:w-14 md:h-14"
+          <img
+            src={logoMedium}
+            alt="Gradus Media"
+            className="w-[47px] h-[47px] md:w-[54px] md:h-[54px] -translate-y-[7px]"
             data-testid="img-logo"
           />
           <span className="text-amber-primary font-bold text-lg md:text-xl tracking-wide hidden sm:block">

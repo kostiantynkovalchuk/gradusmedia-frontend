@@ -3,6 +3,7 @@ import { useParams } from "wouter";
 import { motion } from "framer-motion";
 import { ArticleCard, ArticleCardSkeleton } from "@/components/ArticleCard";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { useCategorizedArticles } from "@/hooks/useCategorizedArticles";
 import type { ArticlesResponse } from "@shared/schema";
 
 const categoryNames: Record<string, string> = {
@@ -37,14 +38,21 @@ export default function CategoryPage() {
   const { slug } = useParams<{ slug: string }>();
   const categoryName = categoryNames[slug || ""] || slug;
 
+  // Fetch all articles (no category filter)
   const { data, isLoading, error } = useQuery<ArticlesResponse>({
-    queryKey: ["/api/articles", { category: categoryName }],
+    queryKey: ["/api/articles"],
     queryFn: async () => {
-      const res = await fetch(`/api/articles?category=${encodeURIComponent(categoryName)}`);
+      const res = await fetch(`/api/articles`);
       if (!res.ok) throw new Error("Failed to fetch");
       return res.json();
     },
   });
+
+  // Client-side categorization
+  const filteredArticles = useCategorizedArticles(
+    data?.articles,
+    categoryName as 'Новини' | 'Огляди' | 'Тренди'
+  );
 
   const breadcrumbs = [
     { label: "Головна", href: "/" },
@@ -79,9 +87,9 @@ export default function CategoryPage() {
           >
             {categoryName}
           </h1>
-          {data && (
+          {filteredArticles && (
             <p className="text-text-secondary text-body-md mt-2" data-testid="category-count">
-              {data.total} статей
+              {filteredArticles.length} статей
             </p>
           )}
         </header>
@@ -89,8 +97,8 @@ export default function CategoryPage() {
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="category-loading">
             {[...Array(6)].map((_, index) => (
-              <div key={index} className="h-[360px]">
-                <ArticleCardSkeleton size="medium" />
+              <div key={index} className="h-[420px]">
+                <ArticleCardSkeleton height={420} />
               </div>
             ))}
           </div>
@@ -102,15 +110,15 @@ export default function CategoryPage() {
             animate="show"
             data-testid="category-grid"
           >
-            {data?.articles.map((article) => (
+            {filteredArticles.map((article) => (
               <motion.div
                 key={article.id}
                 variants={itemVariants}
-                className="h-[360px]"
+                className="h-[420px]"
               >
-                <ArticleCard 
-                  article={article} 
-                  size="medium" 
+                <ArticleCard
+                  article={article}
+                  height={420}
                   className="h-full"
                 />
               </motion.div>
@@ -118,7 +126,7 @@ export default function CategoryPage() {
           </motion.div>
         )}
 
-        {data?.articles.length === 0 && (
+        {filteredArticles.length === 0 && !isLoading && (
           <div className="text-center py-16" data-testid="empty-state">
             <p className="text-text-secondary text-body-lg">
               У цій категорії поки немає статей

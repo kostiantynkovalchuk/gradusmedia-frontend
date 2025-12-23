@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { SiFacebook, SiLinkedin, SiInstagram } from "react-icons/si";
-import logoSmall from "@assets/generated_images/small_amber_g_logo_icon.png";
+import logoSmall from "@assets/generated_images/glowing_amber_g_logo.png";
 
 const navigationLinks = [
   { title: "Головна", path: "/" },
@@ -32,16 +32,16 @@ export function Footer() {
       <div className="max-w-[1200px] mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-10">
           <div className="lg:col-span-1" data-testid="footer-brand">
-            <img 
-              src={logoSmall} 
-              alt="Gradus Media" 
-              className="w-14 h-14 mb-4"
+            <img
+              src={logoSmall}
+              alt="Gradus Media"
+              className="w-[51px] h-[51px] mb-4"
             />
             <h3 className="text-amber-primary font-bold text-lg mb-3">
               GRADUS MEDIA
             </h3>
             <p className="text-text-secondary text-body-sm leading-relaxed">
-              Автоматизована платформа новин для HoReCa індустрії України
+              Автоматизована платформа новин про індустрію напоїв та HoReCa в Україні й світі
             </p>
           </div>
 

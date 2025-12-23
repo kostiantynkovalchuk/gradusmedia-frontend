@@ -146,8 +146,9 @@
 .article-card .image-container {
   position: relative;
   width: 100%;
-  height: 60%;
-  min-height: 200px;
+  height: 55%;
+  min-height: 180px;
+  max-height: 350px;
   overflow: hidden;
   background: hsl(var(--bg-darkest));
 }
@@ -193,11 +194,12 @@
 }
 
 .article-card .card-content {
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   flex: 1;
+  min-height: 0;
 }
 
 .article-card .headline {
@@ -221,6 +223,8 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
 .article-card .meta {
@@ -230,6 +234,7 @@
   color: hsl(var(--text-tertiary));
   font-size: 0.75rem;
   margin-top: auto;
+  flex-shrink: 0;
 }
 
 .article-card .meta-separator {
