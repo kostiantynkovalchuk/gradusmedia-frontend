@@ -50,7 +50,7 @@ export default function CategoryPage() {
 
   // Client-side categorization
   const filteredArticles = useCategorizedArticles(
-    data?.articles,
+    data?.articles || [],
     categoryName as 'Новини' | 'Огляди' | 'Тренди'
   );
 
