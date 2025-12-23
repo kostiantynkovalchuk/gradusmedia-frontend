@@ -41,11 +41,6 @@ export default function CategoryPage() {
   // Fetch all articles (no category filter)
   const { data, isLoading, error } = useQuery<ArticlesResponse>({
     queryKey: ["/api/articles"],
-    queryFn: async () => {
-      const res = await fetch(`/api/articles`);
-      if (!res.ok) throw new Error("Failed to fetch");
-      return res.json();
-    },
   });
 
   // Client-side categorization
