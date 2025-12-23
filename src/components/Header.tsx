@@ -26,7 +26,7 @@ export function Header() {
           <img
             src={logoMedium}
             alt="Gradus Media"
-            className="w-[47px] h-[47px] md:w-[54px] md:h-[54px] -translate-y-[7px]"
+            className="w-[42px] h-[42px] md:w-[49px] md:h-[49px] -translate-y-[7px]"
             data-testid="img-logo"
           />
           <span className="text-amber-primary font-bold text-lg md:text-xl tracking-wide hidden sm:block">

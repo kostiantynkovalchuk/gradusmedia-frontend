@@ -21,7 +21,7 @@ const legalLinks = [
 ];
 
 const socialLinks = [
-  { icon: SiFacebook, label: "Facebook", href: "#" },
+  { icon: SiFacebook, label: "Facebook", href: "https://www.facebook.com/gradusmediaUA/" },
   { icon: SiLinkedin, label: "LinkedIn", href: "#" },
   { icon: SiInstagram, label: "Instagram", href: "#" },
 ];
@@ -67,7 +67,7 @@ export function Footer() {
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.path}>
-                  <Link 
+                  <Link
                     href={link.path}
                     className="text-text-secondary text-body-sm hover:text-amber-primary transition-colors"
                     data-testid={`link-company-${link.path.replace("/", "")}`}
@@ -77,6 +77,16 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+            <div className="mt-6">
+              <h4 className="text-text-primary font-semibold mb-3">Контакти</h4>
+              <a
+                href="mailto:admin@gradusmedia.org"
+                className="text-text-secondary text-body-sm hover:text-amber-primary transition-colors"
+                data-testid="link-email"
+              >
+                admin@gradusmedia.org
+              </a>
+            </div>
           </div>
 
           <div data-testid="footer-social">
