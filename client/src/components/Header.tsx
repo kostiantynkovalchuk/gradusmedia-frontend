@@ -9,6 +9,7 @@ const navItems = [
   { title: "Новини", path: "/category/news" },
   { title: "Огляди", path: "/category/reviews" },
   { title: "Тренди", path: "/category/trends" },
+  { title: "Чат з Maya", path: "/chat", highlight: true },
   { title: "Про нас", path: "/about" },
 ];
 
@@ -42,9 +43,11 @@ export function Header() {
                 className={`text-body-sm font-medium px-4 py-2 ${
                   location === item.path
                     ? "text-amber-primary"
+                    : item.highlight
+                    ? "bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent font-semibold"
                     : "text-text-secondary hover:text-text-primary"
                 }`}
-                data-testid={`nav-link-${item.title.toLowerCase()}`}
+                data-testid={`nav-link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 {item.title}
               </Button>
@@ -87,10 +90,12 @@ export function Header() {
                   className={`w-full justify-start text-body-md font-medium py-3 ${
                     location === item.path
                       ? "text-amber-primary"
+                      : item.highlight
+                      ? "bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent font-semibold"
                       : "text-text-secondary"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
-                  data-testid={`nav-mobile-link-${item.title.toLowerCase()}`}
+                  data-testid={`nav-mobile-link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
                 >
                   {item.title}
                 </Button>
