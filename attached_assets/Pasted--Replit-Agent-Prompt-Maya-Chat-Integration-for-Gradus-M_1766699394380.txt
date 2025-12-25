@@ -1,0 +1,1949 @@
+# Replit Agent Prompt: Maya Chat Integration for Gradus Media
+## Complete Implementation with Style Consistency
+
+---
+
+## 🎯 Objective
+
+Integrate Maya AI chat functionality into gradusmedia.org while maintaining **perfect style consistency** with existing design and following **modern web design trends**.
+
+**Three Main Deliverables:**
+1. **Maya Banner** - Replace Hero 2 with interactive chat CTA
+2. **Floating Chat Bubble** - Always-visible engagement widget
+3. **Full Chat Page** - Dedicated /chat experience with video
+
+---
+
+## 🎨 Existing Style System Analysis
+
+**CRITICAL: Match these exact styles from gradusmedia.org**
+
+### Color Palette
+```css
+/* Primary Colors */
+--background: #0a0a0a;           /* Deep black background */
+--surface: #1a1a1a;              /* Elevated surfaces */
+--surface-alt: #2a2a2a;          /* Alternative surfaces */
+
+/* Brand Colors */
+--gold-primary: #f59e0b;         /* Logo gold */
+--gold-secondary: #fbbf24;       /* Lighter gold */
+--gold-gradient: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+
+/* Purple Accents (for Maya) */
+--purple-dark: #1a0f2e;          /* Deep purple base */
+--purple-medium: #2d1b4e;        /* Medium purple */
+--purple-light: #8b5cf6;         /* Accent purple */
+--purple-gradient: linear-gradient(135deg, #1a0f2e 0%, #2d1b4e 100%);
+
+/* Text */
+--text-primary: #fafafa;         /* Main text */
+--text-secondary: rgba(255, 255, 255, 0.7);  /* Secondary text */
+--text-tertiary: rgba(255, 255, 255, 0.5);   /* Tertiary text */
+
+/* Borders & Dividers */
+--border-subtle: rgba(255, 255, 255, 0.1);
+--border-gold: rgba(245, 158, 11, 0.2);
+```
+
+### Typography
+```css
+/* Font Family - Use existing */
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+             'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 
+             'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+/* Font Sizes */
+--text-xs: 12px;
+--text-sm: 14px;
+--text-base: 16px;
+--text-lg: 18px;
+--text-xl: 20px;
+--text-2xl: 24px;
+--text-3xl: 32px;
+--text-4xl: 40px;
+
+/* Font Weights */
+--font-normal: 400;
+--font-medium: 500;
+--font-semibold: 600;
+--font-bold: 700;
+```
+
+### Modern Design Trends to Apply
+
+1. **Glassmorphism** (subtle, not overdone)
+   ```css
+   background: rgba(255, 255, 255, 0.05);
+   backdrop-filter: blur(10px);
+   border: 1px solid rgba(255, 255, 255, 0.1);
+   ```
+
+2. **Smooth Gradients**
+   ```css
+   background: linear-gradient(135deg, #1a0f2e 0%, #2d1b4e 50%, #1a0f2e 100%);
+   ```
+
+3. **Micro-interactions**
+   ```css
+   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   ```
+
+4. **Depth with Shadows**
+   ```css
+   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+               0 2px 8px rgba(245, 158, 11, 0.1);
+   ```
+
+5. **Hover States with Transform**
+   ```css
+   &:hover {
+     transform: translateY(-2px);
+     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+   }
+   ```
+
+---
+
+## 📋 Implementation Tasks
+
+### Task 1: Replace Hero 2 with Maya Banner
+
+**Current Structure (Analyze existing code):**
+- Find where second featured article renders
+- Identify component name and props
+- Note styling approach (CSS modules, Tailwind, styled-components)
+
+**Changes Required:**
+
+1. **Update Homepage Component**
+   - Change from 2 featured articles to 1
+   - Insert `<MayaChatBanner />` after Hero 1
+   - Redirect former Hero 2 article to grid
+
+2. **Article Selection Logic**
+   ```javascript
+   // Before
+   const featuredArticles = articles.slice(0, 2);
+   const gridArticles = articles.slice(2);
+   
+   // After
+   const featuredArticle = articles[0];
+   const gridArticles = articles.slice(1); // Now includes former Hero 2
+   ```
+
+---
+
+### Task 2: Create Maya Chat Banner Component
+
+**File:** `components/MayaChatBanner.jsx` (or `.tsx` if TypeScript)
+
+**Design Specifications:**
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  💬 ЗАПИТАЙТЕ MAYA - ВАША HORECA ЕКСПЕРТКА                   │
+│                                                               │
+│  Отримайте професійні поради про тренди, постачальників,     │
+│  меню та compliance для вашого бізнесу                       │
+│                                                               │
+│  🚀 Швидкий старт - оберіть питання:                         │
+│                                                               │
+│  ┌─────────────────────────────┐  ┌────────────────────────┐│
+│  │ 🍹 Які коктейлі             │  │ 📦 Де купити          ││
+│  │    тренд цього сезону?      │  │    преміум алкоголь?  ││
+│  └─────────────────────────────┘  └────────────────────────┘│
+│  ┌─────────────────────────────┐  ┌────────────────────────┐│
+│  │ 💰 Як знизити витрати       │  │ 📋 Що треба для       ││
+│  │    на бар на 20%?           │  │    ліцензії?          ││
+│  └─────────────────────────────┘  └────────────────────────┘│
+│                                                               │
+│            [Почати діалог з Maya →]                          │
+│                                                               │
+│  ✅ Безкоштовно 5 питань на день                             │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Component Code Template:**
+
+```jsx
+'use client'; // If Next.js App Router
+
+import Link from 'next/link';
+import { motion } from 'framer-motion'; // Optional: for animations
+
+export default function MayaChatBanner() {
+  const quickStartQuestions = [
+    {
+      id: 1,
+      icon: "🍹",
+      text: "Які коктейлі тренд цього сезону?",
+      prompt: "Розкажи про найпопулярніші коктейльні тренди цього сезону в українському HoReCa"
+    },
+    {
+      id: 2,
+      icon: "📦",
+      text: "Де купити преміум алкоголь?",
+      prompt: "Які найкращі постачальники преміум алкоголю в Україні?"
+    },
+    {
+      id: 3,
+      icon: "💰",
+      text: "Як знизити витрати на бар на 20%?",
+      prompt: "Дай практичні поради як оптимізувати витрати на бар та збільшити рентабельність"
+    },
+    {
+      id: 4,
+      icon: "📋",
+      text: "Що треба для ліцензії на алкоголь?",
+      prompt: "Поясни процес отримання ліцензії на продаж алкоголю в Україні"
+    }
+  ];
+
+  const handleQuestionClick = (question) => {
+    // Store selected question in sessionStorage for chat page
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('mayaStarterQuestion', question.prompt);
+    }
+  };
+
+  return (
+    <section className="maya-banner-section">
+      <div className="container">
+        <div className="maya-banner">
+          {/* Header */}
+          <div className="banner-header">
+            <h2 className="banner-title">
+              💬 Запитайте Maya - ваша HoReCa експертка
+            </h2>
+            <p className="banner-subtitle">
+              Отримайте професійні поради про тренди, постачальників, 
+              меню та compliance для вашого бізнесу
+            </p>
+          </div>
+
+          {/* Quick Start Questions */}
+          <div className="quick-start-section">
+            <p className="quick-start-label">
+              🚀 Швидкий старт - оберіть питання:
+            </p>
+            <div className="questions-grid">
+              {quickStartQuestions.map((question) => (
+                <Link
+                  key={question.id}
+                  href="/chat"
+                  onClick={() => handleQuestionClick(question)}
+                  className="question-card"
+                >
+                  <span className="question-icon">{question.icon}</span>
+                  <span className="question-text">{question.text}</span>
+                  <span className="question-arrow">→</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Main CTA */}
+          <div className="banner-cta">
+            <Link href="/chat" className="cta-button">
+              <span>Почати діалог з Maya</span>
+              <svg 
+                width="20" 
+                height="20" 
+                viewBox="0 0 20 20" 
+                fill="none"
+                className="cta-icon"
+              >
+                <path 
+                  d="M4 10h12m0 0l-4-4m4 4l-4 4" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round"
+                />
+              </svg>
+            </Link>
+            <p className="free-badge">
+              <span className="badge-icon">✅</span>
+              Безкоштовно 5 питань на день
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+**Styling (CSS Module or Regular CSS):**
+
+```css
+/* components/MayaChatBanner.module.css */
+
+.maya-banner-section {
+  width: 100%;
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient background glow */
+.maya-banner-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.15) 0%,
+    rgba(139, 92, 246, 0) 70%
+  );
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.maya-banner {
+  padding: 56px 48px;
+  background: linear-gradient(135deg, #1a0f2e 0%, #2d1b4e 50%, #1a0f2e 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(245, 158, 11, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glassmorphism overlay */
+.maya-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+}
+
+/* Header */
+.banner-header {
+  text-align: center;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.banner-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.banner-subtitle {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Quick Start Section */
+.quick-start-section {
+  margin-bottom: 48px;
+}
+
+.quick-start-label {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 24px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.question-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: #fafafa;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover glow effect */
+.question-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.question-card:hover {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
+}
+
+.question-card:hover::before {
+  opacity: 1;
+}
+
+.question-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.question-text {
+  font-size: 16px;
+  line-height: 1.4;
+  flex: 1;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+
+.question-arrow {
+  font-size: 20px;
+  color: rgba(245, 158, 11, 0.6);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.question-card:hover .question-arrow {
+  transform: translateX(4px);
+  color: #f59e0b;
+}
+
+/* CTA Section */
+.banner-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 48px;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  color: #1a0f2e;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 16px rgba(245, 158, 11, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px rgba(245, 158, 11, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+.cta-icon {
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover .cta-icon {
+  transform: translateX(4px);
+}
+
+.free-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.badge-icon {
+  font-size: 16px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .maya-banner-section {
+    padding: 60px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .maya-banner {
+    padding: 40px 24px;
+  }
+
+  .banner-title {
+    font-size: 28px;
+  }
+
+  .banner-subtitle {
+    font-size: 16px;
+  }
+
+  .questions-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .question-card {
+    padding: 16px 20px;
+  }
+
+  .question-text {
+    font-size: 15px;
+  }
+
+  .cta-button {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .banner-title {
+    font-size: 32px;
+  }
+
+  .questions-grid {
+    max-width: 700px;
+  }
+}
+
+/* Animation on scroll (optional) */
+@media (prefers-reduced-motion: no-preference) {
+  .maya-banner {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+```
+
+---
+
+### Task 3: Create Floating Chat Bubble
+
+**File:** `components/FloatingChatBubble.jsx`
+
+**Design Specifications:**
+
+```
+Position: Fixed bottom-right
+Size: 60px × 60px
+Floating above all content
+Pulsing animation to attract attention
+Shows "5" badge for free questions remaining
+```
+
+**Component Code:**
+
+```jsx
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+export default function FloatingChatBubble() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [freeQuestions, setFreeQuestions] = useState(5);
+
+  useEffect(() => {
+    // Show bubble after scrolling past hero
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      setIsVisible(scrolled > 400);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Get remaining questions from localStorage
+    if (typeof window !== 'undefined') {
+      const remaining = localStorage.getItem('mayaQuestionsRemaining') || '5';
+      setFreeQuestions(parseInt(remaining));
+    }
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <Link href="/chat" className="floating-chat-bubble">
+      <div className="bubble-content">
+        <svg 
+          width="28" 
+          height="28" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          className="chat-icon"
+        >
+          <path 
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          />
+        </svg>
+        {freeQuestions > 0 && (
+          <div className="questions-badge">{freeQuestions}</div>
+        )}
+      </div>
+      <div className="bubble-tooltip">
+        Чат з Maya
+      </div>
+    </Link>
+  );
+}
+```
+
+**Styling:**
+
+```css
+/* components/FloatingChatBubble.module.css */
+
+.floating-chat-bubble {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 999;
+  text-decoration: none;
+  animation: fadeInUp 0.3s ease-out, pulse 2s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.bubble-content {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 24px rgba(245, 158, 11, 0.4),
+    0 0 0 0 rgba(245, 158, 11, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.bubble-content::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  opacity: 0.3;
+  animation: ripple 2s ease-out infinite;
+  z-index: -1;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.floating-chat-bubble:hover .bubble-content {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 8px 32px rgba(245, 158, 11, 0.5),
+    0 0 0 8px rgba(245, 158, 11, 0.2);
+}
+
+.chat-icon {
+  color: #1a0f2e;
+  position: relative;
+  z-index: 1;
+}
+
+.questions-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 24px;
+  height: 24px;
+  background: #ef4444;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  border: 2px solid #0a0a0a;
+  z-index: 2;
+}
+
+.bubble-tooltip {
+  position: absolute;
+  bottom: 50%;
+  right: calc(100% + 12px);
+  transform: translateY(50%);
+  padding: 8px 16px;
+  background: rgba(26, 15, 46, 0.95);
+  backdrop-filter: blur(10px);
+  color: #fafafa;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.floating-chat-bubble:hover .bubble-tooltip {
+  opacity: 1;
+}
+
+.bubble-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left-color: rgba(26, 15, 46, 0.95);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .floating-chat-bubble {
+    bottom: 24px;
+    right: 24px;
+  }
+
+  .bubble-content {
+    width: 56px;
+    height: 56px;
+  }
+
+  .chat-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .bubble-tooltip {
+    display: none; /* Hide tooltip on mobile */
+  }
+}
+```
+
+---
+
+### Task 4: Create Full Chat Page (/chat)
+
+**File:** `app/chat/page.jsx` (Next.js App Router) or `pages/chat.jsx` (Pages Router)
+
+**Page Structure:**
+
+```
+[Video Hero Section]
+  ↓
+[Value Proposition Cards]
+  ↓
+[Quick Start Menu]
+  ↓
+[Chat Interface]
+  ↓
+[Footer CTA]
+```
+
+**Component Code:**
+
+```jsx
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+
+export default function ChatPage() {
+  const [messages, setMessages] = useState([
+    {
+      role: 'assistant',
+      content: 'Привіт! Я Maya від Gradus Media. Чим можу допомогти вашому HoReCa бізнесу сьогодні?',
+      timestamp: new Date()
+    }
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [remainingQuestions, setRemainingQuestions] = useState(5);
+  const messagesEndRef = useRef(null);
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  // Load starter question if came from quick-start
+  useEffect(() => {
+    const starterQuestion = sessionStorage.getItem('mayaStarterQuestion');
+    if (starterQuestion) {
+      setInputValue(starterQuestion);
+      sessionStorage.removeItem('mayaStarterQuestion');
+    }
+
+    // Load remaining questions
+    const remaining = localStorage.getItem('mayaQuestionsRemaining') || '5';
+    setRemainingQuestions(parseInt(remaining));
+  }, []);
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!inputValue.trim() || isLoading) return;
+
+    if (remainingQuestions <= 0) {
+      // Show upgrade modal
+      return;
+    }
+
+    const userMessage = {
+      role: 'user',
+      content: inputValue,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setIsLoading(true);
+
+    try {
+      // Call your Maya API endpoint
+      const response = await fetch('/api/maya/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: inputValue,
+          sessionId: getSessionId()
+        })
+      });
+
+      const data = await response.json();
+
+      const assistantMessage = {
+        role: 'assistant',
+        content: data.reply,
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
+
+      // Update remaining questions
+      const newRemaining = remainingQuestions - 1;
+      setRemainingQuestions(newRemaining);
+      localStorage.setItem('mayaQuestionsRemaining', newRemaining.toString());
+
+    } catch (error) {
+      console.error('Chat error:', error);
+      const errorMessage = {
+        role: 'assistant',
+        content: 'Вибачте, сталася помилка. Спробуйте ще раз.',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const quickStartQuestions = [
+    "Які коктейлі тренд цього сезону?",
+    "Кращі постачальники преміум алкоголю?",
+    "Як знизити витрати на бар на 20%?",
+    "Що потрібно для ліцензії на алкоголь?",
+    "Ідеї для літнього коктейльного меню?",
+    "Топ-5 українських craft spirits?"
+  ];
+
+  return (
+    <div className="chat-page">
+      {/* Video Hero Section */}
+      <section className="video-hero">
+        <div className="container">
+          <div className="video-container">
+            {/* Video Placeholder */}
+            <div className="video-placeholder">
+              <div className="placeholder-content">
+                <div className="maya-avatar">
+                  <div className="avatar-circle">
+                    <span className="avatar-icon">💬</span>
+                  </div>
+                </div>
+                <h1 className="hero-title">
+                  Привіт! Я Maya від Gradus Media
+                </h1>
+                <p className="hero-subtitle">
+                  Ваш AI-консультант з HoReCa індустрії
+                </p>
+                <div className="video-notice">
+                  📹 Відео-презентація буде тут незабаром
+                </div>
+              </div>
+            </div>
+
+            {/* When video is ready, replace with: */}
+            {/* 
+            <video
+              className="hero-video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/images/maya-poster.jpg"
+            >
+              <source src="/videos/maya-intro.mp4" type="video/mp4" />
+            </video>
+            */}
+          </div>
+
+          <div className="hero-text">
+            <h2 className="value-prop">
+              Не просто новини та тренди, а дієві поради для вашого бізнесу
+            </h2>
+            <div className="expertise-grid">
+              <div className="expertise-item">
+                <span className="expertise-icon">🍸</span>
+                <span>Тренди та інсайти</span>
+              </div>
+              <div className="expertise-item">
+                <span className="expertise-icon">📊</span>
+                <span>Дані ринку</span>
+              </div>
+              <div className="expertise-item">
+                <span className="expertise-icon">📋</span>
+                <span>Compliance</span>
+              </div>
+              <div className="expertise-item">
+                <span className="expertise-icon">🎯</span>
+                <span>Персоналізовано</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Chat Interface */}
+      <section className="chat-section">
+        <div className="container">
+          {/* Quick Start (shown when no messages) */}
+          {messages.length <= 1 && (
+            <div className="quick-start-menu">
+              <h3>🚀 Швидкий старт - оберіть питання:</h3>
+              <div className="quick-start-grid">
+                {quickStartQuestions.map((question, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setInputValue(question)}
+                    className="quick-start-btn"
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Chat Messages */}
+          <div className="chat-container">
+            <div className="chat-header">
+              <div className="header-left">
+                <div className="status-dot"></div>
+                <span>Maya онлайн</span>
+              </div>
+              <div className="header-right">
+                <span className="questions-remaining">
+                  {remainingQuestions}/5 питань сьогодні
+                </span>
+              </div>
+            </div>
+
+            <div className="messages-container">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`message ${message.role}`}
+                >
+                  {message.role === 'assistant' && (
+                    <div className="message-avatar">💬</div>
+                  )}
+                  <div className="message-content">
+                    <div className="message-text">{message.content}</div>
+                    <div className="message-time">
+                      {message.timestamp.toLocaleTimeString('uk-UA', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </div>
+                  </div>
+                  {message.role === 'user' && (
+                    <div className="message-avatar user">👤</div>
+                  )}
+                </div>
+              ))}
+
+              {isLoading && (
+                <div className="message assistant">
+                  <div className="message-avatar">💬</div>
+                  <div className="message-content">
+                    <div className="typing-indicator">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Form */}
+            <form onSubmit={handleSendMessage} className="chat-input-form">
+              <div className="input-wrapper">
+                <textarea
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendMessage(e);
+                    }
+                  }}
+                  placeholder="Ваше питання про HoReCa..."
+                  className="chat-input"
+                  rows={1}
+                  disabled={remainingQuestions <= 0}
+                />
+                <button
+                  type="submit"
+                  className="send-button"
+                  disabled={!inputValue.trim() || isLoading || remainingQuestions <= 0}
+                >
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M2 10l16-8-8 8m0 0l8 8m-8-8H2"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+              {remainingQuestions <= 2 && remainingQuestions > 0 && (
+                <p className="limit-warning">
+                  ⚠️ Залишилось {remainingQuestions} {remainingQuestions === 1 ? 'питання' : 'питання'}
+                </p>
+              )}
+              {remainingQuestions === 0 && (
+                <div className="limit-reached">
+                  <p>🔒 Ви досягли ліміту безкоштовних питань</p>
+                  <Link href="#pricing" className="upgrade-link">
+                    Підписатись для безлімітного доступу →
+                  </Link>
+                </div>
+              )}
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer CTA */}
+      <section className="footer-cta">
+        <div className="container">
+          <div className="cta-card">
+            <h2>🎯 Готові до більшого?</h2>
+            <p>Преміум підписка Gradus Media:</p>
+            <ul className="features-list">
+              <li>✅ Безлімітні питання Maya</li>
+              <li>✅ Щотижневі звіти з трендів</li>
+              <li>✅ База постачальників</li>
+              <li>✅ Особиста консультація щомісяця</li>
+            </ul>
+            <p className="pricing">Від $7/місяць</p>
+            <Link href="/pricing" className="cta-button">
+              Дізнатись більше
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function getSessionId() {
+  if (typeof window === 'undefined') return '';
+  
+  let sessionId = sessionStorage.getItem('mayaSessionId');
+  if (!sessionId) {
+    sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    sessionStorage.setItem('mayaSessionId', sessionId);
+  }
+  return sessionId;
+}
+```
+
+**Chat Page Styling (CRITICAL - Match existing style):**
+
+```css
+/* app/chat/page.module.css */
+
+/* Video Hero Section */
+.video-hero {
+  padding: 80px 0 60px;
+  background: linear-gradient(180deg, #1a0f2e 0%, #0a0a0a 100%);
+}
+
+.video-container {
+  max-width: 800px;
+  margin: 0 auto 48px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.video-placeholder {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #1a0f2e 0%, #2d1b4e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.placeholder-content {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.maya-avatar {
+  margin-bottom: 24px;
+}
+
+.avatar-circle {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.avatar-icon {
+  font-size: 64px;
+}
+
+.hero-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fafafa;
+  margin-bottom: 16px;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+}
+
+.video-notice {
+  padding: 12px 24px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 8px;
+  color: #fbbf24;
+  font-size: 14px;
+  display: inline-block;
+}
+
+/* Value Prop */
+.hero-text {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.value-prop {
+  font-size: 28px;
+  font-weight: 600;
+  color: #fafafa;
+  margin-bottom: 32px;
+  line-height: 1.4;
+}
+
+.expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.expertise-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.expertise-icon {
+  font-size: 32px;
+}
+
+/* Chat Section */
+.chat-section {
+  padding: 60px 0;
+  min-height: 60vh;
+}
+
+.quick-start-menu {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.quick-start-menu h3 {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+}
+
+.quick-start-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.quick-start-btn {
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fafafa;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quick-start-btn:hover {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Chat Container */
+.chat-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.questions-remaining {
+  padding: 6px 12px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 6px;
+  color: #fbbf24;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Messages */
+.messages-container {
+  height: 500px;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.message-avatar.user {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+.message-content {
+  flex: 1;
+  max-width: 70%;
+}
+
+.message.user .message-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.message-text {
+  padding: 14px 18px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 16px;
+  border-top-left-radius: 4px;
+  color: #fafafa;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.message.user .message-text {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.2);
+  border-top-right-radius: 4px;
+  border-top-left-radius: 16px;
+}
+
+.message-time {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 14px 18px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background: rgba(139, 92, 246, 0.6);
+  border-radius: 50%;
+  animation: typing 1.4s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Input Form */
+.chat-input-form {
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fafafa;
+  font-size: 15px;
+  font-family: inherit;
+  resize: none;
+  max-height: 120px;
+  transition: all 0.3s ease;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.send-button {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  border: none;
+  border-radius: 12px;
+  color: #1a0f2e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.send-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.limit-warning {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 14px;
+  text-align: center;
+}
+
+.limit-reached {
+  margin-top: 12px;
+  padding: 16px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.limit-reached p {
+  color: #fbbf24;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.upgrade-link {
+  color: #f59e0b;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.upgrade-link:hover {
+  color: #fbbf24;
+}
+
+/* Footer CTA */
+.footer-cta {
+  padding: 60px 0;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a0f2e 100%);
+}
+
+.cta-card {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 48px;
+  background: linear-gradient(135deg, #1a0f2e 0%, #2d1b4e 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 24px;
+  text-align: center;
+}
+
+.cta-card h2 {
+  font-size: 32px;
+  color: #fafafa;
+  margin-bottom: 16px;
+}
+
+.cta-card > p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+}
+
+.features-list {
+  list-style: none;
+  margin-bottom: 24px;
+  text-align: left;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.features-list li {
+  padding: 12px 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.features-list li:last-child {
+  border-bottom: none;
+}
+
+.pricing {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 24px;
+}
+
+.cta-card .cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 40px;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  color: #1a0f2e;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.cta-card .cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .video-hero {
+    padding: 60px 0 40px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+  }
+
+  .value-prop {
+    font-size: 22px;
+  }
+
+  .expertise-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-start-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .messages-container {
+    height: 400px;
+  }
+
+  .message-content {
+    max-width: 85%;
+  }
+
+  .chat-input-form {
+    padding: 16px;
+  }
+
+  .cta-card {
+    padding: 32px 24px;
+  }
+
+  .cta-card h2 {
+    font-size: 24px;
+  }
+}
+```
+
+---
+
+### Task 5: Update Navigation
+
+**Add "Чат з Maya" to header navigation:**
+
+```jsx
+// In your Header component
+<nav>
+  <Link href="/">Головна</Link>
+  <Link href="/news">Новини</Link>
+  <Link href="/reviews">Огляди</Link>
+  <Link href="/trends">Тренди</Link>
+  <Link href="/chat" className="nav-chat-link">
+    Чат з Maya ⭐
+  </Link>
+  <Link href="/about">Про нас</Link>
+</nav>
+```
+
+**Styling for Chat link:**
+```css
+.nav-chat-link {
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  position: relative;
+}
+
+.nav-chat-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-chat-link:hover::after {
+  transform: scaleX(1);
+}
+```
+
+---
+
+### Task 6: Update Main Layout
+
+**In your root layout file, add FloatingChatBubble:**
+
+```jsx
+// app/layout.jsx or _app.jsx
+import FloatingChatBubble from '@/components/FloatingChatBubble';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="uk">
+      <body>
+        <Header />
+        <main>{children}</main>
+        <Footer />
+        <FloatingChatBubble /> {/* Add this */}
+      </body>
+    </html>
+  );
+}
+```
+
+---
+
+## 📊 Testing Checklist
+
+After implementation, test these scenarios:
+
+### Homepage Tests
+- [ ] Hero 1 displays correctly (featured article)
+- [ ] Maya banner appears after Hero 1
+- [ ] Maya banner quick-start buttons work
+- [ ] Former Hero 2 article now in grid
+- [ ] Floating bubble appears after scroll
+- [ ] Floating bubble links to /chat
+- [ ] Mobile: All elements stack properly
+- [ ] Mobile: No horizontal scroll
+
+### Chat Page Tests
+- [ ] Video placeholder displays
+- [ ] Quick-start questions pre-fill input
+- [ ] Messages send and display
+- [ ] Typing indicator shows
+- [ ] Auto-scroll works
+- [ ] Rate limiting works (5 questions)
+- [ ] Question counter updates
+- [ ] Upgrade prompt shows at limit
+- [ ] Mobile: Input always visible
+- [ ] Mobile: Messages readable
+
+### Visual Consistency Tests
+- [ ] Colors match existing design
+- [ ] Fonts match existing typography
+- [ ] Hover states feel native
+- [ ] Animations are smooth (60fps)
+- [ ] Dark theme consistent
+- [ ] Gold accents match logo
+- [ ] Border styles match
+- [ ] Shadows match depth system
+
+### Performance Tests
+- [ ] Page loads in <2s
+- [ ] No layout shifts
+- [ ] Smooth scrolling
+- [ ] Chat messages render fast
+- [ ] No console errors
+- [ ] Images optimized
+
+---
+
+## 🚀 Deployment Steps
+
+1. **Local Testing**
+   ```bash
+   npm run dev
+   # Test everything thoroughly
+   ```
+
+2. **Commit Changes**
+   ```bash
+   git add .
+   git commit -m "feat: Add Maya AI chat integration with banner, floating bubble, and chat page"
+   git push origin main
+   ```
+
+3. **Cloudflare Pages Auto-Deploy**
+   - Wait 2-3 minutes
+   - Check build logs
+   - Verify deployment
+
+4. **Production Testing**
+   - Visit gradusmedia.org
+   - Test on real devices (phone, tablet)
+   - Check all interactions
+
+5. **Monitor Analytics**
+   - Track chat engagement
+   - Monitor bounce rate changes
+   - Check conversion metrics
+
+---
+
+## 📈 Success Metrics (Track After Launch)
+
+**Week 1:**
+- 100+ unique chat sessions
+- 40% reduction in bounce rate
+- 20+ email signups via chat
+
+**Month 1:**
+- 500+ chat sessions
+- 30% engagement rate on Maya banner
+- 100+ email signups
+- 5+ paid conversions
+
+---
+
+## 🎯 Final Reminders for Replit Agent
+
+1. **MUST maintain exact color palette** from existing site
+2. **MUST use same typography** (font-family, weights, sizes)
+3. **MUST match animation styles** (duration, easing functions)
+4. **MUST be fully responsive** (mobile-first approach)
+5. **MUST have smooth performance** (no jank, 60fps animations)
+6. **MUST preserve all existing functionality**
+7. **MUST test on actual devices** before calling it done
+
+---
+
+## Ready to Build!
+
+Copy this entire prompt into Replit Agent. The agent will:
+1. Analyze existing gradusmedia.org styles
+2. Replace Hero 2 with Maya banner
+3. Create floating chat bubble
+4. Build full /chat page
+5. Update navigation
+6. Maintain perfect style consistency
+7. Test everything
+
+Expected completion time: **2-3 hours** of agent work + your review/testing.
+
+Good luck! 🚀
