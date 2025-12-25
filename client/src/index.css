@@ -59,6 +59,11 @@
   --text-primary: 30 8% 96%;
   --text-secondary: 30 8% 64%;
   --text-tertiary: 30 6% 40%;
+  
+  /* Maya Purple Accents */
+  --purple-dark: 263 50% 12%;
+  --purple-medium: 263 45% 18%;
+  --purple-light: 258 90% 66%;
 }
 
 @layer base {
