@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { Send, MessageCircle, BarChart2, FileText, Target, CheckCircle2 } from "lucide-react";
+import { Send, MessageCircle, BarChart2, FileText, Target, CheckCircle2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ChatMessage {
@@ -297,7 +297,7 @@ export default function ChatPage() {
                     {message.role === 'assistant' ? (
                       <MessageCircle className="w-5 h-5 text-white" />
                     ) : (
-                      <span className="text-lg">&#128100;</span>
+                      <User className="w-5 h-5" style={{ color: 'hsl(263 50% 12%)' }} />
                     )}
                   </div>
                   <div className={`flex flex-col ${message.role === 'user' ? 'items-end' : ''} max-w-[70%]`}>

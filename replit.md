@@ -8,6 +8,15 @@ Gradus Media is a premium AI-powered news platform for Ukraine's hospitality bev
 **Current State:** MVP complete with full-stack implementation.
 
 ## Recent Changes
+- **December 25, 2024:** Maya AI Chat Integration
+  - Added MayaChatBanner component with 4 quick-start questions (cocktail trends, suppliers, cost reduction, licensing)
+  - Added FloatingChatBubble component with ripple animation and question counter (appears after 400px scroll)
+  - Created full /chat page with video hero placeholder, chat interface, and premium CTA
+  - Updated Header navigation with highlighted "Чат з Maya" link using gradient text
+  - Added Maya purple color variables to CSS (--purple-dark, --purple-medium, --purple-light)
+  - Chat functionality: 5 free questions/day tracked in localStorage, integrates with backend API
+  - Backend endpoint: https://gradus-ai.onrender.com/api/maya/chat
+
 - **December 16, 2024:** External API Integration
   - Migrated from local Express backend to external FastAPI backend (https://gradus-ai.onrender.com)
   - Updated routing to use numeric article IDs (/article/:id) instead of slugs
@@ -58,12 +67,15 @@ client/
 │   │   ├── ArticleCard.tsx
 │   │   ├── HeroSection.tsx
 │   │   ├── MasonryGrid.tsx
+│   │   ├── MayaChatBanner.tsx
+│   │   ├── FloatingChatBubble.tsx
 │   │   ├── Breadcrumbs.tsx
 │   │   ├── RelatedArticles.tsx
 │   │   └── ui/         # Shadcn components
 │   ├── pages/          # Page components
 │   │   ├── home.tsx
 │   │   ├── article.tsx
+│   │   ├── chat.tsx
 │   │   ├── about.tsx
 │   │   └── not-found.tsx
 │   ├── lib/           # Utilities
@@ -82,6 +94,7 @@ shared/
 - `GET /api/articles/{id}` - Get single article by numeric ID
 - `GET /api/articles/search?q=query` - Search articles
 - `GET /api/images/serve/{id}` - Get article image by article ID
+- `POST /api/maya/chat` - Maya AI chat endpoint (body: { message, sessionId })
 
 ### Design System
 - **Primary Color:** Amber (#F5B971, HSL 36 85% 65%)
@@ -96,3 +109,9 @@ shared/
 4. **Responsive Design** - 4/3/2/1 columns based on viewport, adapts layout per device
 5. **Ukrainian Content** - Sample HoReCa industry articles
 6. **Framer Motion Animations** - Staggered entrance effects with smooth card animations
+7. **Maya AI Chat Integration** - Interactive AI consultant for HoReCa businesses
+   - MayaChatBanner with 4 quick-start questions on homepage
+   - FloatingChatBubble with ripple animation (appears after scroll)
+   - Full /chat page with video hero, chat interface, and premium CTA
+   - 5 free questions/day with upgrade path to premium subscription
+   - Purple accent colors (#1a0f2e, #2d1b4e, #8b5cf6) maintaining amber design system
