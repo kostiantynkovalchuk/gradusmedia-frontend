@@ -73,7 +73,7 @@ export default function ChatPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: inputValue,
-          sessionId: getSessionId()
+          session_id: getSessionId()
         })
       });
 
@@ -87,9 +87,11 @@ export default function ChatPage() {
 
       setMessages(prev => [...prev, assistantMessage]);
 
-      const newRemaining = remainingQuestions - 1;
-      setRemainingQuestions(newRemaining);
-      localStorage.setItem('mayaQuestionsRemaining', newRemaining.toString());
+      // Use backend's remaining count
+      if (data.remaining_questions !== undefined) {
+        setRemainingQuestions(data.remaining_questions);
+        localStorage.setItem('mayaQuestionsRemaining', data.remaining_questions.toString());
+      }
 
     } catch (error) {
       console.error('Chat error:', error);
