@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Send, MessageCircle, BarChart2, FileText, Target, CheckCircle2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ReactMarkdown from 'react-markdown';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -303,8 +304,8 @@ export default function ChatPage() {
                     )}
                   </div>
                   <div className={`flex flex-col ${message.role === 'user' ? 'items-end' : ''} max-w-[70%]`}>
-                    <div 
-                      className="px-4 py-3 rounded-2xl text-text-primary text-sm leading-relaxed"
+                    <div
+                      className="px-4 py-3 rounded-2xl text-text-primary text-sm leading-relaxed prose prose-invert max-w-none"
                       style={{
                         background: message.role === 'assistant'
                           ? 'rgba(139, 92, 246, 0.15)'
@@ -314,7 +315,7 @@ export default function ChatPage() {
                         borderTopRightRadius: message.role === 'user' ? '4px' : '16px'
                       }}
                     >
-                      {message.content}
+                      <ReactMarkdown>{message.content}</ReactMarkdown>
                     </div>
                     <span className="text-xs text-text-tertiary mt-1 px-1">
                       {message.timestamp.toLocaleTimeString('uk-UA', {
