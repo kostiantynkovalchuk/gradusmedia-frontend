@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { HeroSection, HeroSkeleton } from "@/components/HeroSection";
 import { MasonryGrid } from "@/components/MasonryGrid";
+import { MayaChatBanner } from "@/components/MayaChatBanner";
 import type { ArticlesResponse } from "@shared/schema";
 
 export default function Home() {
@@ -35,9 +36,11 @@ export default function Home() {
         <HeroSection article={heroArticle} />
       ) : null}
 
-      <MasonryGrid 
-        articles={gridArticles} 
-        isLoading={isLoading} 
+      <MayaChatBanner />
+
+      <MasonryGrid
+        articles={gridArticles}
+        isLoading={isLoading}
       />
     </main>
   );

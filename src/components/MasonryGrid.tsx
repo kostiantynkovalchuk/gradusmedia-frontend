@@ -149,7 +149,7 @@ export function MasonryGrid({ articles, isLoading = false }: MasonryGridProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const featuredArticle = isDesktop && articles.length > 0 ? articles[0] : null;
+  const featuredArticle = null;  // Disable featured card
   const gridArticles = isDesktop && articles.length > 0 ? articles.slice(1) : articles;
 
   const columnArticles: Article[][] = Array.from({ length: columns }, () => []);

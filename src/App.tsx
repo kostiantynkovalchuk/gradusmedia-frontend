@@ -9,6 +9,8 @@ import Home from "@/pages/home";
 import ArticlePage from "@/pages/article";
 import CategoryPage from "@/pages/category";
 import About from "@/pages/about";
+import ChatPage from "@/pages/chat";
+import { FloatingChatBubble } from "@/components/FloatingChatBubble";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,6 +20,7 @@ function Router() {
       <Route path="/article/:id" component={ArticlePage} />
       <Route path="/category/:slug" component={CategoryPage} />
       <Route path="/about" component={About} />
+      <Route path="/chat" component={ChatPage} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -35,6 +38,7 @@ function App() {
           <Footer />
         </div>
         <Toaster />
+        <FloatingChatBubble />
       </TooltipProvider>
     </QueryClientProvider>
   );

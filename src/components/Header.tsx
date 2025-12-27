@@ -9,6 +9,7 @@ const navItems = [
   { title: "Новини", path: "/category/news" },
   { title: "Огляди", path: "/category/reviews" },
   { title: "Тренди", path: "/category/trends" },
+  { title: "Чат з Maya", path: "/chat", highlight: true },
   { title: "Про нас", path: "/about" },
 ];
 
@@ -42,6 +43,8 @@ export function Header() {
                 className={`text-body-sm font-medium px-4 py-2 ${
                   location === item.path
                     ? "text-amber-primary"
+                    : item.highlight
+                    ? "text-amber-primary/80 hover:text-amber-primary"
                     : "text-text-secondary hover:text-text-primary"
                 }`}
                 data-testid={`nav-link-${item.title.toLowerCase()}`}
