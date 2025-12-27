@@ -3,10 +3,7 @@ import { useParams } from "wouter";
 import { motion } from "framer-motion";
 import { ArticleCard, ArticleCardSkeleton } from "@/components/ArticleCard";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { useCategorizedArticles } from "@/hooks/useCategorizedArticles";
 import type { ArticlesResponse } from "@shared/schema";
-
-// Client-side categorization system active
 
 const categoryNames: Record<string, string> = {
   news: "Новини",
@@ -40,16 +37,12 @@ export default function CategoryPage() {
   const { slug } = useParams<{ slug: string }>();
   const categoryName = categoryNames[slug || ""] || slug;
 
-  // Fetch all articles (no category filter)
+  // Fetch articles by category from backend
   const { data, isLoading, error } = useQuery<ArticlesResponse>({
-    queryKey: ["/api/articles"],
+    queryKey: [`/api/articles?category=${slug}`],
   });
 
-  // Client-side categorization
-  const filteredArticles = useCategorizedArticles(
-    data?.articles || [],
-    categoryName as 'Новини' | 'Огляди' | 'Тренди'
-  );
+  const filteredArticles = data?.articles || [];
 
   const breadcrumbs = [
     { label: "Головна", href: "/" },
