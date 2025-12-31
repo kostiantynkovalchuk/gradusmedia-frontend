@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
+import ReactMarkdown from 'react-markdown';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -90,11 +91,6 @@ export default function ArticlePage() {
     { label: article.title },
   ];
 
-  const contentHtml = article.content
-    .split('\n\n')
-    .map(para => `<p>${para}</p>`)
-    .join('');
-
   return (
     <article className="pt-20" data-testid="page-article">
       <div className="max-w-[1200px] mx-auto px-6 pt-6">
@@ -178,13 +174,12 @@ export default function ArticlePage() {
         </header>
 
         <div 
-          className="max-w-[800px] mx-auto prose prose-invert prose-lg prose-amber"
+          className="max-w-[800px] mx-auto prose prose-invert prose-lg prose-amber text-text-primary text-body-lg leading-relaxed [&_p]:mb-6 [&_h2]:text-h2 [&_h2]:text-text-primary [&_h2]:font-semibold [&_h2]:mt-12 [&_h2]:mb-6 [&_h3]:text-h3 [&_h3]:text-text-primary [&_h3]:font-semibold [&_h3]:mt-10 [&_h3]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-amber-primary [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:text-text-secondary [&_blockquote]:my-8 [&_a]:text-amber-primary [&_a]:no-underline hover:[&_a]:underline [&_img]:rounded-lg [&_img]:my-8 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_li]:mb-2"
           data-testid="article-content"
         >
-          <div 
-            className="text-text-primary text-body-lg leading-relaxed [&_p]:mb-6 [&_h2]:text-h2 [&_h2]:text-text-primary [&_h2]:font-semibold [&_h2]:mt-12 [&_h2]:mb-6 [&_h3]:text-h3 [&_h3]:text-text-primary [&_h3]:font-semibold [&_h3]:mt-10 [&_h3]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-amber-primary [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:text-text-secondary [&_blockquote]:my-8 [&_a]:text-amber-primary [&_a]:no-underline hover:[&_a]:underline [&_img]:rounded-lg [&_img]:my-8 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_li]:mb-2"
-            dangerouslySetInnerHTML={{ __html: contentHtml }}
-          />
+          <ReactMarkdown>
+            {article.content}
+          </ReactMarkdown>
         </div>
 
         {article.tags && article.tags.length > 0 && (
