@@ -85,7 +85,7 @@ export function MayaChatBanner() {
                   <img
                     src="/images/maya-avatar.png"
                     alt="Maya - AI експертка HoReCa"
-                    className="relative w-24 h-24 md:w-32 md:h-32 rounded-full object-cover"
+                    className="relative w-30 h-30 md:w-32 md:h-32 rounded-full object-cover"
                     style={{
                       border: '3px solid rgba(245, 158, 11, 0.4)',
                       boxShadow: '0 8px 24px rgba(139, 92, 246, 0.3)'
@@ -142,10 +142,10 @@ export function MayaChatBanner() {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-3">
               <Link href="/chat" data-testid="maya-cta-button">
                 <Button
-                  className="px-10 py-6 text-lg font-semibold rounded-xl"
+                  className="px-8 py-3.5 text-base font-semibold rounded-full hover:scale-105 transition-transform duration-200"
                   style={{
                     background: 'linear-gradient(90deg, hsl(var(--amber-primary)) 0%, hsl(var(--amber-secondary)) 100%)',
                     color: 'hsl(263 50% 12%)',
@@ -156,7 +156,7 @@ export function MayaChatBanner() {
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
-              <p className="flex items-center gap-2 text-sm text-text-secondary font-medium">
+              <p className="flex items-center gap-2 text-xs text-text-secondary font-medium">
                 <span className="text-green-500">&#10003;</span>
                 Безкоштовно 5 питань на день
               </p>
