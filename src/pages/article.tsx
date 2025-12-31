@@ -182,6 +182,27 @@ export default function ArticlePage() {
           </ReactMarkdown>
         </div>
 
+        {(article.source || article.sourceUrl) && (
+          <div className="max-w-[800px] mx-auto mt-10 pt-6 border-t border-border">
+            <div className="flex items-center gap-2 text-text-secondary text-body-sm">
+              <span>Джерело:</span>
+              {article.sourceUrl ? (
+                <a 
+                  href={article.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-amber-primary hover:underline font-medium"
+                  data-testid="article-source-link"
+                >
+                  {article.source || 'Посилання'}
+                </a>
+              ) : (
+                <span className="font-medium" data-testid="article-source-text">{article.source}</span>
+              )}
+            </div>
+          </div>
+        )}
+
         {article.tags && article.tags.length > 0 && (
           <div className="max-w-[800px] mx-auto mt-10 pt-6 border-t border-border">
             <div className="flex flex-wrap gap-2">
