@@ -54,16 +54,18 @@ export function MayaChatBanner() {
           viewport={{ once: true }}
           className="p-8 md:p-10 rounded-2xl relative overflow-visible"
           style={{
-            background: 'linear-gradient(135deg, hsl(263 50% 12%) 0%, hsl(263 45% 18%) 50%, hsl(263 50% 12%) 100%)',
-            border: '1px solid rgba(245, 158, 11, 0.2)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(245, 158, 11, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+            background: 'rgba(25, 15, 35, 0.4)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(245, 158, 11, 0.3)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 16px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
           }}
         >
-          <div 
+          <div
             className="absolute inset-0 rounded-2xl pointer-events-none"
             style={{
-              background: 'rgba(255, 255, 255, 0.02)',
-              backdropFilter: 'blur(10px)'
+              background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%)',
+              mixBlendMode: 'soft-light'
             }}
           />
 
@@ -93,19 +95,12 @@ export function MayaChatBanner() {
               </div>
 
               <h2
-                className="text-xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
+                className="text-xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
                 style={{ lineHeight: '1.2' }}
                 data-testid="maya-banner-title"
               >
-                Запитайте Maya - ваша HoReCa експертка
+                Запитайте Maya Gradus - ваша HoReCa експертка
               </h2>
-              <p
-                className="text-base md:text-lg text-text-secondary max-w-[700px] mx-auto"
-                style={{ lineHeight: '1.6' }}
-              >
-                Отримайте професійні поради про тренди, постачальників,
-                меню та відповідність вимогам для вашого бізнесу
-              </p>
             </div>
 
             <div className="mb-8">
