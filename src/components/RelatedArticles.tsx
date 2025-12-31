@@ -36,7 +36,7 @@ export function RelatedArticles({ articles, isLoading = false }: RelatedArticles
         className="max-w-[1200px] mx-auto mt-20 pt-16 border-t border-amber-primary/10"
         data-testid="related-articles-loading"
       >
-        <h2 className="text-text-primary text-h2 font-semibold mb-8">
+        <h2 className="text-text-primary text-2xl md:text-3xl font-semibold mb-8">
           Схожі статті
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -59,7 +59,7 @@ export function RelatedArticles({ articles, isLoading = false }: RelatedArticles
       className="max-w-[1200px] mx-auto mt-20 pt-16 border-t border-amber-primary/10"
       data-testid="related-articles"
     >
-      <h2 className="text-text-primary text-h2 font-semibold mb-8">
+      <h2 className="text-text-primary text-2xl md:text-3xl font-semibold mb-8">
         Схожі статті
       </h2>
       <motion.div 
