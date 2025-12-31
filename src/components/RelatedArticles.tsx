@@ -32,7 +32,7 @@ const itemVariants = {
 export function RelatedArticles({ articles, isLoading = false }: RelatedArticlesProps) {
   if (isLoading) {
     return (
-      <section 
+      <section
         className="max-w-[1200px] mx-auto mt-20 pt-16 border-t border-amber-primary/10"
         data-testid="related-articles-loading"
       >
@@ -41,8 +41,8 @@ export function RelatedArticles({ articles, isLoading = false }: RelatedArticles
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[...Array(3)].map((_, index) => (
-            <div key={index} className="h-[320px]">
-              <ArticleCardSkeleton height={320} />
+            <div key={index} className="h-[380px]">
+              <ArticleCardSkeleton height={380} />
             </div>
           ))}
         </div>
@@ -55,7 +55,7 @@ export function RelatedArticles({ articles, isLoading = false }: RelatedArticles
   }
 
   return (
-    <section 
+    <section
       className="max-w-[1200px] mx-auto mt-20 pt-16 border-t border-amber-primary/10"
       data-testid="related-articles"
     >
@@ -72,11 +72,12 @@ export function RelatedArticles({ articles, isLoading = false }: RelatedArticles
           <motion.div
             key={article.id}
             variants={itemVariants}
-            className="h-[320px]"
+            className="h-[380px]"
           >
-            <ArticleCard 
-              article={article} 
-              height={320}
+            <ArticleCard
+              article={article}
+              height={380}
+              hideExcerpt={true}
               className="h-full"
             />
           </motion.div>

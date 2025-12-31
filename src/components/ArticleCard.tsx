@@ -10,6 +10,7 @@ interface ArticleCardProps {
   height?: number;
   priority?: boolean;
   className?: string;
+  hideExcerpt?: boolean;
 }
 
 const itemVariants = {
@@ -48,7 +49,7 @@ function getExcerpt(article: Article): string {
   return "";
 }
 
-export function ArticleCard({ article, height = 400, priority = false, className = "" }: ArticleCardProps) {
+export function ArticleCard({ article, height = 400, priority = false, className = "", hideExcerpt = false }: ArticleCardProps) {
   const sizeClass = height >= 500 ? "large" : height >= 400 ? "medium" : "small";
   const excerpt = getExcerpt(article);
 
@@ -93,8 +94,8 @@ export function ArticleCard({ article, height = 400, priority = false, className
             {article.title}
           </h3>
           
-          {excerpt && (
-            <p 
+          {!hideExcerpt && excerpt && (
+            <p
               className="excerpt"
               data-testid={`excerpt-${article.id}`}
             >
