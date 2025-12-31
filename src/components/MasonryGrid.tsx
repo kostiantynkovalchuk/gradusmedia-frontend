@@ -127,12 +127,14 @@ function FeaturedCard({ article }: { article: Article }) {
 export function MasonryGrid({ articles, isLoading = false }: MasonryGridProps) {
   const [columns, setColumns] = useState(4);
   const [isDesktop, setIsDesktop] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
       setIsDesktop(width >= 1024);
-      
+      setIsMobile(width < 768);
+
       if (width < 768) {
         setColumns(1);
       } else if (width < 1024) {
@@ -143,7 +145,7 @@ export function MasonryGrid({ articles, isLoading = false }: MasonryGridProps) {
         setColumns(4);
       }
     };
-    
+
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -168,10 +170,12 @@ export function MasonryGrid({ articles, isLoading = false }: MasonryGridProps) {
             <div key={colIndex} className="masonry-column">
               {Array.from({ length: 3 }).map((_, idx) => {
                 const globalIdx = colIndex + (idx * columns);
+                // Use uniform height on mobile, varied heights on desktop
+                const height = isMobile ? 420 : skeletonHeights[globalIdx % skeletonHeights.length];
                 return (
-                  <ArticleCardSkeleton 
-                    key={idx} 
-                    height={skeletonHeights[globalIdx % skeletonHeights.length]} 
+                  <ArticleCardSkeleton
+                    key={idx}
+                    height={height}
                   />
                 );
               })}
@@ -202,12 +206,14 @@ export function MasonryGrid({ articles, isLoading = false }: MasonryGridProps) {
               {colArticles.map((article, indexInColumn) => {
                 const globalIndex = columnIndex + (indexInColumn * columns);
                 const cardConfig = getCardConfig(globalIndex);
-                
+                // Use uniform height on mobile, varied heights on desktop
+                const height = isMobile ? 420 : cardConfig.height;
+
                 return (
                   <ArticleCard
                     key={article.id}
                     article={article}
-                    height={cardConfig.height}
+                    height={height}
                     priority={globalIndex < 4}
                   />
                 );
