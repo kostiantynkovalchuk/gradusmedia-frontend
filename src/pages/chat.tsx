@@ -250,8 +250,8 @@ export default function ChatPage() {
             }}
             data-testid="chat-container"
           >
-            <div 
-              className="flex justify-between items-center px-6 py-5"
+            <div
+              className="flex justify-between items-center px-3 py-3 md:px-6 md:py-5"
               style={{
                 background: 'rgba(255, 255, 255, 0.03)',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
@@ -274,8 +274,8 @@ export default function ChatPage() {
               </div>
             </div>
 
-            <div 
-              className="h-[500px] overflow-y-auto p-6 flex flex-col gap-4"
+            <div
+              className="h-[400px] md:h-[500px] overflow-y-auto p-3 md:p-6 flex flex-col gap-4"
               style={{
                 scrollbarWidth: 'thin',
                 scrollbarColor: 'rgba(255, 255, 255, 0.1) rgba(255, 255, 255, 0.02)'
@@ -286,15 +286,15 @@ export default function ChatPage() {
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
+                  className={`flex gap-2 md:gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
                   data-testid={`message-${index}`}
                 >
-                  <div className="w-10 h-10 shrink-0 rounded-full">
+                  <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-full">
                     {message.role === 'assistant' ? (
                       <img
                         src="/images/maya-avatar.png"
                         alt="Maya"
-                        className="w-10 h-10 rounded-full object-cover"
+                        className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
                         style={{
                           border: '2px solid rgba(139, 92, 246, 0.4)',
                           boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
@@ -302,18 +302,18 @@ export default function ChatPage() {
                       />
                     ) : (
                       <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center"
+                        className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, hsl(var(--amber-primary)) 0%, hsl(var(--amber-secondary)) 100%)'
                         }}
                       >
-                        <User className="w-5 h-5" style={{ color: 'hsl(263 50% 12%)' }} />
+                        <User className="w-4 h-4 md:w-5 md:h-5" style={{ color: 'hsl(263 50% 12%)' }} />
                       </div>
                     )}
                   </div>
-                  <div className={`flex flex-col ${message.role === 'user' ? 'items-end' : ''} max-w-[70%]`}>
+                  <div className={`flex flex-col ${message.role === 'user' ? 'items-end' : ''} max-w-[85%] md:max-w-[70%]`}>
                     <div
-                      className="px-4 py-3 rounded-2xl text-text-primary text-sm leading-relaxed prose prose-invert max-w-none"
+                      className="px-3 py-2.5 md:px-4 md:py-3 rounded-2xl text-text-primary text-sm leading-relaxed prose prose-invert max-w-none"
                       style={{
                         background: message.role === 'assistant'
                           ? 'rgba(139, 92, 246, 0.15)'
@@ -336,11 +336,11 @@ export default function ChatPage() {
               ))}
 
               {isLoading && (
-                <div className="flex gap-3">
+                <div className="flex gap-2 md:gap-3">
                   <img
                     src="/images/maya-avatar.png"
                     alt="Maya"
-                    className="w-10 h-10 shrink-0 rounded-full object-cover"
+                    className="w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-full object-cover"
                     style={{
                       border: '2px solid rgba(139, 92, 246, 0.4)',
                       boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
@@ -382,15 +382,15 @@ export default function ChatPage() {
               <div ref={messagesEndRef} />
             </div>
 
-            <form 
+            <form
               onSubmit={handleSendMessage}
-              className="p-5"
+              className="p-3 md:p-5"
               style={{
                 background: 'rgba(255, 255, 255, 0.02)',
                 borderTop: '1px solid rgba(255, 255, 255, 0.1)'
               }}
             >
-              <div className="flex gap-3 items-end">
+              <div className="flex gap-2 md:gap-3 items-end">
                 <textarea
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
@@ -401,11 +401,11 @@ export default function ChatPage() {
                     }
                   }}
                   placeholder="Ваше питання про HoReCa..."
-                  className="flex-1 px-4 py-3 rounded-xl resize-none text-text-primary text-sm font-sans transition-all duration-300 focus:outline-none focus:border-amber-primary/30 focus:bg-white/6"
+                  className="flex-1 px-3 py-2.5 md:px-4 md:py-3 rounded-xl resize-none text-text-primary text-sm font-sans transition-all duration-300 focus:outline-none focus:border-amber-primary/30 focus:bg-white/6"
                   style={{
                     background: 'rgba(255, 255, 255, 0.04)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
-                    maxHeight: '120px'
+                    maxHeight: '100px'
                   }}
                   rows={1}
                   disabled={remainingQuestions <= 0}
@@ -414,7 +414,7 @@ export default function ChatPage() {
                 <Button
                   type="submit"
                   size="icon"
-                  className="w-12 h-12 rounded-xl shrink-0"
+                  className="w-11 h-11 md:w-12 md:h-12 rounded-xl shrink-0"
                   style={{
                     background: 'linear-gradient(135deg, hsl(var(--amber-primary)) 0%, hsl(var(--amber-secondary)) 100%)',
                     color: 'hsl(263 50% 12%)'
@@ -422,7 +422,7 @@ export default function ChatPage() {
                   disabled={!inputValue.trim() || isLoading || remainingQuestions <= 0}
                   data-testid="send-button"
                 >
-                  <Send className="w-5 h-5" />
+                  <Send className="w-4 h-4 md:w-5 md:h-5" />
                 </Button>
               </div>
 
