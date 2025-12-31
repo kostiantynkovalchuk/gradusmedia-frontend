@@ -34,9 +34,18 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [remainingQuestions, setRemainingQuestions] = useState(5);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Scroll to top when page loads
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    // Only auto-scroll if there are multiple messages (user is chatting)
+    if (messages.length > 1) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -112,15 +121,15 @@ export default function ChatPage() {
     "Кращі постачальники преміум алкоголю?",
     "Як знизити витрати на бар на 20%?",
     "Що потрібно для ліцензії на алкоголь?",
-    "Ідеї для літнього коктейльного меню?",
+    "Ідеї для зимового коктейльного меню?",
     "Топ-5 українських craft spirits?"
   ];
 
   const expertiseItems = [
     { icon: MessageCircle, label: "Тренди та інсайти" },
-    { icon: BarChart2, label: "Дані ринку" },
-    { icon: FileText, label: "Відповідність вимогам" },
-    { icon: Target, label: "Персоналізовано" }
+    { icon: BarChart2, label: "Ринкова аналітика" },
+    { icon: FileText, label: "Відповідність нормам законодавства" },
+    { icon: Target, label: "Консалтінг" }
   ];
 
   return (
@@ -184,16 +193,16 @@ export default function ChatPage() {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-[700px] mx-auto">
               {expertiseItems.map((item, i) => (
-                <div 
+                <div
                   key={i}
-                  className="flex flex-col items-center gap-2 p-5 rounded-xl text-sm text-text-secondary"
+                  className="flex flex-col items-center gap-2 p-5 rounded-xl text-sm"
                   style={{
                     background: 'rgba(255, 255, 255, 0.04)',
                     border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <item.icon className="w-8 h-8 text-amber-primary" />
-                  <span>{item.label}</span>
+                  <span className="text-amber-primary">{item.label}</span>
                 </div>
               ))}
             </div>
@@ -204,33 +213,38 @@ export default function ChatPage() {
       <section className="py-12 md:py-16" data-testid="chat-section">
         <div className="max-w-[1200px] mx-auto px-6">
           {messages.length <= 1 && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="mb-12 text-center"
             >
-              <h3 className="text-lg text-text-secondary mb-6">
+              <h3 className="text-sm text-text-tertiary font-medium mb-4">
                 Швидкий старт - оберіть питання:
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-[900px] mx-auto">
+              <div className="flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
                 {quickStartQuestions.map((question, i) => (
                   <button
                     key={i}
-                    onClick={() => setInputValue(question)}
-                    className="px-5 py-4 rounded-xl text-text-primary text-sm transition-all duration-300"
+                    onClick={() => {
+                      setInputValue(question);
+                      setTimeout(() => {
+                        chatContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }, 100);
+                    }}
+                    className="px-4 py-2.5 rounded-full text-text-primary text-sm font-medium transition-all duration-300 hover:scale-105 whitespace-nowrap"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.04)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(245, 158, 11, 0.2)'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
-                      e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.3)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
+                      e.currentTarget.style.boxShadow = 'none';
                     }}
                     data-testid={`quick-question-${i}`}
                   >
@@ -241,7 +255,8 @@ export default function ChatPage() {
             </motion.div>
           )}
 
-          <div 
+          <div
+            ref={chatContainerRef}
             className="max-w-[900px] mx-auto rounded-2xl overflow-hidden"
             style={{
               background: 'rgba(255, 255, 255, 0.02)',

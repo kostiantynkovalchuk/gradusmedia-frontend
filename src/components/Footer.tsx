@@ -127,7 +127,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-amber-primary/10 text-center" data-testid="footer-bottom">
           <p className="text-text-tertiary text-body-sm mb-2">
-            &copy; 2024 Gradus Media. Всі права захищені.
+            &copy; 2026 Gradus Media. Всі права захищені.
           </p>
           <p className="text-text-tertiary text-body-xs">
             Створено з використанням AI для HoReCa індустрії України
