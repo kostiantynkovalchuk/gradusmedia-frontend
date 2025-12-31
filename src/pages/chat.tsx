@@ -119,7 +119,7 @@ export default function ChatPage() {
   const expertiseItems = [
     { icon: MessageCircle, label: "Тренди та інсайти" },
     { icon: BarChart2, label: "Дані ринку" },
-    { icon: FileText, label: "Compliance" },
+    { icon: FileText, label: "Відповідність вимогам" },
     { icon: Target, label: "Персоналізовано" }
   ];
 
@@ -289,18 +289,26 @@ export default function ChatPage() {
                   className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
                   data-testid={`message-${index}`}
                 >
-                  <div 
-                    className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center"
-                    style={{
-                      background: message.role === 'assistant' 
-                        ? 'linear-gradient(135deg, hsl(258 90% 66%) 0%, #6366f1 100%)'
-                        : 'linear-gradient(135deg, hsl(var(--amber-primary)) 0%, hsl(var(--amber-secondary)) 100%)'
-                    }}
-                  >
+                  <div className="w-10 h-10 shrink-0 rounded-full">
                     {message.role === 'assistant' ? (
-                      <MessageCircle className="w-5 h-5 text-white" />
+                      <img
+                        src="/images/maya-avatar.png"
+                        alt="Maya"
+                        className="w-10 h-10 rounded-full object-cover"
+                        style={{
+                          border: '2px solid rgba(139, 92, 246, 0.4)',
+                          boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
+                        }}
+                      />
                     ) : (
-                      <User className="w-5 h-5" style={{ color: 'hsl(263 50% 12%)' }} />
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{
+                          background: 'linear-gradient(135deg, hsl(var(--amber-primary)) 0%, hsl(var(--amber-secondary)) 100%)'
+                        }}
+                      >
+                        <User className="w-5 h-5" style={{ color: 'hsl(263 50% 12%)' }} />
+                      </div>
                     )}
                   </div>
                   <div className={`flex flex-col ${message.role === 'user' ? 'items-end' : ''} max-w-[70%]`}>
@@ -329,18 +337,44 @@ export default function ChatPage() {
 
               {isLoading && (
                 <div className="flex gap-3">
-                  <div 
-                    className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center"
+                  <img
+                    src="/images/maya-avatar.png"
+                    alt="Maya"
+                    className="w-10 h-10 shrink-0 rounded-full object-cover"
                     style={{
-                      background: 'linear-gradient(135deg, hsl(258 90% 66%) 0%, #6366f1 100%)'
+                      border: '2px solid rgba(139, 92, 246, 0.4)',
+                      boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
+                    }}
+                  />
+                  <div
+                    className="flex gap-1.5 items-center px-5 py-3 rounded-2xl"
+                    style={{
+                      background: 'rgba(139, 92, 246, 0.15)',
+                      border: '1px solid rgba(139, 92, 246, 0.2)',
+                      borderTopLeftRadius: '4px'
                     }}
                   >
-                    <MessageCircle className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="flex gap-1 items-center px-4 py-3">
-                    <span className="w-2 h-2 bg-purple-light/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-2 h-2 bg-purple-light/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-2 h-2 bg-purple-light/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span
+                      className="w-2 h-2 rounded-full animate-bounce"
+                      style={{
+                        animationDelay: '0ms',
+                        backgroundColor: 'rgb(167, 139, 250)'
+                      }}
+                    />
+                    <span
+                      className="w-2 h-2 rounded-full animate-bounce"
+                      style={{
+                        animationDelay: '150ms',
+                        backgroundColor: 'rgb(167, 139, 250)'
+                      }}
+                    />
+                    <span
+                      className="w-2 h-2 rounded-full animate-bounce"
+                      style={{
+                        animationDelay: '300ms',
+                        backgroundColor: 'rgb(167, 139, 250)'
+                      }}
+                    />
                   </div>
                 </div>
               )}

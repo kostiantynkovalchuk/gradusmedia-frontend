@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight, MessageCircle, Package, DollarSign, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const quickStartQuestions = [
   {
@@ -21,12 +22,6 @@ const quickStartQuestions = [
     icon: DollarSign,
     text: "Як знизити витрати на бар на 20%?",
     prompt: "Дай практичні поради як оптимізувати витрати на бар та збільшити рентабельність"
-  },
-  {
-    id: 4,
-    icon: FileText,
-    text: "Що треба для ліцензії на алкоголь?",
-    prompt: "Поясни процес отримання ліцензії на продаж алкоголю в Україні"
   }
 ];
 
@@ -38,8 +33,8 @@ export function MayaChatBanner() {
   };
 
   return (
-    <section 
-      className="w-full py-16 md:py-20 relative overflow-visible"
+    <section
+      className="w-full py-12 md:py-16 relative overflow-visible"
       data-testid="maya-chat-banner"
     >
       <div className="absolute inset-0 pointer-events-none">
@@ -57,7 +52,7 @@ export function MayaChatBanner() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
           viewport={{ once: true }}
-          className="p-10 md:p-14 rounded-2xl relative overflow-visible"
+          className="p-8 md:p-10 rounded-2xl relative overflow-visible"
           style={{
             background: 'linear-gradient(135deg, hsl(263 50% 12%) 0%, hsl(263 45% 18%) 50%, hsl(263 50% 12%) 100%)',
             border: '1px solid rgba(245, 158, 11, 0.2)',
@@ -73,7 +68,7 @@ export function MayaChatBanner() {
           />
 
           <div className="relative z-10">
-            <div className="text-center mb-10 md:mb-12">
+            <div className="text-center mb-8 md:mb-10">
               {/* Maya Avatar */}
               <div className="flex justify-center mb-6">
                 <div className="relative">
@@ -98,7 +93,7 @@ export function MayaChatBanner() {
               </div>
 
               <h2
-                className="text-2xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
+                className="text-xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
                 style={{ lineHeight: '1.2' }}
                 data-testid="maya-banner-title"
               >
@@ -109,15 +104,15 @@ export function MayaChatBanner() {
                 style={{ lineHeight: '1.6' }}
               >
                 Отримайте професійні поради про тренди, постачальників,
-                меню та compliance для вашого бізнесу
+                меню та відповідність вимогам для вашого бізнесу
               </p>
             </div>
 
-            <div className="mb-10 md:mb-12">
-              <p className="text-center text-text-tertiary font-medium mb-6">
+            <div className="mb-8">
+              <p className="text-center text-text-tertiary text-sm font-medium mb-4">
                 Швидкий старт - оберіть питання:
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[900px] mx-auto">
+              <div className="flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
                 {quickStartQuestions.map((question) => (
                   <Link
                     key={question.id}
@@ -125,31 +120,28 @@ export function MayaChatBanner() {
                     onClick={() => handleQuestionClick(question.prompt)}
                     data-testid={`maya-question-${question.id}`}
                   >
-                    <div 
-                      className="flex items-center gap-4 p-5 rounded-xl cursor-pointer transition-all duration-300 group"
+                    <button
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-300 group hover:scale-105"
                       style={{
-                        background: 'rgba(255, 255, 255, 0.04)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)'
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(245, 158, 11, 0.2)',
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(245, 158, 11, 0.08)';
-                        e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.3)';
-                        e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(245, 158, 11, 0.15)';
+                        e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
+                        e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                        e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
                         e.currentTarget.style.boxShadow = 'none';
                       }}
                     >
-                      <question.icon className="w-7 h-7 text-amber-primary shrink-0" />
-                      <span className="text-text-primary font-medium flex-1">
+                      <question.icon className="w-4 h-4 text-amber-primary shrink-0" />
+                      <span className="text-text-primary text-sm font-medium whitespace-nowrap">
                         {question.text}
                       </span>
-                      <ArrowRight className="w-5 h-5 text-amber-primary/60 group-hover:text-amber-primary group-hover:translate-x-1 transition-all duration-300" />
-                    </div>
+                    </button>
                   </Link>
                 ))}
               </div>
