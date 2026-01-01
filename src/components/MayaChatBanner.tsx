@@ -256,7 +256,7 @@ export function MayaChatBanner() {
             </div>
 
             {/* Centered CTA (Both Mobile & Desktop) */}
-            <div className="flex flex-col items-center gap-3 mt-8">
+            <div className="flex flex-col items-center gap-3 mt-4">
               <Link href="/chat" data-testid="maya-cta-button">
                 <Button
                   className="px-8 py-3.5 text-base font-semibold rounded-full hover:scale-105 transition-transform duration-200"
