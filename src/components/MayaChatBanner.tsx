@@ -147,9 +147,9 @@ export function MayaChatBanner() {
             </div>
 
             {/* Desktop: Two-Column Layout */}
-            <div className="hidden md:grid md:grid-cols-2 md:gap-12 md:items-center">
+            <div className="hidden md:grid md:grid-cols-2 md:gap-12">
               {/* Left Side: Content */}
-              <div>
+              <div className="flex flex-col justify-center">
                 <h2
                   className="text-3xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
                   style={{ lineHeight: '1.2' }}
@@ -161,7 +161,7 @@ export function MayaChatBanner() {
                 <p className="text-text-tertiary text-sm font-medium mb-4">
                   Швидкий старт - оберіть питання:
                 </p>
-                <div className="flex flex-col gap-3 mb-6">
+                <div className="flex flex-col gap-3">
                   <div className="flex gap-3">
                     {quickStartQuestions.slice(0, 2).map((question) => (
                       <Link
@@ -232,7 +232,7 @@ export function MayaChatBanner() {
               </div>
 
               {/* Right Side: Large Avatar */}
-              <div className="flex justify-end">
+              <div className="flex justify-end items-center">
                 <div className="relative">
                   <div
                     className="absolute inset-0 rounded-full"
