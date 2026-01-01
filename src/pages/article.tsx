@@ -129,14 +129,10 @@ export default function ArticlePage() {
 
           <div className="flex flex-wrap items-center gap-3 text-text-secondary text-body-sm">
             {article.publishedAt && (
-              <>
-                <time dateTime={new Date(article.publishedAt).toISOString()}>
-                  {formatDate(article.publishedAt)}
-                </time>
-                <span className="text-text-tertiary">•</span>
-              </>
+              <time dateTime={new Date(article.publishedAt).toISOString()}>
+                {formatDate(article.publishedAt)}
+              </time>
             )}
-            <span>{article.readTime || 5} хв читання</span>
             {article.author && (
               <>
                 <span className="text-text-tertiary">•</span>

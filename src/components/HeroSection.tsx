@@ -95,14 +95,10 @@ export function HeroSection({ article }: HeroSectionProps) {
 
           <div className="flex items-center gap-2 text-text-tertiary text-body-sm">
             {article.publishedAt && (
-              <>
-                <time dateTime={new Date(article.publishedAt).toISOString()}>
-                  {formatDate(article.publishedAt)}
-                </time>
-                <span className="text-text-tertiary/50">•</span>
-              </>
+              <time dateTime={new Date(article.publishedAt).toISOString()}>
+                {formatDate(article.publishedAt)}
+              </time>
             )}
-            <span>{article.readTime || 5} хв читання</span>
           </div>
         </div>
       </div>

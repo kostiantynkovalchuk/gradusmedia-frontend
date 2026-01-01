@@ -109,14 +109,10 @@ function FeaturedCard({ article }: { article: Article }) {
           
           <div className="meta">
             {article.publishedAt && (
-              <>
-                <time dateTime={new Date(article.publishedAt).toISOString()}>
-                  {formatDate(article.publishedAt)}
-                </time>
-                <span className="meta-separator">•</span>
-              </>
+              <time dateTime={new Date(article.publishedAt).toISOString()}>
+                {formatDate(article.publishedAt)}
+              </time>
             )}
-            <span>{article.readTime || 5} хв читання</span>
           </div>
         </div>
       </Link>

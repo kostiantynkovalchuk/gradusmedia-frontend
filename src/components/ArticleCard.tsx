@@ -49,6 +49,15 @@ function getExcerpt(article: Article): string {
   return "";
 }
 
+function getCategoryLabel(category: string): string {
+  const categoryMap: Record<string, string> = {
+    "news": "Новини",
+    "reviews": "Огляди",
+    "trends": "Тренди",
+  };
+  return categoryMap[category.toLowerCase()] || category;
+}
+
 export function ArticleCard({ article, height = 400, priority = false, className = "", hideExcerpt = false }: ArticleCardProps) {
   const sizeClass = height >= 500 ? "large" : height >= 400 ? "medium" : "small";
   const excerpt = getExcerpt(article);
@@ -78,11 +87,11 @@ export function ArticleCard({ article, height = 400, priority = false, className
               }
             }}
           />
-          <span 
+          <span
             className="category-badge"
             data-testid={`badge-category-${article.id}`}
           >
-            {article.category}
+            {getCategoryLabel(article.category)}
           </span>
         </div>
 
@@ -105,14 +114,10 @@ export function ArticleCard({ article, height = 400, priority = false, className
           
           <div className="meta">
             {article.publishedAt && (
-              <>
-                <time dateTime={new Date(article.publishedAt).toISOString()}>
-                  {formatDate(article.publishedAt)}
-                </time>
-                <span className="meta-separator">•</span>
-              </>
+              <time dateTime={new Date(article.publishedAt).toISOString()}>
+                {formatDate(article.publishedAt)}
+              </time>
             )}
-            <span>{article.readTime || 5} хв читання</span>
           </div>
         </div>
       </Link>
