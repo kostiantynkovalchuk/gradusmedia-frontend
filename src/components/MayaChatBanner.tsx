@@ -38,7 +38,7 @@ export function MayaChatBanner() {
       data-testid="maya-chat-banner"
     >
       <div className="absolute inset-0 pointer-events-none">
-        <div 
+        <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
           style={{
             background: 'radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0) 70%)'
@@ -70,8 +70,8 @@ export function MayaChatBanner() {
           />
 
           <div className="relative z-10">
-            <div className="text-center mb-8 md:mb-10">
-              {/* Maya Avatar */}
+            {/* Mobile: Centered Layout */}
+            <div className="md:hidden text-center">
               <div className="flex justify-center mb-6">
                 <div className="relative">
                   <div
@@ -85,7 +85,7 @@ export function MayaChatBanner() {
                   <img
                     src="/images/maya-avatar.png"
                     alt="Maya - AI експертка HoReCa"
-                    className="relative w-[124px] h-[124px] md:w-32 md:h-32 rounded-full object-cover"
+                    className="relative w-[124px] h-[124px] rounded-full object-cover"
                     style={{
                       border: '3px solid rgba(245, 158, 11, 0.4)',
                       boxShadow: '0 8px 24px rgba(139, 92, 246, 0.3)'
@@ -95,19 +95,17 @@ export function MayaChatBanner() {
               </div>
 
               <h2
-                className="text-xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
+                className="text-xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
                 style={{ lineHeight: '1.2' }}
                 data-testid="maya-banner-title"
               >
                 Запитайте Maya Gradus - ваша HoReCa експертка
               </h2>
-            </div>
 
-            <div className="mb-8">
-              <p className="text-center text-text-tertiary text-sm font-medium mb-4">
+              <p className="text-text-tertiary text-sm font-medium mb-4">
                 Швидкий старт - оберіть питання:
               </p>
-              <div className="flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
+              <div className="flex flex-wrap justify-center gap-3 mb-8">
                 {quickStartQuestions.map((question) => (
                   <Link
                     key={question.id}
@@ -142,7 +140,82 @@ export function MayaChatBanner() {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-3">
+            {/* Desktop: Two-Column Layout */}
+            <div className="hidden md:grid md:grid-cols-2 md:gap-12 md:items-center">
+              {/* Left Side: Content */}
+              <div>
+                <h2
+                  className="text-3xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
+                  style={{ lineHeight: '1.2' }}
+                  data-testid="maya-banner-title-desktop"
+                >
+                  Запитайте Maya Gradus - ваша HoReCa експертка
+                </h2>
+
+                <p className="text-text-tertiary text-sm font-medium mb-4">
+                  Швидкий старт - оберіть питання:
+                </p>
+                <div className="flex flex-wrap gap-3 mb-6">
+                  {quickStartQuestions.map((question) => (
+                    <Link
+                      key={question.id}
+                      href="/chat"
+                      onClick={() => handleQuestionClick(question.prompt)}
+                      data-testid={`maya-question-${question.id}`}
+                    >
+                      <button
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-300 group hover:scale-105"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(245, 158, 11, 0.2)',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
+                          e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                          e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }}
+                      >
+                        <question.icon className="w-4 h-4 text-amber-primary shrink-0" />
+                        <span className="text-text-primary text-sm font-medium whitespace-nowrap">
+                          {question.text}
+                        </span>
+                      </button>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Side: Large Avatar */}
+              <div className="flex justify-end">
+                <div className="relative">
+                  <div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(245, 158, 11, 0.3))',
+                      filter: 'blur(30px)',
+                      transform: 'scale(1.2)'
+                    }}
+                  />
+                  <img
+                    src="/images/maya-avatar.png"
+                    alt="Maya - AI експертка HoReCa"
+                    className="relative w-[220px] h-[220px] rounded-full object-cover"
+                    style={{
+                      border: '4px solid rgba(245, 158, 11, 0.4)',
+                      boxShadow: '0 12px 32px rgba(139, 92, 246, 0.4)'
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Centered CTA (Both Mobile & Desktop) */}
+            <div className="flex flex-col items-center gap-3 mt-8">
               <Link href="/chat" data-testid="maya-cta-button">
                 <Button
                   className="px-8 py-3.5 text-base font-semibold rounded-full hover:scale-105 transition-transform duration-200"
