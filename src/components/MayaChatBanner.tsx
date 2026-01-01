@@ -22,6 +22,12 @@ const quickStartQuestions = [
     icon: DollarSign,
     text: "Як знизити витрати на бар на 20%?",
     prompt: "Дай практичні поради як оптимізувати витрати на бар та збільшити рентабельність"
+  },
+  {
+    id: 4,
+    icon: FileText,
+    text: "Що потрібно для ліцензії на алкоголь?",
+    prompt: "Розкажи про процес отримання ліцензії на продаж алкоголю в Україні"
   }
 ];
 
@@ -85,7 +91,7 @@ export function MayaChatBanner() {
                   <img
                     src="/images/maya-avatar.png"
                     alt="Maya - AI експертка HoReCa"
-                    className="relative w-[124px] h-[124px] rounded-full object-cover"
+                    className="relative w-[160px] h-[160px] rounded-full object-cover"
                     style={{
                       border: '3px solid rgba(245, 158, 11, 0.4)',
                       boxShadow: '0 8px 24px rgba(139, 92, 246, 0.3)'
@@ -106,7 +112,7 @@ export function MayaChatBanner() {
                 Швидкий старт - оберіть питання:
               </p>
               <div className="flex flex-wrap justify-center gap-3 mb-8">
-                {quickStartQuestions.map((question) => (
+                {quickStartQuestions.slice(0, 3).map((question) => (
                   <Link
                     key={question.id}
                     href="/chat"
@@ -155,38 +161,73 @@ export function MayaChatBanner() {
                 <p className="text-text-tertiary text-sm font-medium mb-4">
                   Швидкий старт - оберіть питання:
                 </p>
-                <div className="flex flex-wrap gap-3 mb-6">
-                  {quickStartQuestions.map((question) => (
-                    <Link
-                      key={question.id}
-                      href="/chat"
-                      onClick={() => handleQuestionClick(question.prompt)}
-                      data-testid={`maya-question-${question.id}`}
-                    >
-                      <button
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-300 group hover:scale-105"
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid rgba(245, 158, 11, 0.2)',
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
-                          e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
-                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                          e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
-                          e.currentTarget.style.boxShadow = 'none';
-                        }}
+                <div className="flex flex-col gap-3 mb-6">
+                  <div className="flex gap-3">
+                    {quickStartQuestions.slice(0, 2).map((question) => (
+                      <Link
+                        key={question.id}
+                        href="/chat"
+                        onClick={() => handleQuestionClick(question.prompt)}
+                        data-testid={`maya-question-${question.id}`}
                       >
-                        <question.icon className="w-4 h-4 text-amber-primary shrink-0" />
-                        <span className="text-text-primary text-sm font-medium whitespace-nowrap">
-                          {question.text}
-                        </span>
-                      </button>
-                    </Link>
-                  ))}
+                        <button
+                          className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-300 group hover:scale-105"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(245, 158, 11, 0.2)',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
+                            e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                            e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
+                            e.currentTarget.style.boxShadow = 'none';
+                          }}
+                        >
+                          <question.icon className="w-4 h-4 text-amber-primary shrink-0" />
+                          <span className="text-text-primary text-sm font-medium whitespace-nowrap">
+                            {question.text}
+                          </span>
+                        </button>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="flex gap-3">
+                    {quickStartQuestions.slice(2, 4).map((question) => (
+                      <Link
+                        key={question.id}
+                        href="/chat"
+                        onClick={() => handleQuestionClick(question.prompt)}
+                        data-testid={`maya-question-${question.id}`}
+                      >
+                        <button
+                          className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-300 group hover:scale-105"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(245, 158, 11, 0.2)',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
+                            e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                            e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
+                            e.currentTarget.style.boxShadow = 'none';
+                          }}
+                        >
+                          <question.icon className="w-4 h-4 text-amber-primary shrink-0" />
+                          <span className="text-text-primary text-sm font-medium whitespace-nowrap">
+                            {question.text}
+                          </span>
+                        </button>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -204,7 +245,7 @@ export function MayaChatBanner() {
                   <img
                     src="/images/maya-avatar.png"
                     alt="Maya - AI експертка HoReCa"
-                    className="relative w-[220px] h-[220px] rounded-full object-cover"
+                    className="relative w-[250px] h-[250px] rounded-full object-cover"
                     style={{
                       border: '4px solid rgba(245, 158, 11, 0.4)',
                       boxShadow: '0 12px 32px rgba(139, 92, 246, 0.4)'
@@ -226,7 +267,6 @@ export function MayaChatBanner() {
                   }}
                 >
                   Почати діалог з Maya
-                  <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
               <p className="flex items-center gap-2 text-xs text-text-secondary font-medium">
