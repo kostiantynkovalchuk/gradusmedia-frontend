@@ -133,13 +133,15 @@ export default function About() {
           <p className="text-text-secondary text-body-md mb-8">
             Ми завжди відкриті для партнерства та нових можливостей
           </p>
-          <Button 
-            variant="outline"
-            className="border-amber-primary/50 text-amber-primary hover:bg-amber-primary/10"
-            data-testid="button-contact-cta"
-          >
-            Зв'язатись з нами
-          </Button>
+          <a href="mailto:admin@gradusmedia.org">
+            <Button
+              variant="outline"
+              className="border-amber-primary/50 text-amber-primary hover:bg-amber-primary/10"
+              data-testid="button-contact-cta"
+            >
+              Зв'язатись з нами
+            </Button>
+          </a>
         </div>
       </section>
     </main>
