@@ -127,8 +127,8 @@ export default function ChatPage() {
 
   const expertiseItems = [
     { icon: MessageCircle, label: "Тренди та інсайти" },
-    { icon: BarChart2, label: "Ринкова аналітика" },
     { icon: FileText, label: "Відповідність нормам законодавства" },
+    { icon: BarChart2, label: "Ринкова аналітика" },
     { icon: Target, label: "Консалтінг" }
   ];
 
@@ -141,72 +141,143 @@ export default function ChatPage() {
         }}
       >
         <div className="max-w-[1200px] mx-auto px-6">
+          {/* Mobile: Stacked Layout */}
+          <div className="md:hidden">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className="max-w-[400px] mx-auto mb-8"
+            >
+              <video
+                controls
+                playsInline
+                className="w-full rounded-2xl"
+                style={{
+                  boxShadow: '0 16px 48px rgba(0, 0, 0, 0.6)',
+                  border: '1px solid rgba(245, 158, 11, 0.2)',
+                  aspectRatio: '9/16'
+                }}
+                onClick={(e) => {
+                  const video = e.currentTarget;
+                  if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                  } else if ((video as any).webkitRequestFullscreen) {
+                    (video as any).webkitRequestFullscreen();
+                  }
+                }}
+              >
+                <source src="/video/Maya Intro_com.mp4" type="video/mp4" />
+                Ваш браузер не підтримує відео.
+              </video>
+            </motion.div>
+
+            <div className="text-center">
+              <h2 className="text-xl font-semibold text-text-primary mb-6" style={{ lineHeight: '1.4' }}>
+                Не просто новини та тренди, а дієві поради для вашого бізнесу
+              </h2>
+              <div className="grid grid-cols-2 gap-4 max-w-[400px] mx-auto">
+                {expertiseItems.map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col items-center gap-2 p-5 rounded-xl text-sm"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                    }}
+                  >
+                    <item.icon className="w-8 h-8 text-amber-primary" />
+                    <span className="text-amber-primary">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop: Two-column Layout */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-            className="max-w-[800px] mx-auto mb-12 rounded-2xl overflow-hidden"
-            style={{
-              boxShadow: '0 16px 48px rgba(0, 0, 0, 0.6)',
-              border: '1px solid rgba(245, 158, 11, 0.2)'
-            }}
+            className="hidden md:flex gap-8 justify-center items-center"
           >
-            <div 
-              className="aspect-video flex items-center justify-center relative"
-              style={{
-                background: 'linear-gradient(135deg, hsl(263 50% 12%) 0%, hsl(263 45% 18%) 100%)'
-              }}
-            >
-              <div className="text-center px-6 py-12">
-                <div 
-                  className="w-28 h-28 md:w-32 md:h-32 mx-auto mb-6 rounded-full flex items-center justify-center animate-pulse"
+            {/* Left: Video */}
+            <div className="flex-shrink-0">
+              <video
+                controls
+                playsInline
+                className="rounded-2xl h-[600px]"
+                style={{
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7)',
+                  border: '3px solid rgba(245, 158, 11, 0.3)',
+                  aspectRatio: '9/16'
+                }}
+              >
+                <source src="/video/Maya Intro_com.mp4" type="video/mp4" />
+                Ваш браузер не підтримує відео.
+              </video>
+            </div>
+
+            {/* Right: Content */}
+            <div className="flex flex-col justify-center h-[600px] w-[500px] gap-6">
+              {/* Header: 40% of content height (240px) */}
+              <div className="h-[240px] flex items-center">
+                <h2
+                  className="text-5xl font-bold text-text-primary"
                   style={{
-                    background: 'linear-gradient(135deg, hsl(258 90% 66%) 0%, #6366f1 100%)',
-                    boxShadow: '0 8px 32px rgba(139, 92, 246, 0.4)'
+                    lineHeight: '1.15',
+                    fontFamily: 'system-ui, -apple-system, sans-serif',
+                    letterSpacing: '-0.02em'
                   }}
                 >
-                  <MessageCircle className="w-16 h-16 text-white" />
-                </div>
-                <h1 className="text-2xl md:text-4xl font-bold text-text-primary mb-4">
-                  Привіт! Я Maya від Gradus Media
-                </h1>
-                <p className="text-lg md:text-xl text-text-secondary mb-6">
-                  Ваш AI-консультант з HoReCa індустрії
-                </p>
-                <div 
-                  className="inline-block px-6 py-3 rounded-lg text-sm"
-                  style={{
-                    background: 'rgba(245, 158, 11, 0.1)',
-                    border: '1px solid rgba(245, 158, 11, 0.3)',
-                    color: 'hsl(var(--amber-secondary))'
-                  }}
-                >
-                  Відео-презентація буде тут незабаром
-                </div>
+                  "Не просто новини та тренди, а дієві поради для бізнесу"
+                </h2>
+              </div>
+
+              {/* Feature icons: Minimal bar with hover labels */}
+              <div className="flex gap-6">
+                {expertiseItems.map((item, i) => (
+                  <div
+                    key={i}
+                    className="group relative"
+                  >
+                    <div
+                      className="flex items-center justify-center w-20 h-20 rounded-xl transition-all duration-300 group-hover:scale-110 cursor-pointer"
+                      style={{
+                        background: 'rgba(245, 158, 11, 0.1)',
+                        border: '1px solid rgba(245, 158, 11, 0.3)'
+                      }}
+                    >
+                      <item.icon className="w-9 h-9 text-amber-primary" />
+                    </div>
+
+                    {/* Hover label */}
+                    <div
+                      className="absolute top-full mt-3 left-1/2 -translate-x-1/2 px-3 py-2 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap pointer-events-none"
+                      style={{
+                        background: 'rgba(245, 158, 11, 0.15)',
+                        border: '1px solid rgba(245, 158, 11, 0.4)',
+                        backdropFilter: 'blur(12px)'
+                      }}
+                    >
+                      <span className="text-amber-primary text-xs font-medium">
+                        {item.label}
+                      </span>
+                      {/* Arrow pointing up */}
+                      <div
+                        className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0"
+                        style={{
+                          borderLeft: '4px solid transparent',
+                          borderRight: '4px solid transparent',
+                          borderBottom: '4px solid rgba(245, 158, 11, 0.4)'
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
-
-          <div className="text-center max-w-[900px] mx-auto">
-            <h2 className="text-xl md:text-2xl font-semibold text-text-primary mb-8" style={{ lineHeight: '1.4' }}>
-              Не просто новини та тренди, а дієві поради для вашого бізнесу
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-[700px] mx-auto">
-              {expertiseItems.map((item, i) => (
-                <div
-                  key={i}
-                  className="flex flex-col items-center gap-2 p-5 rounded-xl text-sm"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                  }}
-                >
-                  <item.icon className="w-8 h-8 text-amber-primary" />
-                  <span className="text-amber-primary">{item.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
