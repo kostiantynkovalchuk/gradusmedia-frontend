@@ -317,8 +317,8 @@ export default function ChatPage() {
               animate={{ opacity: 1 }}
               className="mb-12 text-center"
             >
-              <h3 className="text-sm text-text-tertiary font-medium mb-4">
-                Швидкий старт - оберіть питання:
+              <h3 className="text-base md:text-lg text-text-primary font-semibold mb-6">
+                💡 Швидкий старт — оберіть питання або напишіть своє:
               </h3>
               <div className="flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
                 {quickStartQuestions.map((question, i) => (
