@@ -52,12 +52,8 @@ export default function ChatPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    // Only auto-scroll if there are multiple messages (user is chatting)
-    if (messages.length > 1) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
+  // Removed auto-scroll on new messages to prevent disruptive scrolling
+  // User is already viewing the chat container after sending a message
 
   useEffect(() => {
     const starterQuestion = sessionStorage.getItem("mayaStarterQuestion");
@@ -87,6 +83,14 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
+
+    // Scroll to chat container to show typing indicator
+    setTimeout(() => {
+      chatContainerRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
 
     try {
       const response = await fetch(
@@ -544,27 +548,40 @@ export default function ChatPage() {
                     }}
                   >
                     <span
-                      className="w-2 h-2 rounded-full animate-bounce"
+                      className="w-2.5 h-2.5 rounded-full"
                       style={{
+                        backgroundColor: "rgb(167, 139, 250)",
+                        animation: "bounceHigh 1s ease-in-out infinite",
                         animationDelay: "0ms",
-                        backgroundColor: "rgb(167, 139, 250)",
                       }}
                     />
                     <span
-                      className="w-2 h-2 rounded-full animate-bounce"
+                      className="w-2.5 h-2.5 rounded-full"
                       style={{
+                        backgroundColor: "rgb(167, 139, 250)",
+                        animation: "bounceHigh 1s ease-in-out infinite",
                         animationDelay: "150ms",
-                        backgroundColor: "rgb(167, 139, 250)",
                       }}
                     />
                     <span
-                      className="w-2 h-2 rounded-full animate-bounce"
+                      className="w-2.5 h-2.5 rounded-full"
                       style={{
-                        animationDelay: "300ms",
                         backgroundColor: "rgb(167, 139, 250)",
+                        animation: "bounceHigh 1s ease-in-out infinite",
+                        animationDelay: "300ms",
                       }}
                     />
                   </div>
+                  <style>{`
+                    @keyframes bounceHigh {
+                      0%, 100% {
+                        transform: translateY(0);
+                      }
+                      50% {
+                        transform: translateY(-10px);
+                      }
+                    }
+                  `}</style>
                 </div>
               )}
 
