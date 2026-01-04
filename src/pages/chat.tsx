@@ -139,6 +139,13 @@ export default function ChatPage() {
     "Кращі постачальники преміум алкоголю?",
     "Як знизити витрати на бар на 20%?",
     "Що потрібно для ліцензії на алкоголь?",
+  ];
+
+  const quickStartQuestionsDesktop = [
+    "Які коктейлі тренд цього сезону?",
+    "Кращі постачальники преміум алкоголю?",
+    "Як знизити витрати на бар на 20%?",
+    "Що потрібно для ліцензії на алкоголь?",
     "Ідеї для зимового коктейльного меню?",
     "Топ-5 українських craft spirits?",
   ];
@@ -317,11 +324,53 @@ export default function ChatPage() {
               animate={{ opacity: 1 }}
               className="mb-12 text-center"
             >
-              <h3 className="text-base md:text-lg text-text-primary font-semibold mb-6">
+              <h3 className="text-xl md:text-2xl text-text-primary font-semibold mb-6">
                 💡 Швидкий старт — оберіть питання або напишіть своє:
               </h3>
-              <div className="flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
+              {/* Mobile: Show 4 questions */}
+              <div className="md:hidden flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
                 {quickStartQuestions.map((question, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setInputValue(question);
+                      setTimeout(() => {
+                        chatContainerRef.current?.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                      }, 100);
+                    }}
+                    className="px-4 py-2.5 rounded-full text-text-primary text-sm font-medium transition-all duration-300 hover:scale-105 whitespace-nowrap"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.05)",
+                      border: "1px solid rgba(245, 158, 11, 0.2)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background =
+                        "rgba(245, 158, 11, 0.1)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(245, 158, 11, 0.4)";
+                      e.currentTarget.style.boxShadow =
+                        "0 4px 12px rgba(245, 158, 11, 0.2)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background =
+                        "rgba(255, 255, 255, 0.05)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(245, 158, 11, 0.2)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                    data-testid={`quick-question-${i}`}
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+
+              {/* Desktop: Show all 6 questions */}
+              <div className="hidden md:flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
+                {quickStartQuestionsDesktop.map((question, i) => (
                   <button
                     key={i}
                     onClick={() => {
