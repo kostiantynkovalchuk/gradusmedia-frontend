@@ -78,8 +78,13 @@ export function Header() {
       </div>
 
       {mobileMenuOpen && (
-        <div 
-          className="lg:hidden absolute top-full left-0 right-0 bg-bg-dark/98 backdrop-blur-header border-b border-amber-primary/10"
+        <div
+          className="lg:hidden absolute top-full left-0 right-0 border-b border-amber-primary/10"
+          style={{
+            background: "rgba(26, 15, 40, 0.95)",
+            backdropFilter: "blur(16px)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+          }}
           data-testid="nav-mobile"
         >
           <nav className="flex flex-col p-4">
