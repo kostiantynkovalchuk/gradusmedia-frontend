@@ -11,13 +11,7 @@ const navigationLinks = [
 
 const companyLinks = [
   { title: "Про нас", path: "/about" },
-  { title: "Контакти", path: "/contact" },
-  { title: "Партнерство", path: "/partnerships" },
-];
-
-const legalLinks = [
-  { title: "Політика конфіденційності", path: "/privacy" },
-  { title: "Умови використання", path: "/terms" },
+  { title: "Чат з Maya", path: "/chat" },
 ];
 
 const socialLinks = [
@@ -50,10 +44,11 @@ export function Footer() {
             <ul className="space-y-3">
               {navigationLinks.map((link) => (
                 <li key={link.path}>
-                  <Link 
+                  <Link
                     href={link.path}
                     className="text-text-secondary text-body-sm hover:text-amber-primary transition-colors"
                     data-testid={`footer-link-${link.title.toLowerCase()}`}
+                    onClick={() => window.scrollTo(0, 0)}
                   >
                     {link.title}
                   </Link>
@@ -71,6 +66,7 @@ export function Footer() {
                     href={link.path}
                     className="text-text-secondary text-body-sm hover:text-amber-primary transition-colors"
                     data-testid={`link-company-${link.path.replace("/", "")}`}
+                    onClick={() => window.scrollTo(0, 0)}
                   >
                     {link.title}
                   </Link>
@@ -105,22 +101,6 @@ export function Footer() {
                   <social.icon className="w-4 h-4" />
                 </a>
               ))}
-            </div>
-            <div className="mt-6">
-              <h4 className="text-text-primary font-semibold mb-4">Правова інформація</h4>
-              <ul className="space-y-3">
-                {legalLinks.map((link) => (
-                  <li key={link.path}>
-                    <Link 
-                      href={link.path}
-                      className="text-text-secondary text-body-sm hover:text-amber-primary transition-colors"
-                      data-testid={`link-legal-${link.path.replace("/", "")}`}
-                    >
-                      {link.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
