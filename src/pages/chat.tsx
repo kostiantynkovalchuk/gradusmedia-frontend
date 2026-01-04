@@ -171,7 +171,8 @@ export default function ChatPage() {
               <video
                 controls
                 playsInline
-                preload="metadata"
+                preload="auto"
+                muted
                 className="w-full rounded-2xl"
                 style={{
                   boxShadow: "0 16px 48px rgba(0, 0, 0, 0.6)",
@@ -180,11 +181,16 @@ export default function ChatPage() {
                 }}
                 onClick={(e) => {
                   const video = e.currentTarget;
+                  video.muted = false;
                   if (video.requestFullscreen) {
                     video.requestFullscreen();
                   } else if ((video as any).webkitRequestFullscreen) {
                     (video as any).webkitRequestFullscreen();
                   }
+                }}
+                onLoadedData={(e) => {
+                  const video = e.currentTarget;
+                  video.currentTime = 0.1;
                 }}
               >
                 <source src="/video/Maya Intro_com.mp4" type="video/mp4" />
