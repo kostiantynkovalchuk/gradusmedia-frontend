@@ -200,11 +200,11 @@ export default function ChatPage() {
 
             <div className="text-center">
               <h2
-                className="text-xl font-semibold text-text-primary mb-6"
+                className="text-2xl font-semibold text-text-primary mb-6"
                 style={{ lineHeight: "1.4" }}
               >
-                Gradus AI - це не просто новини та тренди, а дієві поради для
-                вашого бізнесу
+                "Gradus AI - це не просто новини та тренди, а дієві поради для
+                вашого бізнесу"
               </h2>
               <div className="grid grid-cols-2 gap-4 max-w-[400px] mx-auto">
                 {expertiseItems.map((item, i) => (
