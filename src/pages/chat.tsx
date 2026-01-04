@@ -171,6 +171,7 @@ export default function ChatPage() {
               <video
                 controls
                 playsInline
+                preload="metadata"
                 className="w-full rounded-2xl"
                 style={{
                   boxShadow: "0 16px 48px rgba(0, 0, 0, 0.6)",
@@ -229,6 +230,7 @@ export default function ChatPage() {
               <video
                 controls
                 playsInline
+                preload="metadata"
                 className="rounded-2xl h-[600px]"
                 style={{
                   boxShadow: "0 20px 60px rgba(0, 0, 0, 0.7)",
