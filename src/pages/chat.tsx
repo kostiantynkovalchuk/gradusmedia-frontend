@@ -214,8 +214,7 @@ export default function ChatPage() {
                 className="text-2xl font-semibold text-text-primary mb-6"
                 style={{ lineHeight: "1.4" }}
               >
-                "Gradus AI - це не просто новини та тренди, а дієві поради для
-                вашого бізнесу"
+                Gradus Media - це не просто новини та тренди, а дієві поради для вашого бізнесу
               </h2>
               <div className="grid grid-cols-2 gap-4 max-w-[400px] mx-auto">
                 {expertiseItems.map((item, i) => (
@@ -272,7 +271,7 @@ export default function ChatPage() {
                     letterSpacing: "-0.02em",
                   }}
                 >
-                  "Gradus AI - це не просто новини та тренди, а дієві поради для вашого бізнесу"
+                  Gradus Media - це не просто новини та тренди, а дієві поради для вашого бізнесу
                 </h2>
               </div>
 
