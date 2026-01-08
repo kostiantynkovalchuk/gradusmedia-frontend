@@ -49,7 +49,8 @@ function getExcerpt(article: Article): string {
   return "";
 }
 
-function getCategoryLabel(category: string): string {
+function getCategoryLabel(category: string | null | undefined): string {
+  if (!category) return "Новини";
   const categoryMap: Record<string, string> = {
     "news": "Новини",
     "reviews": "Огляди",
