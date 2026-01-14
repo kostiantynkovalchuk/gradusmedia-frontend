@@ -76,7 +76,7 @@ export function FloatingChatBubble() {
           border: '1px solid rgba(245, 158, 11, 0.2)'
         }}
       >
-        Чат з Maya
+        Чат з Alex
         <div 
           className="absolute top-1/2 left-full -translate-y-1/2"
           style={{

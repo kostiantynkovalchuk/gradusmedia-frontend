@@ -9,7 +9,7 @@ const navItems = [
   { title: "Новини", path: "/category/news" },
   { title: "Огляди", path: "/category/reviews" },
   { title: "Тренди", path: "/category/trends" },
-  { title: "Чат з Maya", path: "/chat", highlight: true },
+  { title: "Чат з Alex", path: "/chat", highlight: true },
   { title: "Про нас", path: "/about" },
 ];
 
