@@ -27,39 +27,26 @@ function formatDate(date: Date | string | undefined | null): string {
 }
 
 function getExcerpt(article: Article): string {
-  let text = '';
-
-  if (article.excerpt) {
-    text = article.excerpt;
-  } else if (article.content) {
-    text = article.content.replace(/<[^>]*>/g, '');
+  if (article.excerpt) return article.excerpt;
+  if (article.content) {
+    const text = article.content.replace(/<[^>]*>/g, '');
+    return text.length > 200 ? text.slice(0, 200).trim() + "..." : text;
   }
-
-  // Remove newlines and multiple spaces, keep only the first sentence or two
-  text = text.replace(/\s+/g, ' ').trim();
-
-  // Limit to 200 characters
-  if (text.length > 200) {
-    text = text.slice(0, 200).trim() + "...";
-  }
-
-  return text;
+  return "";
 }
 
 export function HeroSection({ article }: HeroSectionProps) {
   const excerpt = getExcerpt(article);
-  // Sanitize title to remove any newlines or extra whitespace
-  const cleanTitle = article.title.split('\n')[0].trim();
 
   return (
-    <section
+    <section 
       className="relative w-full h-[70vh] md:h-[70vh] min-h-[500px] max-h-[800px]"
       data-testid="hero-section"
     >
       <div className="absolute inset-0 overflow-hidden">
         <img
           src={article.imageUrl || getArticleImageUrl(article.id)}
-          alt={cleanTitle}
+          alt={article.title}
           className="w-full h-full object-cover"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
@@ -72,7 +59,7 @@ export function HeroSection({ article }: HeroSectionProps) {
       </div>
 
       <div className="relative h-full max-w-[1400px] mx-auto px-6 flex flex-col justify-end pb-12 md:pb-20">
-        <Badge
+        <Badge 
           className="w-fit mb-4 bg-amber-primary/90 text-bg-dark font-semibold text-body-xs uppercase tracking-wide border-0 hover:bg-amber-primary"
           data-testid="hero-category"
         >
@@ -81,22 +68,15 @@ export function HeroSection({ article }: HeroSectionProps) {
 
         <div className="w-16 h-1 bg-amber-primary mb-6" />
 
-        <h1
+        <h1 
           className="text-text-primary text-2xl md:text-h1 font-bold max-w-4xl mb-4 leading-tight"
           data-testid="hero-title"
         >
-          {cleanTitle}
+          {article.title}
         </h1>
 
-        <p
-          className="text-text-secondary text-body-md md:text-body-lg max-w-2xl mb-6"
-          style={{
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-          }}
+        <p 
+          className="text-text-secondary text-body-md md:text-body-lg max-w-2xl mb-6 line-clamp-2"
           data-testid="hero-excerpt"
         >
           {excerpt}
