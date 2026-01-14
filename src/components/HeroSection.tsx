@@ -27,12 +27,23 @@ function formatDate(date: Date | string | undefined | null): string {
 }
 
 function getExcerpt(article: Article): string {
-  if (article.excerpt) return article.excerpt;
-  if (article.content) {
-    const text = article.content.replace(/<[^>]*>/g, '');
-    return text.length > 200 ? text.slice(0, 200).trim() + "..." : text;
+  let text = '';
+
+  if (article.excerpt) {
+    text = article.excerpt;
+  } else if (article.content) {
+    text = article.content.replace(/<[^>]*>/g, '');
   }
-  return "";
+
+  // Remove newlines and multiple spaces, keep only the first sentence or two
+  text = text.replace(/\s+/g, ' ').trim();
+
+  // Limit to 200 characters
+  if (text.length > 200) {
+    text = text.slice(0, 200).trim() + "...";
+  }
+
+  return text;
 }
 
 export function HeroSection({ article }: HeroSectionProps) {
