@@ -37,7 +37,7 @@ export default function ChatPage() {
     {
       role: "assistant",
       content:
-        "Привіт! Я Maya від Gradus Media. Чим можу допомогти вашому HoReCa бізнесу сьогодні?",
+        "Привіт! Я Alex від Gradus Media. Чим можу допомогти вашому HoReCa бізнесу сьогодні?",
       timestamp: new Date(),
     },
   ]);
@@ -204,7 +204,7 @@ export default function ChatPage() {
                   video.currentTime = 0.1;
                 }}
               >
-                <source src="/video/Maya Intro_com.mp4?v=2" type="video/mp4" />
+                <source src="/video/Alex Intro.mp4?v=1" type="video/mp4" />
                 Ваш браузер не підтримує відео.
               </video>
             </motion.div>
@@ -254,7 +254,7 @@ export default function ChatPage() {
                   aspectRatio: "9/16",
                 }}
               >
-                <source src="/video/Maya Intro_com.mp4?v=2" type="video/mp4" />
+                <source src="/video/Alex Intro.mp4?v=1" type="video/mp4" />
                 Ваш браузер не підтримує відео.
               </video>
             </div>
@@ -433,7 +433,7 @@ export default function ChatPage() {
             >
               <div className="flex items-center gap-3 text-text-secondary font-medium">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                <span>Maya онлайн</span>
+                <span>Alex онлайн</span>
               </div>
               <div
                 className="px-3 py-1.5 rounded-md text-xs font-semibold"
@@ -469,8 +469,8 @@ export default function ChatPage() {
                   <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-full">
                     {message.role === "assistant" ? (
                       <img
-                        src="/images/maya-avatar.png"
-                        alt="Maya"
+                        src="/images/alex.jpg"
+                        alt="Alex"
                         className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
                         style={{
                           border: "2px solid rgba(139, 92, 246, 0.4)",
@@ -530,8 +530,8 @@ export default function ChatPage() {
               {isLoading && (
                 <div className="flex gap-2 md:gap-3">
                   <img
-                    src="/images/maya-avatar.png"
-                    alt="Maya"
+                    src="/images/alex.jpg"
+                    alt="Alex"
                     className="w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-full object-cover"
                     style={{
                       border: "2px solid rgba(139, 92, 246, 0.4)",
@@ -701,7 +701,7 @@ export default function ChatPage() {
             </p>
             <ul className="text-left max-w-[400px] mx-auto mb-6">
               {[
-                "Безлімітні питання Maya",
+                "Безлімітні питання Alex",
                 "Щотижневі звіти з трендів",
                 "База постачальників",
                 "Особиста консультація щомісяця",

@@ -89,8 +89,8 @@ export function MayaChatBanner() {
                     }}
                   />
                   <img
-                    src="/images/maya-avatar.png"
-                    alt="Maya - AI експертка HoReCa"
+                    src="/images/alex.jpg"
+                    alt="Alex - HoReCa експерт"
                     className="relative w-[160px] h-[160px] rounded-full object-cover"
                     style={{
                       border: '3px solid rgba(245, 158, 11, 0.4)',
@@ -105,7 +105,7 @@ export function MayaChatBanner() {
                 style={{ lineHeight: '1.2' }}
                 data-testid="maya-banner-title"
               >
-                Запитайте Maya Gradus - ваша HoReCa експертка
+                Запитайте Alex Gradus - ваш HoReCa експерт
               </h2>
 
               <p className="text-text-tertiary text-sm font-medium mb-4">
@@ -155,7 +155,7 @@ export function MayaChatBanner() {
                   style={{ lineHeight: '1.2' }}
                   data-testid="maya-banner-title-desktop"
                 >
-                  Запитайте Maya Gradus - ваша HoReCa експертка
+                  Запитайте Alex Gradus - ваш HoReCa експерт
                 </h2>
 
                 <p className="text-text-tertiary text-sm font-medium mb-4">
@@ -243,8 +243,8 @@ export function MayaChatBanner() {
                     }}
                   />
                   <img
-                    src="/images/maya-avatar.png"
-                    alt="Maya - AI експертка HoReCa"
+                    src="/images/alex.jpg"
+                    alt="Alex - HoReCa експерт"
                     className="relative w-[250px] h-[250px] rounded-full object-cover"
                     style={{
                       border: '4px solid rgba(245, 158, 11, 0.4)',
@@ -266,7 +266,7 @@ export function MayaChatBanner() {
                     boxShadow: '0 4px 16px rgba(245, 158, 11, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                   }}
                 >
-                  Почати діалог з Maya
+                  Почати діалог з Alex
                 </Button>
               </Link>
               <p className="flex items-center gap-2 text-xs text-text-secondary font-medium">
