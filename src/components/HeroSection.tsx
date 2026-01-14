@@ -75,8 +75,15 @@ export function HeroSection({ article }: HeroSectionProps) {
           {article.title}
         </h1>
 
-        <p 
-          className="text-text-secondary text-body-md md:text-body-lg max-w-2xl mb-6 line-clamp-2"
+        <p
+          className="text-text-secondary text-body-md md:text-body-lg max-w-2xl mb-6"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
           data-testid="hero-excerpt"
         >
           {excerpt}
