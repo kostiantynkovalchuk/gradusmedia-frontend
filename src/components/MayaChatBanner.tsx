@@ -94,7 +94,8 @@ export function MayaChatBanner() {
                     className="relative w-[160px] h-[160px] rounded-full object-cover"
                     style={{
                       border: '3px solid rgba(245, 158, 11, 0.4)',
-                      boxShadow: '0 8px 24px rgba(139, 92, 246, 0.3)'
+                      boxShadow: '0 8px 24px rgba(139, 92, 246, 0.3)',
+                      objectPosition: 'center 30%'
                     }}
                   />
                 </div>
@@ -248,7 +249,8 @@ export function MayaChatBanner() {
                     className="relative w-[250px] h-[250px] rounded-full object-cover"
                     style={{
                       border: '4px solid rgba(245, 158, 11, 0.4)',
-                      boxShadow: '0 12px 32px rgba(139, 92, 246, 0.4)'
+                      boxShadow: '0 12px 32px rgba(139, 92, 246, 0.4)',
+                      objectPosition: 'center 30%'
                     }}
                   />
                 </div>
