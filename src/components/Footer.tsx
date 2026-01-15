@@ -11,7 +11,7 @@ const navigationLinks = [
 
 const companyLinks = [
   { title: "Про нас", path: "/about" },
-  { title: "Чат з Maya", path: "/chat" },
+  { title: "Чат з Alex", path: "/chat" },
 ];
 
 const socialLinks = [
