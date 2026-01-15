@@ -76,8 +76,9 @@ export function HeroSection({ article }: HeroSectionProps) {
         </h1>
 
         <p 
-          className="text-text-secondary text-body-md md:text-body-lg max-w-2xl mb-6 line-clamp-2"
+          className="text-text-secondary text-body-md md:text-body-lg max-w-2xl mb-6 line-clamp-2 select-none pointer-events-none"
           data-testid="hero-excerpt"
+          aria-hidden="true"
         >
           {excerpt}
         </p>
