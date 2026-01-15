@@ -204,7 +204,7 @@ export default function ChatPage() {
                   video.currentTime = 0.1;
                 }}
               >
-                <source src="/video/Alex Intro.mp4?v=1" type="video/mp4" />
+                <source src="/video/Alex Intro.mp4?v=3" type="video/mp4" />
                 Ваш браузер не підтримує відео.
               </video>
             </motion.div>
@@ -254,7 +254,7 @@ export default function ChatPage() {
                   aspectRatio: "9/16",
                 }}
               >
-                <source src="/video/Alex Intro.mp4?v=1" type="video/mp4" />
+                <source src="/video/Alex Intro.mp4?v=3" type="video/mp4" />
                 Ваш браузер не підтримує відео.
               </video>
             </div>
