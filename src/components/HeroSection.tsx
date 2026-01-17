@@ -68,8 +68,8 @@ export function HeroSection({ article }: HeroSectionProps) {
 
         <div className="w-16 h-1 bg-amber-primary mb-6" />
 
-        <h1 
-          className="text-text-primary text-2xl md:text-h1 font-bold max-w-4xl mb-4 leading-tight"
+        <h1
+          className="text-text-primary text-[clamp(2rem,5vw,4rem)] font-bold max-w-[90%] mb-4 leading-[1.2]"
           data-testid="hero-title"
         >
           {article.title}
