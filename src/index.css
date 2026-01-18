@@ -339,3 +339,17 @@ nav a {
 nav button {
   cursor: pointer;
 }
+
+/* Logo Glow Animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: blur(0.3px) drop-shadow(0 0 12px rgba(245, 185, 113, 0.4));
+  }
+  50% {
+    filter: blur(0.3px) drop-shadow(0 0 35px rgba(245, 185, 113, 0.7));
+  }
+}
+
+.logo-pulse-glow {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}

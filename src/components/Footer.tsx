@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { SiFacebook, SiLinkedin, SiInstagram } from "react-icons/si";
-import logoSmall from "@assets/generated_images/glowing_amber_g_logo.png";
+import logoSmall from "@assets/generated_images/logo.webp";
 
 const navigationLinks = [
   { title: "Головна", path: "/" },
@@ -28,8 +28,15 @@ export function Footer() {
           <div className="lg:col-span-1" data-testid="footer-brand">
             <img
               src={logoSmall}
-              alt="Gradus Media"
-              className="w-[51px] h-[51px] mb-4"
+              alt="Gradus Media logo"
+              className="max-w-[51px] h-auto aspect-square mb-4"
+              style={{
+                mixBlendMode: 'lighten',
+                opacity: 0.9,
+                filter: 'blur(0.2px)',
+                maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
+              }}
             />
             <h3 className="text-amber-primary font-bold text-lg mb-3">
               GRADUS MEDIA

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoMedium from "@assets/generated_images/glowing_amber_g_logo.png";
+import logoMedium from "@assets/generated_images/logo.webp";
 
 const navItems = [
   { title: "Головна", path: "/" },
@@ -26,8 +26,14 @@ export function Header() {
         <Link href="/" className="flex items-center gap-3 shrink-0" data-testid="link-logo-home">
           <img
             src={logoMedium}
-            alt="Gradus Media"
-            className="w-[42px] h-[42px] md:w-[49px] md:h-[49px] -translate-y-[7px]"
+            alt="Gradus Media logo"
+            className="max-w-[43px] md:max-w-[49px] h-auto aspect-square"
+            style={{
+              mixBlendMode: 'lighten',
+              filter: 'blur(0.2px)',
+              maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
+            }}
             data-testid="img-logo"
           />
           <span className="text-amber-primary font-bold text-lg md:text-xl tracking-wide hidden sm:block">

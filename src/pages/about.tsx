@@ -1,7 +1,7 @@
 import { ArrowRight, Zap, Globe, TrendingUp, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import logoLarge from "@assets/generated_images/glowing_amber_g_logo.png";
+import logoLarge from "@assets/generated_images/logo.webp";
 
 const features = [
   {
@@ -55,12 +55,17 @@ export default function About() {
             </div>
             
             <div className="flex-shrink-0">
-              <div className="relative w-48 h-48 md:w-64 md:h-64">
+              <div className="relative w-60 h-60 md:w-80 md:h-80 aspect-square">
                 <div className="absolute inset-0 bg-amber-primary/20 rounded-full blur-3xl" />
-                <img 
-                  src={logoLarge} 
-                  alt="Gradus Media Logo" 
-                  className="relative w-full h-full object-contain"
+                <img
+                  src={logoLarge}
+                  alt="Gradus Media logo"
+                  className="relative w-full h-auto aspect-square object-contain logo-pulse-glow"
+                  style={{
+                    mixBlendMode: 'lighten',
+                    maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
+                  }}
                   data-testid="about-logo"
                 />
               </div>
