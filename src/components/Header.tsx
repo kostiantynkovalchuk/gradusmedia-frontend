@@ -30,7 +30,7 @@ export function Header() {
             className="max-w-[43px] md:max-w-[49px] h-auto aspect-square"
             style={{
               mixBlendMode: 'lighten',
-              filter: 'blur(0.2px)',
+              imageRendering: '-webkit-optimize-contrast',
               maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
             }}
