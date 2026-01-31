@@ -11,6 +11,11 @@ export interface Article {
   excerpt?: string;
   author?: string;
   tags?: string[];
+  source?: string;
+  sourceUrl?: string;
+  imagePhotographer?: string;
+  imageCreditUrl?: string;
+  imageCredit?: string;
 }
 
 export interface ArticlesResponse {
@@ -41,6 +46,11 @@ export const articleSchema = z.object({
   excerpt: z.string().optional(),
   author: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  source: z.string().optional(),
+  sourceUrl: z.string().optional(),
+  imagePhotographer: z.string().optional(),
+  imageCreditUrl: z.string().optional(),
+  imageCredit: z.string().optional(),
 });
 
 export type ArticleSchema = z.infer<typeof articleSchema>;

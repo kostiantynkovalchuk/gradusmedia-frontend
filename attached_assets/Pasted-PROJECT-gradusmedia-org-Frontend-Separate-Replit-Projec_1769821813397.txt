@@ -1,0 +1,111 @@
+PROJECT: gradusmedia.org (Frontend - Separate Replit Project)
+
+TASK: Add Unsplash photo attribution to article pages
+
+CONTEXT:
+Backend recently switched from DALL-E to Unsplash API for article images. The backend now provides these fields for each article:
+- image_url (the Unsplash photo URL)
+- image_credit (text: "Photo by {Name} on Unsplash")
+- image_credit_url (photographer's Unsplash profile URL)
+- image_photographer (photographer name only)
+
+REQUIREMENT (Unsplash API Terms Section 9):
+Every photo displayed on the website MUST include attribution with:
+1. Photographer name (linked to their Unsplash profile)
+2. Text "on Unsplash" (linked to https://unsplash.com)
+3. Displayed near/below the image
+
+IMPLEMENTATION NEEDED:
+
+1. LOCATE ARTICLE DISPLAY COMPONENT
+   Find where articles are rendered on the website:
+   - Likely: Article.jsx, ArticlePage.jsx, or similar component
+   - Look for where {article.image_url} or article image is displayed
+
+2. ADD ATTRIBUTION BELOW IMAGE
+   Add this HTML/JSX structure immediately after the article image:
+```jsx
+   {article.image_url && article.image_photographer && (
+     <div className="image-attribution">
+       <p className="attribution-text">
+         📷 Photo by{' '}
+         <a 
+           href={article.image_credit_url || `https://unsplash.com/@${article.image_photographer.toLowerCase().replace(/\s+/g, '')}`}
+           target="_blank"
+           rel="noopener noreferrer"
+           className="photographer-link"
+         >
+           {article.image_photographer}
+         </a>
+         {' '}on{' '}
+         <a 
+           href="https://unsplash.com"
+           target="_blank"
+           rel="noopener noreferrer"
+           className="unsplash-link"
+         >
+           Unsplash
+         </a>
+       </p>
+     </div>
+   )}
+```
+
+3. ADD STYLING
+   Add CSS to make attribution subtle but visible:
+```css
+   .image-attribution {
+     margin-top: 8px;
+     margin-bottom: 16px;
+     text-align: center;
+   }
+   
+   .attribution-text {
+     font-size: 12px;
+     color: #666;
+     font-style: italic;
+   }
+   
+   .photographer-link,
+   .unsplash-link {
+     color: #111;
+     text-decoration: none;
+     font-weight: 500;
+     transition: opacity 0.2s;
+   }
+   
+   .photographer-link:hover,
+   .unsplash-link:hover {
+     opacity: 0.7;
+     text-decoration: underline;
+   }
+```
+
+4. VERIFY API RESPONSE
+   Check if the backend API is returning these fields:
+   - Make a test API call to your articles endpoint
+   - Confirm response includes: image_photographer, image_credit_url
+   - If fields are missing, they may need to be added to the API serializer
+
+5. FALLBACK FOR OLD ARTICLES
+   Some articles may not have attribution data (old DALL-E images):
+   - Only show attribution if image_photographer exists
+   - No attribution = no display (graceful degradation)
+
+TESTING CHECKLIST:
+□ Attribution appears below images on article pages
+□ Photographer name links to their Unsplash profile (opens new tab)
+□ "Unsplash" text links to unsplash.com (opens new tab)
+□ Styling is subtle but readable
+□ Attribution only shows for Unsplash images (not old DALL-E ones)
+□ Mobile responsive (test on small screens)
+
+CRITICAL COMPLIANCE NOTE:
+This attribution is MANDATORY per Unsplash API Terms Section 9. Failure to display attribution can result in API access being revoked. Every Unsplash photo must have visible, clickable attribution.
+
+EXAMPLE RESULT:
+Below each article image, users should see:
+📷 Photo by John Doe on Unsplash
+(where "John Doe" and "Unsplash" are clickable links)
+
+Begin implementation.

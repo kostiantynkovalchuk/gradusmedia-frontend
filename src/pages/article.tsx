@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { Facebook, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Linkedin, Twitter, Camera } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -116,6 +116,34 @@ export default function ArticlePage() {
             {getCategoryLabel(article.category)}
           </Badge>
         </div>
+
+        {article.imagePhotographer && (
+          <div className="max-w-[1200px] mx-auto mb-8 text-center" data-testid="image-attribution">
+            <p className="text-text-tertiary text-body-xs italic flex items-center justify-center gap-1">
+              <Camera className="w-3 h-3" />
+              <span>Photo by</span>
+              <a 
+                href={article.imageCreditUrl || `https://unsplash.com/@${article.imagePhotographer.toLowerCase().replace(/\s+/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary hover:text-amber-primary hover:underline font-medium transition-colors"
+                data-testid="photographer-link"
+              >
+                {article.imagePhotographer}
+              </a>
+              <span>on</span>
+              <a 
+                href="https://unsplash.com?utm_source=gradus_media&utm_medium=referral"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary hover:text-amber-primary hover:underline font-medium transition-colors"
+                data-testid="unsplash-link"
+              >
+                Unsplash
+              </a>
+            </p>
+          </div>
+        )}
 
         <header className="max-w-[800px] mx-auto mb-10">
           <h1 
