@@ -1,0 +1,275 @@
+PROJECT: gradusmedia-frontend (gradusmedia.org public website)
+
+URGENT: Add Unsplash attribution to article pages
+
+PROBLEM:
+Articles on gradusmedia.org display images but NO attribution.
+This violates Unsplash API Terms Section 9 - attribution REQUIRED on every photo display.
+
+COMPLIANCE REQUIREMENT:
+Every Unsplash photo must show: "Photo by [Photographer Name] on Unsplash"
+With clickable links to photographer profile + unsplash.com
+
+=============================================================================
+STEP 1: VERIFY API DATA AVAILABILITY
+=============================================================================
+
+Check if the backend API provides attribution fields.
+
+Test the API endpoint that frontend uses to fetch articles:
+```bash
+# Check what the API returns
+curl https://gradus-ai.onrender.com/api/articles | jq '.[0] | {
+  imageUrl,
+  imagePhotographer,
+  imageCredit,
+  imageCreditUrl
+}'
+```
+
+Expected response should include:
+- imageUrl: "https://images.unsplash.com/..."
+- imagePhotographer: "John Doe"
+- imageCredit: "Photo by John Doe on Unsplash"
+- imageCreditUrl: "https://unsplash.com/@johndoe"
+
+IF MISSING: Update the API client/schema to request these fields from backend.
+The backend DOES have this data (confirmed in database).
+
+=============================================================================
+STEP 2: LOCATE ARTICLE DISPLAY COMPONENT
+=============================================================================
+
+Find where article images are rendered on the website.
+
+Likely files:
+- src/pages/Article.tsx
+- src/pages/ArticleDetail.tsx
+- src/components/ArticleContent.tsx
+- Or similar component that displays full article
+
+Look for code like:
+```tsx
+<img src={article.imageUrl} alt={article.title} />
+```
+
+=============================================================================
+STEP 3: ADD ATTRIBUTION DISPLAY
+=============================================================================
+
+IMMEDIATELY AFTER the article image, add attribution:
+```tsx
+{article.imageUrl && (
+  <div className="article-image-container">
+    <img 
+      src={article.imageUrl} 
+      alt={article.title}
+      className="article-hero-image"
+    />
+    
+    {/* REQUIRED: Unsplash Attribution */}
+    {article.imagePhotographer && (
+      <div className="image-attribution">
+        <p>
+          📷 Photo by{' '}
+          <a 
+            href={article.imageCreditUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="photographer-link"
+          >
+            {article.imagePhotographer}
+          </a>
+          {' '}on{' '}
+          <a 
+            href="https://unsplash.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="unsplash-link"
+          >
+            Unsplash
+          </a>
+        </p>
+      </div>
+    )}
+  </div>
+)}
+```
+
+=============================================================================
+STEP 4: ADD STYLING
+=============================================================================
+
+Option A - If using CSS file (e.g., Article.css):
+```css
+.image-attribution {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.image-attribution p {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  margin: 0;
+}
+
+.image-attribution a {
+  color: #111;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.image-attribution a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+```
+
+Option B - If using Tailwind CSS:
+```tsx
+<div className="text-center mt-2 mb-4">
+  <p className="text-xs text-gray-600 italic">
+    📷 Photo by{' '}
+    <a 
+      href={article.imageCreditUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-gray-900 no-underline font-medium hover:underline hover:opacity-80"
+    >
+      {article.imagePhotographer}
+    </a>
+    {' '}on{' '}
+    <a 
+      href="https://unsplash.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-gray-900 no-underline font-medium hover:underline hover:opacity-80"
+    >
+      Unsplash
+    </a>
+  </p>
+</div>
+```
+
+=============================================================================
+STEP 5: UPDATE ARTICLE SCHEMA/TYPE (if TypeScript)
+=============================================================================
+
+If using TypeScript, ensure Article type includes attribution fields:
+```typescript
+interface Article {
+  id: number;
+  title: string;
+  content: string;
+  imageUrl?: string;
+  imagePhotographer?: string;      // ADD THIS
+  imageCredit?: string;            // ADD THIS
+  imageCreditUrl?: string;         // ADD THIS
+  // ... other fields
+}
+```
+
+=============================================================================
+STEP 6: VERIFY API MAPPING
+=============================================================================
+
+Check how API response is mapped to Article object.
+
+If using a fetch function or API client, ensure it includes:
+```typescript
+const article: Article = {
+  id: data.id,
+  title: data.title,
+  // ... other mappings ...
+  imageUrl: data.image_url,
+  imagePhotographer: data.image_photographer,    // ADD THIS
+  imageCredit: data.image_credit,                // ADD THIS
+  imageCreditUrl: data.image_credit_url,         // ADD THIS
+};
+```
+
+=============================================================================
+STEP 7: TESTING
+=============================================================================
+
+After deployment:
+
+1. Visit https://gradusmedia.org
+2. Open any article with an image
+3. Verify attribution appears below image:
+   "📷 Photo by [Name] on Unsplash"
+4. Click photographer name → opens Unsplash profile in new tab
+5. Click "Unsplash" → opens unsplash.com in new tab
+6. Test on mobile (should be responsive)
+
+=============================================================================
+EXAMPLE OF COMPLETE IMPLEMENTATION
+=============================================================================
+
+Full example of Article component with attribution:
+```tsx
+export default function Article({ article }) {
+  return (
+    <div className="article-container">
+      <h1>{article.title}</h1>
+      
+      {article.imageUrl && (
+        <div className="article-image-wrapper">
+          <img 
+            src={article.imageUrl} 
+            alt={article.title}
+            className="article-image"
+          />
+          
+          {article.imagePhotographer && (
+            <div className="image-attribution">
+              <p>
+                📷 Photo by{' '}
+                <a 
+                  href={article.imageCreditUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {article.imagePhotographer}
+                </a>
+                {' '}on{' '}
+                <a 
+                  href="https://unsplash.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Unsplash
+                </a>
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+      
+      <div className="article-content">
+        {article.content}
+      </div>
+    </div>
+  );
+}
+```
+
+=============================================================================
+CRITICAL NOTES
+=============================================================================
+
+- Attribution is MANDATORY per Unsplash API Terms Section 9
+- Must appear on EVERY page where Unsplash images display
+- Links must be clickable and open in new tab
+- Format must be exactly: "Photo by [Name] on Unsplash"
+- Non-compliance can result in API access revocation
+
+DEPLOY THIS FIX IMMEDIATELY.
+
+After deployment, provide:
+1. Confirmation that attribution displays on gradusmedia.org
+2. Screenshot showing attribution below an article image
+3. Verification that links work correctly
