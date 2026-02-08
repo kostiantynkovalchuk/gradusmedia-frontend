@@ -117,22 +117,22 @@ export default function ArticlePage() {
           </Badge>
         </div>
 
-        {article.imagePhotographer && (
+        {(article.imagePhotographer || article.image_photographer) && (
           <div className="max-w-[1200px] mx-auto mb-8 text-center" data-testid="image-attribution">
             <p className="text-text-tertiary text-body-xs italic flex items-center justify-center gap-1">
               <Camera className="w-3 h-3" />
               <span>Photo by</span>
-              <a 
-                href={article.imageCreditUrl || `https://unsplash.com/@${article.imagePhotographer.toLowerCase().replace(/\s+/g, '')}`}
+              <a
+                href={(article.imageCreditUrl || article.image_credit_url) || `https://unsplash.com/@${(article.imagePhotographer || article.image_photographer || '').toLowerCase().replace(/\s+/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-text-secondary hover:text-amber-primary hover:underline font-medium transition-colors"
                 data-testid="photographer-link"
               >
-                {article.imagePhotographer}
+                {article.imagePhotographer || article.image_photographer}
               </a>
               <span>on</span>
-              <a 
+              <a
                 href="https://unsplash.com?utm_source=gradus_media&utm_medium=referral"
                 target="_blank"
                 rel="noopener noreferrer"

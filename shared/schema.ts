@@ -5,17 +5,24 @@ export interface Article {
   title: string;
   content: string;
   imageUrl: string;
+  image_url?: string;
   category: string;
   publishedAt: string;
+  published_at?: string;
   readTime: number;
   excerpt?: string;
   author?: string;
   tags?: string[];
+  platforms?: string[];
   source?: string;
+  source_url?: string;
   sourceUrl?: string;
   imagePhotographer?: string;
+  image_photographer?: string;
   imageCreditUrl?: string;
+  image_credit_url?: string;
   imageCredit?: string;
+  image_credit?: string;
 }
 
 export interface ArticlesResponse {
