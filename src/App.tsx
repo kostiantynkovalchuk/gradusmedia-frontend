@@ -10,6 +10,7 @@ import ArticlePage from "@/pages/article";
 import CategoryPage from "@/pages/category";
 import About from "@/pages/about";
 import ChatPage from "@/pages/chat";
+import PricingPage from "@/pages/pricing";
 import { FloatingChatBubble } from "@/components/FloatingChatBubble";
 import NotFound from "@/pages/not-found";
 
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/category/:slug" component={CategoryPage} />
       <Route path="/about" component={About} />
       <Route path="/chat" component={ChatPage} />
+      <Route path="/pricing" component={PricingPage} />
       <Route component={NotFound} />
     </Switch>
   );

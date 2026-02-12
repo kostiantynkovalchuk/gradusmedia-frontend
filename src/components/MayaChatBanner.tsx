@@ -2,7 +2,6 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight, MessageCircle, Package, DollarSign, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 const quickStartQuestions = [
   {
@@ -101,13 +100,37 @@ export function MayaChatBanner() {
                 </div>
               </div>
 
-              <h2
-                className="text-xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
-                style={{ lineHeight: '1.2' }}
-                data-testid="maya-banner-title"
-              >
-                Запитайте Alex Gradus - ваш HoReCa експерт
-              </h2>
+              <div className="mb-6">
+                <h2
+                  className="text-xl font-bold mb-2 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
+                  style={{ lineHeight: '1.2' }}
+                  data-testid="maya-banner-title"
+                >
+                  Alex Gradus — ваш особистий HoReCa консультант
+                </h2>
+                <p className="text-text-secondary text-sm">
+                  Світові тренди + українське право + перевірені постачальники
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mb-6 max-w-[300px] mx-auto">
+                <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+                  <div className="text-xl font-bold text-amber-primary">800+</div>
+                  <div className="text-xs text-text-tertiary">Закладів</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+                  <div className="text-xl font-bold text-amber-primary">25+</div>
+                  <div className="text-xs text-text-tertiary">Років AVTD</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+                  <div className="text-xl font-bold text-amber-primary">&lt;2 хв</div>
+                  <div className="text-xs text-text-tertiary">Відповідь</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+                  <div className="text-xl font-bold text-amber-primary">24/7</div>
+                  <div className="text-xs text-text-tertiary">Онлайн</div>
+                </div>
+              </div>
 
               <p className="text-text-tertiary text-sm font-medium mb-4">
                 Швидкий старт - оберіть питання:
@@ -121,20 +144,10 @@ export function MayaChatBanner() {
                     data-testid={`maya-question-${question.id}`}
                   >
                     <button
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-300 group hover:scale-105"
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-colors duration-300 hover-elevate"
                       style={{
                         background: 'rgba(255, 255, 255, 0.05)',
                         border: '1px solid rgba(245, 158, 11, 0.2)',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
-                        e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
-                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                        e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
-                        e.currentTarget.style.boxShadow = 'none';
                       }}
                     >
                       <question.icon className="w-4 h-4 text-amber-primary shrink-0" />
@@ -151,13 +164,37 @@ export function MayaChatBanner() {
             <div className="hidden md:flex md:gap-12">
               {/* Left Side: Content */}
               <div className="flex-1">
-                <h2
-                  className="text-3xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
-                  style={{ lineHeight: '1.2' }}
-                  data-testid="maya-banner-title-desktop"
-                >
-                  Запитайте Alex Gradus - ваш HoReCa експерт
-                </h2>
+                <div className="mb-6">
+                  <h2
+                    className="text-3xl font-bold mb-2 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent"
+                    style={{ lineHeight: '1.2' }}
+                    data-testid="maya-banner-title-desktop"
+                  >
+                    Alex Gradus — ваш особистий HoReCa консультант
+                  </h2>
+                  <p className="text-text-secondary text-sm">
+                    Світові тренди + українське право + перевірені постачальники
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-4 gap-3 mb-6">
+                  <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+                    <div className="text-xl font-bold text-amber-primary">800+</div>
+                    <div className="text-xs text-text-tertiary">Закладів</div>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+                    <div className="text-xl font-bold text-amber-primary">25+</div>
+                    <div className="text-xs text-text-tertiary">Років AVTD</div>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+                    <div className="text-xl font-bold text-amber-primary">&lt;2 хв</div>
+                    <div className="text-xs text-text-tertiary">Відповідь</div>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+                    <div className="text-xl font-bold text-amber-primary">24/7</div>
+                    <div className="text-xs text-text-tertiary">Онлайн</div>
+                  </div>
+                </div>
 
                 <p className="text-text-tertiary text-sm font-medium mb-4">
                   Швидкий старт - оберіть питання:
@@ -172,20 +209,10 @@ export function MayaChatBanner() {
                         data-testid={`maya-question-${question.id}`}
                       >
                         <button
-                          className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-300 group hover:scale-105"
+                          className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-colors duration-300 hover-elevate"
                           style={{
                             background: 'rgba(255, 255, 255, 0.05)',
                             border: '1px solid rgba(245, 158, 11, 0.2)',
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
-                            e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                            e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
-                            e.currentTarget.style.boxShadow = 'none';
                           }}
                         >
                           <question.icon className="w-4 h-4 text-amber-primary shrink-0" />
@@ -205,20 +232,10 @@ export function MayaChatBanner() {
                         data-testid={`maya-question-${question.id}`}
                       >
                         <button
-                          className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-300 group hover:scale-105"
+                          className="flex items-center gap-2 px-4 py-2.5 rounded-full cursor-pointer transition-colors duration-300 hover-elevate"
                           style={{
                             background: 'rgba(255, 255, 255, 0.05)',
                             border: '1px solid rgba(245, 158, 11, 0.2)',
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
-                            e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.4)';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.2)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                            e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.2)';
-                            e.currentTarget.style.boxShadow = 'none';
                           }}
                         >
                           <question.icon className="w-4 h-4 text-amber-primary shrink-0" />
@@ -261,7 +278,7 @@ export function MayaChatBanner() {
             <div className="flex flex-col items-center gap-3 mt-4">
               <Link href="/chat" data-testid="maya-cta-button">
                 <Button
-                  className="px-8 py-3.5 text-base font-semibold rounded-full hover:scale-105 transition-transform duration-200"
+                  className="px-8 py-3.5 text-base font-semibold rounded-full transition-transform duration-200"
                   style={{
                     background: 'linear-gradient(90deg, hsl(var(--amber-primary)) 0%, hsl(var(--amber-secondary)) 100%)',
                     color: 'hsl(263 50% 12%)',
@@ -271,9 +288,8 @@ export function MayaChatBanner() {
                   Почати діалог з Alex
                 </Button>
               </Link>
-              <p className="flex items-center gap-2 text-xs text-text-secondary font-medium">
-                <span className="text-green-500">&#10003;</span>
-                Безкоштовно 5 питань на день
+              <p className="text-xs text-text-secondary">
+                Потім від <span className="text-amber-primary font-semibold">$7/міс</span> для безлімітного доступу
               </p>
             </div>
           </div>

@@ -10,6 +10,7 @@ const navItems = [
   { title: "Огляди", path: "/category/reviews" },
   { title: "Тренди", path: "/category/trends" },
   { title: "Чат з Alex", path: "/chat", highlight: true },
+  { title: "Тарифи", path: "/pricing" },
   { title: "Про нас", path: "/about" },
 ];
 

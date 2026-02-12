@@ -1,0 +1,1029 @@
+# MONETIZATION SYSTEM IMPLEMENTATION FOR GRADUS MEDIA
+
+## PROJECT CONTEXT
+You are implementing a freemium-to-paid monetization system for Gradus Media, a Ukrainian HoReCa (Hotels, Restaurants, Cafes) industry AI consulting platform. The platform features "Alex Gradus," an AI chatbot that provides industry expertise.
+
+**Current Tech Stack:**
+- Frontend: React + TypeScript + Vite (Cloudflare Pages)
+- Backend: FastAPI + Python (Render.com at gradus-ai.onrender.com)
+- Database: PostgreSQL (Neon)
+- Payment Gateway: LiqPay (Ukrainian payment processor)
+
+**Current State:**
+- Chat interface exists at `/chat` with basic 5-question free limit
+- Homepage exists with hero section and news grid
+- Backend has basic Maya chat API
+- No email collection, no pricing page, no payment integration
+
+**Business Model:**
+- FREE: 5 questions/day per email
+- STANDARD: $7/month - unlimited questions + weekly reports + supplier database
+- PREMIUM: $10/month - everything + monthly video consultation + exclusive discounts
+
+---
+
+## IMPLEMENTATION TASKS
+
+### PHASE 1: EMAIL GATE & USER REGISTRATION
+
+**1.1 Create Email Gate Modal Component**
+File: `client/src/components/EmailGateModal.tsx`
+```typescript
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { X, Mail, User, Briefcase } from "lucide-react";
+
+interface EmailGateModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (data: { name: string; email: string; position: string }) => void;
+}
+
+export function EmailGateModal({ isOpen, onClose, onSubmit }: EmailGateModalProps) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [position, setPosition] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await onSubmit({ name, email, position });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div 
+        className="w-full max-w-md rounded-2xl p-8 relative"
+        style={{
+          background: 'linear-gradient(135deg, hsl(263 50% 12%) 0%, hsl(263 45% 18%) 100%)',
+          border: '1px solid rgba(245, 158, 11, 0.3)',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8)'
+        }}
+      >
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors"
+          aria-label="Close"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        <div className="flex justify-center mb-6">
+          <img
+            src="/images/alex.jpg"
+            alt="Alex Gradus"
+            className="w-24 h-24 rounded-full object-cover"
+            style={{
+              border: '3px solid rgba(245, 158, 11, 0.4)',
+              objectPosition: 'center 40%'
+            }}
+          />
+        </div>
+
+        <h2 className="text-2xl font-bold text-center text-text-primary mb-2">
+          Привіт! Я Alex 👋
+        </h2>
+        <p className="text-text-secondary text-center mb-6">
+          Щоб почати, представтесь — це займе 10 секунд
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm text-text-secondary mb-2">
+              <User className="w-4 h-4 inline mr-2" />
+              Ваше ім'я
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Олександр"
+              required
+              disabled={isSubmitting}
+              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary focus:outline-none focus:border-amber-primary/50 disabled:opacity-50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-text-secondary mb-2">
+              <Mail className="w-4 h-4 inline mr-2" />
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="oleksandr@restaurant.ua"
+              required
+              disabled={isSubmitting}
+              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary focus:outline-none focus:border-amber-primary/50 disabled:opacity-50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-text-secondary mb-2">
+              <Briefcase className="w-4 h-4 inline mr-2" />
+              Посада
+            </label>
+            <select
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
+              required
+              disabled={isSubmitting}
+              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary focus:outline-none focus:border-amber-primary/50 disabled:opacity-50"
+            >
+              <option value="">Оберіть посаду</option>
+              <option value="owner">Власник закладу</option>
+              <option value="manager">Менеджер / Адміністратор</option>
+              <option value="bartender">Бармен / Сомельє</option>
+              <option value="chef">Шеф-кухар</option>
+              <option value="other">Інше</option>
+            </select>
+          </div>
+
+          <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 space-y-2">
+            <p className="text-sm text-green-400 flex items-center gap-2">
+              <span>✓</span> 5 безкоштовних питань
+            </p>
+            <p className="text-sm text-green-400 flex items-center gap-2">
+              <span>✓</span> Без картки
+            </p>
+            <p className="text-sm text-green-400 flex items-center gap-2">
+              <span>✓</span> Скасувати будь-коли
+            </p>
+          </div>
+
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-3 text-base font-semibold rounded-xl disabled:opacity-50"
+            style={{
+              background: 'linear-gradient(90deg, hsl(var(--amber-primary)) 0%, hsl(var(--amber-secondary)) 100%)',
+              color: 'hsl(263 50% 12%)'
+            }}
+          >
+            {isSubmitting ? "Реєстрація..." : "Почати безкоштовно"}
+          </Button>
+
+          <p className="text-xs text-text-tertiary text-center">
+            Реєструючись, ви погоджуєтесь з{" "}
+            <a href="/privacy" className="text-amber-primary hover:underline">
+              політикою конфіденційності
+            </a>
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+}
+```
+
+**1.2 Update ChatPage.tsx to Integrate Email Gate**
+
+Add these imports and state variables at the top of `client/src/pages/ChatPage.tsx`:
+```typescript
+import { EmailGateModal } from "@/components/EmailGateModal";
+
+// Add inside component:
+const [showEmailGate, setShowEmailGate] = useState(false);
+const [userEmail, setUserEmail] = useState<string | null>(null);
+```
+
+Add this useEffect after existing useEffects:
+```typescript
+useEffect(() => {
+  const storedEmail = localStorage.getItem("mayaUserEmail");
+  if (storedEmail) {
+    setUserEmail(storedEmail);
+  } else {
+    setShowEmailGate(true);
+  }
+}, []);
+```
+
+Add handleEmailSubmit function:
+```typescript
+const handleEmailSubmit = async (data: { name: string; email: string; position: string }) => {
+  try {
+    const response = await fetch("https://gradus-ai.onrender.com/api/maya/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) throw new Error("Registration failed");
+
+    const result = await response.json();
+
+    localStorage.setItem("mayaUserEmail", data.email);
+    localStorage.setItem("mayaUserName", data.name);
+    localStorage.setItem("mayaQuestionsRemaining", "5");
+    
+    setUserEmail(data.email);
+    setShowEmailGate(false);
+    setRemainingQuestions(5);
+  } catch (error) {
+    console.error("Registration error:", error);
+    alert("Помилка реєстрації. Спробуйте ще раз.");
+  }
+};
+```
+
+Add modal to JSX before the main return (wrap existing content):
+```typescript
+return (
+  <>
+    <EmailGateModal 
+      isOpen={showEmailGate}
+      onClose={() => {}} // Prevent closing without registering
+      onSubmit={handleEmailSubmit}
+    />
+    <main className="pt-20 min-h-screen" data-testid="page-chat">
+      {/* existing content */}
+    </main>
+  </>
+);
+```
+
+Update handleSendMessage to use email instead of session_id:
+```typescript
+const response = await fetch(
+  "https://gradus-ai.onrender.com/api/maya/chat",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: inputValue,
+      email: userEmail || localStorage.getItem("mayaUserEmail"),
+    }),
+  }
+);
+```
+
+---
+
+### PHASE 2: HOMEPAGE IMPROVEMENTS
+
+**2.1 Update MayaChatBanner.tsx**
+
+Replace the headline section in `client/src/components/MayaChatBanner.tsx`:
+```typescript
+// FIND (around line 50-60):
+<h2 className="text-xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent">
+  Запитайте Alex Gradus - ваш HoReCa експерт
+</h2>
+
+// REPLACE WITH:
+<div className="mb-6">
+  <h2 className="text-xl font-bold mb-2 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent">
+    Alex Gradus — ваш особистий HoReCa консультант
+  </h2>
+  <p className="text-text-secondary text-sm">
+    Світові тренди + українське право + перевірені постачальники
+  </p>
+</div>
+
+{/* Add trust signals */}
+<div className="grid grid-cols-2 gap-3 mb-6 max-w-[300px] mx-auto">
+  <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+    <div className="text-xl font-bold text-amber-primary">800+</div>
+    <div className="text-xs text-text-tertiary">Закладів</div>
+  </div>
+  <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+    <div className="text-xl font-bold text-amber-primary">25+</div>
+    <div className="text-xs text-text-tertiary">Років AVTD</div>
+  </div>
+  <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+    <div className="text-xl font-bold text-amber-primary">&lt;2 хв</div>
+    <div className="text-xs text-text-tertiary">Відповідь</div>
+  </div>
+  <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
+    <div className="text-xl font-bold text-amber-primary">24/7</div>
+    <div className="text-xs text-text-tertiary">Онлайн</div>
+  </div>
+</div>
+```
+
+Update CTA text (around line 150):
+```typescript
+// FIND:
+<p className="flex items-center gap-2 text-xs text-text-secondary font-medium">
+  <span className="text-green-500">&#10003;</span>
+  Безкоштовно 5 питань на день
+</p>
+
+// REPLACE WITH:
+<p className="text-xs text-text-secondary">
+  Потім від <span className="text-amber-primary font-semibold">$7/міс</span> для безлімітного доступу
+</p>
+```
+
+---
+
+### PHASE 3: PRICING PAGE
+
+**3.1 Create Pricing Page Component**
+
+Create file: `client/src/pages/PricingPage.tsx`
+```typescript
+import { useState } from "react";
+import { Check, Star, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
+
+export default function PricingPage() {
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
+
+  const tiers = [
+    {
+      id: "free",
+      name: "Безкоштовний",
+      price: 0,
+      priceAnnual: 0,
+      period: "назавжди",
+      description: "Спробуйте Alex щодня",
+      features: [
+        "5 питань на день",
+        "Базові відповіді",
+        "Доступ до новин Gradus Media",
+      ],
+      limitations: [
+        "Без звітів з трендів",
+        "Без бази постачальників",
+        "Немає консультацій",
+      ],
+      cta: "Почати безкоштовно",
+      ctaLink: "/chat",
+      popular: false
+    },
+    {
+      id: "standard",
+      name: "Стандарт",
+      price: 7,
+      priceAnnual: 70,
+      period: billingCycle === "monthly" ? "місяць" : "рік",
+      description: "Для професіоналів HoReCa",
+      features: [
+        "Безлімітні питання Alex",
+        "Щотижневі тренд-звіти (email)",
+        "База постачальників AVTD",
+        "Відповіді з джерелами",
+        "Підтримка протягом 24 годин",
+      ],
+      cta: "Спробувати 7 днів безкоштовно",
+      ctaLink: "#",
+      popular: true,
+      savings: billingCycle === "annual" ? "Економія $14/рік" : null
+    },
+    {
+      id: "premium",
+      name: "Преміум",
+      price: 10,
+      priceAnnual: 100,
+      period: billingCycle === "monthly" ? "місяць" : "рік",
+      description: "Максимум для вашого бізнесу",
+      features: [
+        "Все зі Стандарт +",
+        "Відеоконсультація 1x/міс (30 хв)",
+        "Ексклюзивні знижки AVTD (10-15%)",
+        "Custom аналіз меню/винної карти",
+        "Пріоритетна підтримка",
+        "Доступ до закритих вебінарів",
+      ],
+      cta: "Спробувати 7 днів безкоштовно",
+      ctaLink: "#",
+      popular: false,
+      savings: billingCycle === "annual" ? "Економія $20/рік" : null
+    }
+  ];
+
+  const handleSubscribe = (tierId: string) => {
+    if (tierId === "free") {
+      window.location.href = "/chat";
+      return;
+    }
+    
+    // For paid tiers, redirect to checkout (will implement in next phase)
+    alert(`Checkout для ${tierId} буде додано в наступній фазі`);
+  };
+
+  return (
+    <main className="pt-20 min-h-screen pb-20" data-testid="page-pricing">
+      {/* Hero */}
+      <section className="py-16 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
+          Оберіть ваш тарифний план
+        </h1>
+        <p className="text-xl text-text-secondary mb-8">
+          Інвестуйте у знання. Заощаджуйте на помилках.
+        </p>
+
+        {/* Billing Toggle */}
+        <div className="inline-flex items-center gap-3 p-1.5 rounded-full bg-white/5 border border-white/10">
+          <button
+            onClick={() => setBillingCycle("monthly")}
+            className={`px-6 py-2 rounded-full font-medium transition-all ${
+              billingCycle === "monthly"
+                ? "bg-amber-primary text-bg-dark"
+                : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
+            Щомісяця
+          </button>
+          <button
+            onClick={() => setBillingCycle("annual")}
+            className={`px-6 py-2 rounded-full font-medium transition-all ${
+              billingCycle === "annual"
+                ? "bg-amber-primary text-bg-dark"
+                : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
+            Щороку
+            <span className="ml-2 text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">-20%</span>
+          </button>
+        </div>
+      </section>
+
+      {/* Pricing Cards */}
+      <section className="max-w-[1200px] mx-auto px-6">
+        <div className="grid md:grid-cols-3 gap-8">
+          {tiers.map((tier) => {
+            const displayPrice = billingCycle === "annual" ? tier.priceAnnual : tier.price;
+            
+            return (
+              <div
+                key={tier.id}
+                className={`relative rounded-2xl p-8 transition-all ${
+                  tier.popular
+                    ? "border-2 border-amber-primary shadow-2xl md:scale-105"
+                    : "border border-white/10 hover:border-white/20"
+                }`}
+                style={{
+                  background: tier.popular
+                    ? "linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(245, 158, 11, 0.1))"
+                    : "rgba(255, 255, 255, 0.02)"
+                }}
+              >
+                {tier.popular && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-amber-primary text-bg-dark text-sm font-bold rounded-full flex items-center gap-1">
+                    <Star className="w-4 h-4 fill-current" />
+                    Найпопулярніший
+                  </div>
+                )}
+
+                <h3 className="text-2xl font-bold text-text-primary mb-2">
+                  {tier.name}
+                </h3>
+                <p className="text-text-tertiary text-sm mb-6">
+                  {tier.description}
+                </p>
+
+                <div className="mb-6">
+                  <span className="text-5xl font-bold text-text-primary">
+                    ${displayPrice}
+                  </span>
+                  <span className="text-text-secondary">/{tier.period}</span>
+                  {tier.savings && (
+                    <p className="text-green-400 text-sm mt-2 font-semibold">
+                      {tier.savings}
+                    </p>
+                  )}
+                </div>
+
+                <Button
+                  onClick={() => handleSubscribe(tier.id)}
+                  className={`w-full py-3 rounded-xl font-semibold mb-6 transition-all ${
+                    tier.popular
+                      ? "bg-gradient-to-r from-amber-primary to-amber-secondary text-bg-dark hover:scale-105 hover:shadow-lg"
+                      : "bg-white/10 text-text-primary hover:bg-white/20"
+                  }`}
+                >
+                  {tier.cta}
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+
+                <ul className="space-y-3 mb-6">
+                  {tier.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
+                      <span className="text-text-secondary text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {tier.limitations && tier.limitations.length > 0 && (
+                  <ul className="space-y-2 pt-4 border-t border-white/10">
+                    {tier.limitations.map((limit, i) => (
+                      <li key={i} className="flex items-center gap-2 text-text-tertiary text-xs">
+                        <span className="text-red-400">⊘</span>
+                        {limit}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Trust Signals */}
+      <section className="max-w-[800px] mx-auto px-6 mt-16">
+        <div className="grid md:grid-cols-3 gap-6 text-center">
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+            <p className="text-2xl mb-2">🔒</p>
+            <p className="text-sm text-text-secondary font-semibold">Захищені платежі</p>
+            <p className="text-xs text-text-tertiary">через LiqPay</p>
+          </div>
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+            <p className="text-2xl mb-2">✓</p>
+            <p className="text-sm text-text-secondary font-semibold">7 днів гарантія</p>
+            <p className="text-xs text-text-tertiary">повернення коштів</p>
+          </div>
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+            <p className="text-2xl mb-2">🏢</p>
+            <p className="text-sm text-text-secondary font-semibold">Підтримка AVTD</p>
+            <p className="text-xs text-text-tertiary">25+ років на ринку</p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="max-w-[800px] mx-auto px-6 mt-16">
+        <h2 className="text-3xl font-bold text-text-primary text-center mb-8">
+          Поширені питання
+        </h2>
+        <div className="space-y-4">
+          {[
+            {
+              q: "Чи можу я змінити план пізніше?",
+              a: "Так, ви можете в будь-який момент перейти на вищий план або повернутися до безкоштовного."
+            },
+            {
+              q: "Що станеться після закінчення пробного періоду?",
+              a: "Після 7 днів безкоштовного періоду автоматично почнеться платна підписка. Ви отримаєте сповіщення за 2 дні до закінчення пробного періоду."
+            },
+            {
+              q: "Як я можу скасувати підписку?",
+              a: "Ви можете скасувати підписку в будь-який момент у вашому особистому кабінеті. Доступ збережеться до кінця оплаченого періоду."
+            },
+            {
+              q: "Які способи оплати підтримуються?",
+              a: "Ми приймаємо оплату через LiqPay: картки Visa/Mastercard, Google Pay, Apple Pay, Privat24."
+            }
+          ].map((faq, i) => (
+            <div 
+              key={i}
+              className="p-6 rounded-xl bg-white/5 border border-white/10"
+            >
+              <h3 className="text-lg font-semibold text-text-primary mb-2">
+                {faq.q}
+              </h3>
+              <p className="text-text-secondary">
+                {faq.a}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
+```
+
+**3.2 Add Pricing Route**
+
+Update `client/src/App.tsx` to add the pricing route:
+```typescript
+import PricingPage from "@/pages/PricingPage";
+
+// Add inside the Route components:
+<Route path="/pricing" component={PricingPage} />
+```
+
+---
+
+### PHASE 4: UPGRADE PROMPTS IN CHAT
+
+**4.1 Add Smart Upgrade Prompts**
+
+In `client/src/pages/ChatPage.tsx`, update the handleSendMessage function to add upgrade prompts:
+
+After successful response (around line 100):
+```typescript
+setMessages((prev) => [...prev, assistantMessage]);
+
+// Use backend's remaining count
+if (data.remaining_questions !== undefined) {
+  setRemainingQuestions(data.remaining_questions);
+  localStorage.setItem(
+    "mayaQuestionsRemaining",
+    data.remaining_questions.toString()
+  );
+
+  // ADD THIS: Upgrade prompt after question 3
+  if (data.remaining_questions === 2) {
+    setTimeout(() => {
+      const upgradeMessage: ChatMessage = {
+        role: "assistant",
+        content: `💡 **Подобається Alex?**
+
+У вас залишилось лише 2 питання сьогодні.
+
+Отримайте **безлімітний доступ** від $7/міс:
+- Необмежені питання
+- Щотижневі звіти з трендів
+- База постачальників AVTD
+- Знижки на преміум алкоголь
+
+[Переглянути тарифи →](/pricing)`,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, upgradeMessage]);
+    }, 2000);
+  }
+}
+```
+
+**4.2 Improve Limit Reached UI**
+
+Replace the existing limit reached block (around line 380) with:
+```typescript
+{remainingQuestions === 0 && (
+  <div 
+    className="mt-6 p-8 rounded-2xl text-center"
+    style={{
+      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(245, 158, 11, 0.15))',
+      border: '1px solid rgba(245, 158, 11, 0.3)'
+    }}
+  >
+    <h3 className="text-2xl font-bold text-text-primary mb-3">
+      🎯 Ваші 5 питань використано
+    </h3>
+    
+    <p className="text-text-secondary mb-6">
+      За цей час Alex допоміг вам з:
+    </p>
+
+    <div className="bg-white/5 rounded-xl p-4 mb-6 text-left max-w-md mx-auto">
+      {messages
+        .filter(m => m.role === "user")
+        .slice(0, 5)
+        .map((msg, i) => (
+          <p key={i} className="text-sm text-text-secondary mb-2 flex items-start gap-2">
+            <span className="text-amber-primary">•</span>
+            <span>{msg.content.slice(0, 80)}{msg.content.length > 80 ? '...' : ''}</span>
+          </p>
+        ))
+      }
+    </div>
+
+    <p className="text-lg font-semibold text-amber-primary mb-6">
+      Продовжте отримувати експертні поради
+    </p>
+
+    <Link href="/pricing">
+      <Button
+        className="px-8 py-4 text-lg font-bold rounded-xl mb-4 hover:scale-105 transition-transform"
+        style={{
+          background: 'linear-gradient(90deg, hsl(var(--amber-primary)), hsl(var(--amber-secondary)))',
+          color: 'hsl(263 50% 12%)',
+          boxShadow: '0 8px 24px rgba(245, 158, 11, 0.4)'
+        }}
+      >
+        Переглянути тарифи →
+      </Button>
+    </Link>
+
+    <p className="text-xs text-text-tertiary">
+      Або поверніться завтра для нових 5 безкоштовних питань
+    </p>
+  </div>
+)}
+```
+
+---
+
+### PHASE 5: BACKEND API UPDATES
+
+**5.1 Create Database Migration**
+
+Create file: `server/migrations/add_maya_users_table.sql`
+```sql
+-- Maya Users Table
+CREATE TABLE IF NOT EXISTS maya_users (
+    email VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    position VARCHAR(100),
+    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    questions_today INT DEFAULT 0,
+    questions_limit INT DEFAULT 5,
+    last_question_at TIMESTAMP,
+    last_reset_date DATE,
+    subscription_tier VARCHAR(50) DEFAULT 'free',
+    subscription_expires_at TIMESTAMP,
+    liqpay_order_id VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Index for faster lookups
+CREATE INDEX IF NOT EXISTS idx_maya_users_email ON maya_users(email);
+CREATE INDEX IF NOT EXISTS idx_maya_users_subscription ON maya_users(subscription_tier, subscription_expires_at);
+
+-- Subscription Transactions Table (for payment tracking)
+CREATE TABLE IF NOT EXISTS maya_subscriptions (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) REFERENCES maya_users(email),
+    tier VARCHAR(50) NOT NULL,
+    billing_cycle VARCHAR(20) NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    currency VARCHAR(3) DEFAULT 'USD',
+    liqpay_order_id VARCHAR(255) UNIQUE,
+    payment_status VARCHAR(50) DEFAULT 'pending',
+    started_at TIMESTAMP,
+    expires_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_subscriptions_email ON maya_subscriptions(email);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_order ON maya_subscriptions(liqpay_order_id);
+```
+
+**5.2 Update Backend Routes**
+
+Update `server/routes.py` or create `server/maya_routes.py`:
+```python
+from fastapi import APIRouter, HTTPException, Request
+from pydantic import BaseModel, EmailStr
+from datetime import datetime, timedelta, date
+import logging
+
+router = APIRouter(prefix="/api/maya", tags=["maya"])
+logger = logging.getLogger(__name__)
+
+class UserRegistration(BaseModel):
+    name: str
+    email: EmailStr
+    position: str
+
+class ChatRequest(BaseModel):
+    message: str
+    email: EmailStr
+
+class ChatResponse(BaseModel):
+    reply: str
+    remaining_questions: int
+
+@router.post("/register")
+async def register_user(user: UserRegistration, db):
+    """Register new user and initialize their free trial"""
+    try:
+        # Check if user already exists
+        existing = await db.fetchrow(
+            "SELECT email FROM maya_users WHERE email = $1",
+            user.email
+        )
+        
+        if existing:
+            # Return existing user's remaining questions
+            user_data = await db.fetchrow("""
+                SELECT questions_today, questions_limit, last_reset_date
+                FROM maya_users WHERE email = $1
+            """, user.email)
+            
+            # Reset counter if new day
+            today = date.today()
+            if user_data["last_reset_date"] != today:
+                await db.execute("""
+                    UPDATE maya_users 
+                    SET questions_today = 0, last_reset_date = $1
+                    WHERE email = $2
+                """, today, user.email)
+                remaining = user_data["questions_limit"]
+            else:
+                remaining = user_data["questions_limit"] - user_data["questions_today"]
+            
+            return {
+                "success": True,
+                "existing_user": True,
+                "remaining_questions": remaining
+            }
+        
+        # Insert new user
+        await db.execute("""
+            INSERT INTO maya_users 
+            (email, name, position, questions_today, questions_limit, last_reset_date)
+            VALUES ($1, $2, $3, 0, 5, $4)
+        """, user.email, user.name, user.position, date.today())
+        
+        logger.info(f"New user registered: {user.email}")
+        
+        return {
+            "success": True,
+            "existing_user": False,
+            "remaining_questions": 5
+        }
+        
+    except Exception as e:
+        logger.error(f"Registration error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/chat", response_model=ChatResponse)
+async def chat(request: ChatRequest, db):
+    """Process chat message with rate limiting"""
+    try:
+        # Get user data
+        user = await db.fetchrow("""
+            SELECT * FROM maya_users WHERE email = $1
+        """, request.email)
+        
+        if not user:
+            raise HTTPException(status_code=401, detail="User not registered")
+        
+        # Check if free tier and limit reached
+        if user["subscription_tier"] == "free":
+            today = date.today()
+            
+            # Reset counter if new day
+            if user["last_reset_date"] != today:
+                await db.execute("""
+                    UPDATE maya_users 
+                    SET questions_today = 0, last_reset_date = $1
+                    WHERE email = $2
+                """, today, request.email)
+                questions_today = 0
+            else:
+                questions_today = user["questions_today"]
+            
+            # Check limit
+            if questions_today >= user["questions_limit"]:
+                return ChatResponse(
+                    reply="Ви досягли ліміту безкоштовних питань на сьогодні. Поверніться завтра або оформіть підписку для безлімітного доступу.",
+                    remaining_questions=0
+                )
+        
+        # TODO: Generate AI response here
+        # For now, placeholder response
+        reply = f"Дякую за питання! (Тут буде відповідь AI на: {request.message})"
+        
+        # Increment counter for free users
+        if user["subscription_tier"] == "free":
+            await db.execute("""
+                UPDATE maya_users 
+                SET questions_today = questions_today + 1,
+                    last_question_at = NOW()
+                WHERE email = $1
+            """, request.email)
+            
+            remaining = user["questions_limit"] - questions_today - 1
+        else:
+            remaining = 999  # Unlimited for paid users
+        
+        return ChatResponse(
+            reply=reply,
+            remaining_questions=max(0, remaining)
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Chat error: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+```
+
+**5.3 Integrate Routes into Main App**
+
+Update `server/main.py` to include the new routes:
+```python
+from maya_routes import router as maya_router
+
+app.include_router(maya_router)
+```
+
+---
+
+### PHASE 6: TESTING & VALIDATION
+
+**6.1 Test Checklist**
+
+Create file: `TESTING_CHECKLIST.md`
+```markdown
+# Monetization System Testing Checklist
+
+## Email Registration
+- [ ] Modal appears on first visit to /chat
+- [ ] Cannot close modal without submitting
+- [ ] Form validates all required fields
+- [ ] Email format validation works
+- [ ] Registration API call succeeds
+- [ ] User redirected to chat after registration
+- [ ] Email stored in localStorage
+- [ ] Returning users don't see modal
+
+## Free Tier Usage
+- [ ] Counter shows 5/5 on first visit
+- [ ] Counter decrements after each question
+- [ ] Questions work correctly (1-5)
+- [ ] Upgrade prompt appears after question 3
+- [ ] Limit screen appears after question 5
+- [ ] Counter resets next day (check server logic)
+- [ ] Cannot ask questions when limit reached
+
+## Homepage Updates
+- [ ] New headline displays correctly
+- [ ] Trust signals show proper numbers
+- [ ] Updated CTA text appears
+- [ ] Mobile responsive layout works
+- [ ] Desktop layout works
+
+## Pricing Page
+- [ ] Page loads at /pricing
+- [ ] All three tiers display correctly
+- [ ] Billing toggle works (monthly/annual)
+- [ ] Prices update when toggling
+- [ ] Popular badge shows on Standard tier
+- [ ] Free tier CTA links to /chat
+- [ ] Paid tier CTAs show placeholder alert
+- [ ] Trust signals display
+- [ ] FAQ section renders
+- [ ] Mobile responsive
+
+## Backend
+- [ ] /api/maya/register endpoint works
+- [ ] Database stores user correctly
+- [ ] /api/maya/chat endpoint works
+- [ ] Question counter increments
+- [ ] Daily reset logic works
+- [ ] Returns correct remaining_questions
+- [ ] Handles errors gracefully
+```
+
+---
+
+## IMPLEMENTATION ORDER
+
+Execute in this exact sequence:
+
+1. **Create database migration** (Phase 5.1)
+2. **Add backend routes** (Phase 5.2-5.3)
+3. **Test backend with Postman/curl** 
+4. **Create EmailGateModal** (Phase 1.1)
+5. **Update ChatPage** (Phase 1.2)
+6. **Test email registration flow**
+7. **Update MayaChatBanner** (Phase 2.1)
+8. **Create PricingPage** (Phase 3.1-3.2)
+9. **Add upgrade prompts** (Phase 4.1-4.2)
+10. **Run full testing** (Phase 6.1)
+
+---
+
+## CRITICAL REQUIREMENTS
+
+1. **Preserve existing functionality** - don't break current news/article features
+2. **Mobile-first design** - all components must work perfectly on mobile
+3. **Error handling** - graceful fallbacks for API failures
+4. **User experience** - smooth transitions, loading states, clear messaging
+5. **Ukrainian language** - all user-facing text in Ukrainian
+6. **Consistent styling** - match existing Gradus Media design system (amber/purple gradients, dark theme)
+
+---
+
+## SUCCESS CRITERIA
+
+- [ ] Users can register with email on first visit
+- [ ] Free tier limits enforced (5 questions/day)
+- [ ] Pricing page displays correctly with 3 tiers
+- [ ] Upgrade prompts appear at right moments
+- [ ] Backend API handles registration and usage tracking
+- [ ] Database stores user data correctly
+- [ ] All existing features still work
+- [ ] Mobile responsive on all new pages
+- [ ] No console errors
+- [ ] Test checklist 100% complete
+
+---
+
+## NOTES FOR REPLIT AGENT
+
+- Use existing component patterns from the codebase
+- Follow TypeScript strict mode
+- Import icons from lucide-react
+- Use existing color variables (amber-primary, amber-secondary, etc.)
+- Keep consistent with existing Button and UI components
+- Add data-testid attributes for testing
+- Handle loading and error states
+- Use existing database connection from server/db.py
+- Follow existing API response patterns
+- Preserve all existing routes and functionality
+
+Start with Phase 5 (Backend) first to ensure the foundation is solid, then move to frontend components.

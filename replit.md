@@ -33,11 +33,20 @@ Preferred communication style: Simple, everyday language.
 - **Shared type definitions**: Zod schemas in `shared/schema.ts` for type-safe article data
 
 ### Key Pages
-1. **Home** (`/`) - Hero section with featured article, masonry grid of articles, Maya chat banner
+1. **Home** (`/`) - Hero section with featured article, masonry grid of articles, Alex chat banner with trust signals
 2. **Article** (`/article/:id`) - Full article view with related articles
 3. **Category** (`/category/:slug`) - Filtered articles by category (news, reviews, trends)
-4. **Chat** (`/chat`) - AI assistant chat interface with session management
-5. **About** (`/about`) - Company information page
+4. **Chat** (`/chat`) - AI assistant (Alex Gradus) chat with email-based auth, EmailGateModal, upgrade prompts, limit-reached UI
+5. **Pricing** (`/pricing`) - 3 subscription tiers (Free/Standard $7/Premium $10), billing toggle (monthly/annual -20%), FAQ
+6. **About** (`/about`) - Company information page
+
+### Monetization System
+- **Email Gate**: EmailGateModal appears on first chat visit, requires name/email/position before using chat
+- **Free Tier**: 5 questions/day, resets daily
+- **Upgrade Prompts**: After question 3 (2 remaining), upgrade message in chat; at limit (0 remaining), full-screen upsell with question history
+- **Auth**: Email stored in localStorage, sent with each chat request to backend for rate limiting
+- **Backend Registration**: POST /api/maya/register (name, email, position)
+- **Backend Chat**: POST /api/maya/chat (message, email, session_id) returns reply + remaining_questions
 
 ## External Dependencies
 
