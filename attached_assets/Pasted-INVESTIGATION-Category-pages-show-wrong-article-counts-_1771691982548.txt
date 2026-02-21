@@ -1,0 +1,58 @@
+INVESTIGATION: Category pages show wrong article counts despite backend API 
+returning correct data.
+
+Confirmed working:
+- GET /api/articles?category=trends → 97 articles ✅
+- GET /api/articles?category=reviews → 17 articles ✅
+- VITE_API_URL = https://gradus-ai.onrender.com ✅
+
+But UI shows Тренди = 17 articles, Огляди = 3 articles (these are old numbers).
+
+STEP 1 - FIND AND SHOW THE CATEGORY PAGE:
+Show the full contents of:
+- src/pages/category.tsx (or wherever the category page lives)
+- src/hooks/useArticles.ts or similar data fetching hook if it exists
+- src/api/articles.ts or similar API client
+
+STEP 2 - LOOK FOR THESE SPECIFIC ISSUES:
+
+A) Hardcoded article counts or category lists:
+   Search for any hardcoded numbers like "3", "17", or arrays like 
+   ['news', 'trends', 'reviews'] that might be filtering results client-side.
+
+B) Wrong API parameter name:
+   The backend expects ?category=trends
+   Check if frontend is sending ?category=trends or ?type= or ?section= 
+   or something else.
+
+C) Category slug mismatch:
+   Backend uses: 'news', 'trends', 'reviews' (English, lowercase)
+   Check if frontend is sending: 'тренди', 'огляди' (Ukrainian) instead.
+   The URL slug and the API query param might be different things.
+
+D) Missing pagination parameter:
+   Check if the API call includes ?limit=20 or ?page=1 — if the backend 
+   defaults to 20 but the frontend isn't paginating, it may be capped.
+
+STEP 3 - FIX SLUG → CATEGORY MAPPING:
+If the frontend routes use Ukrainian slugs (/category/тренди) but the API 
+needs English values, there must be a mapping like:
+
+  const categoryMap = {
+    'тренди': 'trends',
+    'огляди': 'reviews', 
+    'новини': 'news'
+  }
+
+Check if this mapping exists and is correct. If missing, add it.
+
+STEP 4 - ADD CONSOLE LOGGING TEMPORARILY:
+In the category page fetch function, add:
+  console.log('Fetching category:', slug)
+  console.log('API URL:', fullUrl)
+  console.log('Response count:', data.articles?.length)
+
+Then rebuild and check browser console on gradusmedia.org/category/trends
+to see exactly what's being sent and received.
+
+Show me the category page code and report findings before making any changes.
