@@ -10,10 +10,31 @@ import {
   CheckCircle2,
   User,
   ArrowRight,
+  Star,
+  Check,
+  Ban,
+  Shield,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import { EmailGateModal } from "@/components/EmailGateModal";
+import { useToast } from "@/hooks/use-toast";
+
+declare global {
+  interface Window {
+    Wayforpay: new () => {
+      run: (
+        params: Record<string, unknown>,
+        onApproved: (response: unknown) => void,
+        onDeclined: (response: unknown) => void,
+        onPending: (response: unknown) => void
+      ) => void;
+    };
+  }
+}
+
+const API_BASE = "https://gradus-ai.onrender.com";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -49,8 +70,13 @@ export default function ChatPage() {
   const [showEmailGate, setShowEmailGate] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
+  const [paymentLoading, setPaymentLoading] = useState<string | null>(null);
+  const [uahRate, setUahRate] = useState<number | null>(null);
+  const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const pricingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -73,6 +99,84 @@ export default function ChatPage() {
     const remaining = localStorage.getItem("mayaQuestionsRemaining") || "5";
     setRemainingQuestions(parseInt(remaining));
   }, []);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/api/payments/uah-rate`)
+      .then(res => res.json())
+      .then(data => { if (data.rate) setUahRate(data.rate); })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (remainingQuestions === 0) {
+      setTimeout(() => {
+        pricingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
+    }
+  }, [remainingQuestions]);
+
+  const handlePayment = async (tier: string) => {
+    const email = userEmail || localStorage.getItem("mayaUserEmail");
+    if (!email) return;
+
+    if (!window.Wayforpay) {
+      toast({ title: "Помилка платіжної системи", description: "Перезавантажте сторінку.", variant: "destructive" });
+      return;
+    }
+
+    setPaymentLoading(tier);
+    try {
+      const response = await fetch(`${API_BASE}/api/payments/create-checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, tier }),
+      });
+      if (!response.ok) throw new Error("Server error");
+      const params = await response.json();
+      if (!params.merchantAccount || !params.merchantSignature || !params.orderReference) throw new Error("Invalid params");
+
+      const wayforpay = new window.Wayforpay();
+      wayforpay.run(
+        {
+          merchantAccount: params.merchantAccount,
+          merchantDomainName: params.merchantDomainName,
+          authorizationType: "SimpleSignature",
+          merchantSignature: params.merchantSignature,
+          orderReference: params.orderReference,
+          orderDate: params.orderDate,
+          amount: params.amount,
+          currency: "UAH",
+          productName: params.productName,
+          productPrice: params.productPrice,
+          productCount: params.productCount,
+          language: "UA",
+          straightWidget: true,
+        },
+        function () {
+          setPaymentLoading(null);
+          localStorage.setItem("maya_user_tier", tier);
+          setRemainingQuestions(999);
+          toast({ title: "Підписку активовано!", description: "Чат розблоковано. Дякуємо!" });
+        },
+        function () {
+          setPaymentLoading(null);
+          toast({ title: "Оплата відхилена", description: "Спробуйте ще раз.", variant: "destructive" });
+        },
+        function () {
+          setPaymentLoading(null);
+          toast({ title: "Платіж обробляється", description: "Зачекайте, будь ласка." });
+        }
+      );
+    } catch {
+      setPaymentLoading(null);
+      toast({ title: "Помилка оплати", description: "Спробуйте пізніше.", variant: "destructive" });
+    }
+  };
+
+  const formatUah = (usd: number) => {
+    if (!uahRate || usd === 0) return null;
+    return `≈ ${Math.round(usd * uahRate)} ₴ за курсом НБУ`;
+  };
 
   const handleEmailSubmit = async (data: { name: string; email: string; position: string }) => {
     const response = await fetch("https://gradus-ai.onrender.com/api/maya/register", {
@@ -699,58 +803,180 @@ export default function ChatPage() {
                 )}
 
                 {remainingQuestions === 0 && (
-                  <div
-                    className="mt-6 p-8 rounded-2xl text-center"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(245, 158, 11, 0.15))',
-                      border: '1px solid rgba(245, 158, 11, 0.3)'
-                    }}
-                    data-testid="limit-reached"
-                  >
-                    <Target className="w-10 h-10 text-amber-primary mx-auto mb-3" />
-                    <h3 className="text-2xl font-bold text-text-primary mb-3">
-                      Ваші 5 питань використано
-                    </h3>
+                  <div ref={pricingRef} data-testid="limit-reached">
+                    <div
+                      className="mt-6 p-8 rounded-2xl text-center"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(245, 158, 11, 0.15))',
+                        border: '1px solid rgba(245, 158, 11, 0.3)'
+                      }}
+                    >
+                      <Target className="w-10 h-10 text-amber-primary mx-auto mb-3" />
+                      <h3 className="text-2xl font-bold text-text-primary mb-3">
+                        Ваші 5 питань використано
+                      </h3>
 
-                    <p className="text-text-secondary mb-6">
-                      За цей час Alex допоміг вам з:
-                    </p>
+                      <p className="text-text-secondary mb-6">
+                        За цей час Alex допоміг вам з:
+                      </p>
 
-                    <div className="bg-white/5 rounded-xl p-4 mb-6 text-left max-w-md mx-auto">
-                      {messages
-                        .filter(m => m.role === "user")
-                        .slice(0, 5)
-                        .map((msg, i) => (
-                          <p key={i} className="text-sm text-text-secondary mb-2 flex items-start gap-2">
-                            <span className="text-amber-primary">-</span>
-                            <span>{msg.content.slice(0, 80)}{msg.content.length > 80 ? '...' : ''}</span>
-                          </p>
-                        ))
-                      }
+                      <div className="bg-white/5 rounded-xl p-4 mb-6 text-left max-w-md mx-auto">
+                        {messages
+                          .filter(m => m.role === "user")
+                          .slice(0, 5)
+                          .map((msg, i) => (
+                            <p key={i} className="text-sm text-text-secondary mb-2 flex items-start gap-2">
+                              <span className="text-amber-primary">-</span>
+                              <span>{msg.content.slice(0, 80)}{msg.content.length > 80 ? '...' : ''}</span>
+                            </p>
+                          ))
+                        }
+                      </div>
+
+                      <p className="text-lg font-semibold text-amber-primary mb-4">
+                        Продовжте отримувати експертні поради
+                      </p>
                     </div>
 
-                    <p className="text-lg font-semibold text-amber-primary mb-6">
-                      Продовжте отримувати експертні поради
-                    </p>
+                    <div className="mt-6">
+                      <div className="flex justify-center mb-6">
+                        <div className="inline-flex items-center gap-3 p-1.5 rounded-full bg-white/5 border border-white/10">
+                          <button
+                            onClick={() => setBillingCycle("monthly")}
+                            className={`px-5 py-1.5 rounded-full text-sm font-medium transition-all ${
+                              billingCycle === "monthly"
+                                ? "bg-amber-primary text-bg-dark"
+                                : "text-text-secondary"
+                            }`}
+                            data-testid="button-monthly-chat"
+                          >
+                            Щомісяця
+                          </button>
+                          <button
+                            onClick={() => setBillingCycle("annual")}
+                            className={`px-5 py-1.5 rounded-full text-sm font-medium transition-all ${
+                              billingCycle === "annual"
+                                ? "bg-amber-primary text-bg-dark"
+                                : "text-text-secondary"
+                            }`}
+                            data-testid="button-annual-chat"
+                          >
+                            Щороку
+                            <span className="ml-1.5 text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-full">-20%</span>
+                          </button>
+                        </div>
+                      </div>
 
-                    <Link href="/pricing">
-                      <Button
-                        className="px-8 py-4 text-lg font-bold rounded-xl mb-4"
-                        style={{
-                          background: 'linear-gradient(90deg, hsl(var(--amber-primary)), hsl(var(--amber-secondary)))',
-                          color: 'hsl(263 50% 12%)',
-                          boxShadow: '0 8px 24px rgba(245, 158, 11, 0.4)'
-                        }}
-                        data-testid="button-view-pricing"
-                      >
-                        Переглянути тарифи
-                        <ArrowRight className="w-5 h-5 ml-2" />
-                      </Button>
-                    </Link>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {[
+                          {
+                            id: "free",
+                            name: "Безкоштовний",
+                            price: 0,
+                            priceAnnual: 0,
+                            period: "назавжди",
+                            description: "Спробуйте Alex щодня",
+                            features: ["5 питань на день", "Базові відповіді", "Доступ до новин"],
+                            limitations: ["Без звітів з трендів", "Без бази постачальників"],
+                            popular: false,
+                          },
+                          {
+                            id: "standard",
+                            name: "Стандарт",
+                            price: 7,
+                            priceAnnual: 70,
+                            period: billingCycle === "monthly" ? "міс" : "рік",
+                            description: "Для професіоналів HoReCa",
+                            features: ["Безлімітні питання", "Тренд-звіти", "База постачальників", "Підтримка 24/7"],
+                            popular: true,
+                            savings: billingCycle === "annual" ? "Економія $14/рік" : null,
+                          },
+                          {
+                            id: "premium",
+                            name: "Преміум",
+                            price: 10,
+                            priceAnnual: 100,
+                            period: billingCycle === "monthly" ? "міс" : "рік",
+                            description: "Максимум для бізнесу",
+                            features: ["Все зі Стандарт +", "Відеоконсультація 1x/міс", "Знижки AVTD 10-15%", "Custom аналіз меню"],
+                            popular: false,
+                            savings: billingCycle === "annual" ? "Економія $20/рік" : null,
+                          },
+                        ].map((tier) => {
+                          const displayPrice = billingCycle === "annual" ? tier.priceAnnual : tier.price;
+                          const uahDisplay = formatUah(displayPrice);
+                          return (
+                            <div
+                              key={tier.id}
+                              className={`relative rounded-xl p-5 ${
+                                tier.popular
+                                  ? "border-2 border-amber-primary"
+                                  : "border border-white/10"
+                              }`}
+                              style={{
+                                background: tier.popular
+                                  ? "linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(245, 158, 11, 0.1))"
+                                  : "rgba(255, 255, 255, 0.02)",
+                              }}
+                              data-testid={`chat-pricing-${tier.id}`}
+                            >
+                              {tier.popular && (
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-amber-primary text-bg-dark text-xs font-bold rounded-full flex items-center gap-1">
+                                  <Star className="w-3 h-3 fill-current" />
+                                  Найпопулярніший
+                                </div>
+                              )}
+                              <h4 className="text-lg font-bold text-text-primary mb-1">{tier.name}</h4>
+                              <p className="text-text-tertiary text-xs mb-3">{tier.description}</p>
+                              <div className="mb-3">
+                                <span className="text-3xl font-bold text-text-primary">${displayPrice}</span>
+                                <span className="text-text-secondary text-sm">/{tier.period}</span>
+                                {uahDisplay && <p className="text-amber-400/80 text-xs mt-0.5">{uahDisplay}</p>}
+                                {tier.savings && <p className="text-green-400 text-xs mt-1 font-semibold">{tier.savings}</p>}
+                              </div>
+                              <Button
+                                onClick={() => tier.id !== "free" && handlePayment(tier.id)}
+                                disabled={tier.id === "free" || (paymentLoading !== null && tier.id !== "free")}
+                                className={`w-full py-2 rounded-lg text-sm font-semibold mb-3 ${
+                                  tier.popular ? "" : "bg-white/10 text-text-primary"
+                                }`}
+                                style={tier.popular ? {
+                                  background: "linear-gradient(90deg, hsl(var(--amber-primary)), hsl(var(--amber-secondary)))",
+                                  color: "hsl(263 50% 12%)",
+                                } : undefined}
+                                data-testid={`button-chat-subscribe-${tier.id}`}
+                              >
+                                {paymentLoading === tier.id ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
+                                {tier.id === "free" ? "Ваш поточний план" : "Обрати план"}
+                                {paymentLoading !== tier.id && <ArrowRight className="w-3 h-3 ml-1" />}
+                              </Button>
+                              <ul className="space-y-1.5">
+                                {tier.features.map((f, i) => (
+                                  <li key={i} className="flex items-start gap-2">
+                                    <Check className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
+                                    <span className="text-text-secondary text-xs">{f}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                              {tier.limitations && (
+                                <ul className="space-y-1 mt-2 pt-2 border-t border-white/10">
+                                  {tier.limitations.map((l, i) => (
+                                    <li key={i} className="flex items-center gap-1.5 text-text-tertiary text-xs">
+                                      <Ban className="w-3 h-3 text-red-400 shrink-0" />
+                                      {l}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
 
-                    <p className="text-xs text-text-tertiary">
-                      Або поверніться завтра для нових 5 безкоштовних питань
-                    </p>
+                      <p className="text-xs text-text-tertiary text-center mt-4">
+                        Або поверніться завтра для нових 5 безкоштовних питань
+                      </p>
+                    </div>
                   </div>
                 )}
               </form>
