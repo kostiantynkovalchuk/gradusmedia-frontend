@@ -552,7 +552,20 @@ export default function ChatPage() {
                             message.role === "user" ? "4px" : "16px",
                         }}
                       >
-                        <ReactMarkdown>{message.content}</ReactMarkdown>
+                        <ReactMarkdown
+                          components={{
+                            a: ({ href, children }) => {
+                              if (href && href.startsWith("/")) {
+                                return (
+                                  <Link href={href} className="text-amber-primary underline font-semibold">
+                                    {children}
+                                  </Link>
+                                );
+                              }
+                              return <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>;
+                            }
+                          }}
+                        >{message.content}</ReactMarkdown>
                       </div>
                       <span className="text-xs text-text-tertiary mt-1 px-1">
                         {message.timestamp.toLocaleTimeString("uk-UA", {
