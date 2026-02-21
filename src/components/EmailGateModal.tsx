@@ -32,17 +32,18 @@ export function EmailGateModal({ isOpen, onClose, onSubmit }: EmailGateModalProp
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
       <div 
-        className="w-full max-w-md rounded-2xl p-8 relative"
+        className="w-full max-w-md rounded-2xl pt-12 px-8 pb-8 relative overflow-y-auto"
         style={{
           background: 'linear-gradient(135deg, hsl(263 50% 12%) 0%, hsl(263 45% 18%) 100%)',
           border: '1px solid rgba(245, 158, 11, 0.3)',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8)'
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8)',
+          maxHeight: '90vh'
         }}
         data-testid="email-gate-modal"
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 transition-colors hover-elevate"
+          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 transition-colors hover-elevate z-10"
           data-testid="button-close-gate"
         >
           <X className="w-4 h-4 text-text-secondary" />
