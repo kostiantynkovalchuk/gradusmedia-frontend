@@ -120,7 +120,7 @@ export function MayaChatBanner() {
                 </div>
                 <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
                   <div className="text-xl font-bold text-amber-primary">25+</div>
-                  <div className="text-xs text-text-tertiary">Років AVTD</div>
+                  <div className="text-xs text-text-tertiary">Років досвіду</div>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
                   <div className="text-xl font-bold text-amber-primary">&lt;2 хв</div>
@@ -184,7 +184,7 @@ export function MayaChatBanner() {
                   </div>
                   <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
                     <div className="text-xl font-bold text-amber-primary">25+</div>
-                    <div className="text-xs text-text-tertiary">Років AVTD</div>
+                    <div className="text-xs text-text-tertiary">Років досвіду</div>
                   </div>
                   <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
                     <div className="text-xl font-bold text-amber-primary">&lt;2 хв</div>
@@ -275,7 +275,7 @@ export function MayaChatBanner() {
             </div>
 
             {/* Centered CTA (Both Mobile & Desktop) */}
-            <div className="flex flex-col items-center gap-3 mt-4">
+            <div className="flex flex-col items-center gap-3 mt-8">
               <Link href="/chat" data-testid="maya-cta-button">
                 <Button
                   className="px-8 py-3.5 text-base font-semibold rounded-full transition-transform duration-200"
