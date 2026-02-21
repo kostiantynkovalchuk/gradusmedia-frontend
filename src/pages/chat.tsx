@@ -7,7 +7,6 @@ import {
   BarChart2,
   FileText,
   Target,
-  CheckCircle2,
   User,
   ArrowRight,
   Star,
@@ -984,72 +983,6 @@ export default function ChatPage() {
           </div>
         </section>
 
-        <section
-          className="py-16"
-          style={{
-            background:
-              "linear-gradient(180deg, hsl(var(--bg-dark)) 0%, hsl(263 50% 12%) 100%)",
-          }}
-        >
-          <div className="max-w-[1200px] mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="max-w-[600px] mx-auto p-10 md:p-12 rounded-2xl text-center"
-              style={{
-                background:
-                  "linear-gradient(135deg, hsl(263 50% 12%) 0%, hsl(263 45% 18%) 100%)",
-                border: "1px solid rgba(245, 158, 11, 0.2)",
-              }}
-              data-testid="premium-cta"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
-                Готові до більшого?
-              </h2>
-              <p className="text-text-secondary text-lg mb-6">
-                Преміум підписка Gradus Media:
-              </p>
-              <ul className="text-left max-w-[400px] mx-auto mb-6">
-                {[
-                  "Безлімітні питання Alex",
-                  "Щотижневі звіти з трендів",
-                  "База постачальників",
-                  "Особиста консультація щомісяця",
-                ].map((feature, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-3 py-3 text-text-secondary"
-                    style={{
-                      borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
-                    }}
-                  >
-                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-amber-primary to-amber-secondary bg-clip-text text-transparent">
-                Від $7/місяць
-              </p>
-              <Link href="/pricing">
-                <Button
-                  className="px-10 py-6 text-lg font-semibold rounded-xl"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, hsl(var(--amber-primary)) 0%, hsl(var(--amber-secondary)) 100%)",
-                    color: "hsl(263 50% 12%)",
-                  }}
-                  data-testid="button-learn-more"
-                >
-                  Переглянути тарифи
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
       </main>
     </>
   );
