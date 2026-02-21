@@ -48,6 +48,7 @@ export default function ChatPage() {
   const [remainingQuestions, setRemainingQuestions] = useState(5);
   const [showEmailGate, setShowEmailGate] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [pendingMessage, setPendingMessage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -59,8 +60,6 @@ export default function ChatPage() {
     const storedEmail = localStorage.getItem("mayaUserEmail");
     if (storedEmail) {
       setUserEmail(storedEmail);
-    } else {
-      setShowEmailGate(true);
     }
   }, []);
 
@@ -93,19 +92,19 @@ export default function ChatPage() {
     setUserEmail(data.email);
     setShowEmailGate(false);
     setRemainingQuestions(result.remaining_questions || 5);
+
+    if (pendingMessage) {
+      setPendingMessage(null);
+      sendMessage(pendingMessage, data.email);
+    }
   };
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputValue.trim() || isLoading) return;
-
-    if (remainingQuestions <= 0) {
-      return;
-    }
+  const sendMessage = async (text: string, email?: string) => {
+    const resolvedEmail = email || userEmail || localStorage.getItem("mayaUserEmail");
 
     const userMessage: ChatMessage = {
       role: "user",
-      content: inputValue,
+      content: text,
       timestamp: new Date(),
     };
 
@@ -127,8 +126,8 @@ export default function ChatPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            message: inputValue,
-            email: userEmail || localStorage.getItem("mayaUserEmail"),
+            message: text,
+            email: resolvedEmail,
             session_id: getSessionId(),
           }),
         }
@@ -187,6 +186,23 @@ export default function ChatPage() {
     }
   };
 
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputValue.trim() || isLoading) return;
+
+    if (remainingQuestions <= 0) {
+      return;
+    }
+
+    if (!userEmail && !localStorage.getItem("mayaUserEmail")) {
+      setPendingMessage(inputValue);
+      setShowEmailGate(true);
+      return;
+    }
+
+    sendMessage(inputValue);
+  };
+
   const quickStartQuestions = [
     "Які коктейлі тренд цього сезону?",
     "Кращі постачальники преміум алкоголю?",
@@ -214,7 +230,7 @@ export default function ChatPage() {
     <>
       <EmailGateModal
         isOpen={showEmailGate}
-        onClose={() => {}}
+        onClose={() => setShowEmailGate(false)}
         onSubmit={handleEmailSubmit}
       />
       <main className="pt-20 min-h-screen" data-testid="page-chat">

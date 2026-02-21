@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Mail, User, Briefcase, Check, AlertCircle } from "lucide-react";
+import { Mail, User, Briefcase, Check, AlertCircle, X } from "lucide-react";
 
 interface EmailGateModalProps {
   isOpen: boolean;
@@ -8,7 +8,7 @@ interface EmailGateModalProps {
   onSubmit: (data: { name: string; email: string; position: string }) => void;
 }
 
-export function EmailGateModal({ isOpen, onSubmit }: EmailGateModalProps) {
+export function EmailGateModal({ isOpen, onClose, onSubmit }: EmailGateModalProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
@@ -40,6 +40,13 @@ export function EmailGateModal({ isOpen, onSubmit }: EmailGateModalProps) {
         }}
         data-testid="email-gate-modal"
       >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 transition-colors hover-elevate"
+          data-testid="button-close-gate"
+        >
+          <X className="w-4 h-4 text-text-secondary" />
+        </button>
         <div className="flex justify-center mb-6">
           <img
             src="/images/alex.jpg"
