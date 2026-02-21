@@ -861,7 +861,7 @@ export default function ChatPage() {
                             data-testid="button-annual-chat"
                           >
                             Щороку
-                            <span className="ml-1.5 text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-full">-20%</span>
+                            <span className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full font-semibold ${billingCycle === "annual" ? "bg-bg-dark/60 text-white" : "bg-green-500/20 text-green-400"}`}>-20%</span>
                           </button>
                         </div>
                       </div>

@@ -231,7 +231,7 @@ export default function PricingPage() {
             data-testid="button-annual"
           >
             Щороку
-            <span className="ml-2 text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">
+            <span className={`ml-2 text-xs px-2 py-0.5 rounded-full font-semibold ${billingCycle === "annual" ? "bg-bg-dark/60 text-white" : "bg-green-500/20 text-green-400"}`}>
               -20%
             </span>
           </button>
