@@ -109,7 +109,7 @@ export function MayaChatBanner() {
                   Alex Gradus — ваш особистий HoReCa консультант
                 </h2>
                 <p className="text-text-secondary text-sm">
-                  Світові тренди + українське право + перевірені постачальники
+                  Світові тренди + український ринок + перевірені постачальники
                 </p>
               </div>
 
@@ -173,7 +173,7 @@ export function MayaChatBanner() {
                     Alex Gradus — ваш особистий HoReCa консультант
                   </h2>
                   <p className="text-text-secondary text-sm">
-                    Світові тренди + українське право + перевірені постачальники
+                    Світові тренди + український ринок + перевірені постачальники
                   </p>
                 </div>
 
@@ -289,7 +289,7 @@ export function MayaChatBanner() {
                 </Button>
               </Link>
               <p className="text-xs text-text-secondary">
-                Потім від <span className="text-amber-primary font-semibold">$7/міс</span> для безлімітного доступу
+                Безкоштовно. Потім від <span className="text-amber-primary font-semibold">$7/міс</span> для безлімітного доступу
               </p>
             </div>
           </div>

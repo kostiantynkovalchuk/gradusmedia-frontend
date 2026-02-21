@@ -136,8 +136,8 @@ export default function PricingPage() {
       name: "Безкоштовний",
       price: 0,
       priceAnnual: 0,
-      period: "назавжди",
-      description: "Спробуйте Alex щодня",
+      period: "",
+      description: "Спробуйте Alex",
       features: [
         "5 питань на день",
         "Базові відповіді",
@@ -182,7 +182,7 @@ export default function PricingPage() {
         "Все зі Стандарт +",
         "Відеоконсультація 1x/міс (30 хв)",
         "Ексклюзивні знижки AVTD (10-15%)",
-        "Custom аналіз меню/винної карти",
+        "Custom аналіз меню",
         "Пріоритетна підтримка",
         "Доступ до закритих вебінарів",
       ],
@@ -280,7 +280,7 @@ export default function PricingPage() {
                   <span className="text-5xl font-bold text-text-primary">
                     ${displayPrice}
                   </span>
-                  <span className="text-text-secondary">/{tier.period}</span>
+                  {tier.period && <span className="text-text-secondary">/{tier.period}</span>}
                   {uahDisplay && (
                     <p className="text-amber-400/80 text-sm mt-1">
                       {uahDisplay}

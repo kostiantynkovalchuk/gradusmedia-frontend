@@ -833,7 +833,7 @@ export default function ChatPage() {
                       </div>
 
                       <p className="text-lg font-semibold text-amber-primary mb-4">
-                        Продовжте отримувати експертні поради
+                        Продовжуйте отримувати експертні поради
                       </p>
                     </div>
 
@@ -873,8 +873,8 @@ export default function ChatPage() {
                             name: "Безкоштовний",
                             price: 0,
                             priceAnnual: 0,
-                            period: "назавжди",
-                            description: "Спробуйте Alex щодня",
+                            period: "",
+                            description: "Спробуйте Alex",
                             features: ["5 питань на день", "Базові відповіді", "Доступ до новин"],
                             limitations: ["Без звітів з трендів", "Без бази постачальників"],
                             popular: false,
@@ -929,7 +929,7 @@ export default function ChatPage() {
                               <p className="text-text-tertiary text-xs mb-3">{tier.description}</p>
                               <div className="mb-3">
                                 <span className="text-3xl font-bold text-text-primary">${displayPrice}</span>
-                                <span className="text-text-secondary text-sm">/{tier.period}</span>
+                                {tier.period && <span className="text-text-secondary text-sm">/{tier.period}</span>}
                                 {uahDisplay && <p className="text-amber-400/80 text-xs mt-0.5">{uahDisplay}</p>}
                                 {tier.savings && <p className="text-green-400 text-xs mt-1 font-semibold">{tier.savings}</p>}
                               </div>
