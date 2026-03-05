@@ -12,6 +12,7 @@ import About from "@/pages/about";
 import ChatPage from "@/pages/chat";
 import PricingPage from "@/pages/pricing";
 import { FloatingChatBubble } from "@/components/FloatingChatBubble";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -33,6 +34,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <div className="min-h-screen flex flex-col bg-bg-dark" data-testid="app-container">
+          <ScrollToTop />
           <Header />
           <div className="flex-1">
             <Router />
