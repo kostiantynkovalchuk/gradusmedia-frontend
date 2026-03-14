@@ -74,7 +74,7 @@ export default function About() {
   const ctaSection = useInView(0.2);
 
   return (
-    <main className="pt-20 min-h-screen overflow-x-hidden flex flex-col md:block" data-testid="page-about">
+    <main className="pt-20 min-h-screen overflow-x-hidden" data-testid="page-about">
       <title>Про Gradus Media — AI-консультант для HoReCa України</title>
       <meta name="description" content="Перша україномовна AI-платформа для барів та ресторанів. Поради щодо постачальників, меню та прибутковості від AI-консультанта Alex." />
 
@@ -129,11 +129,30 @@ export default function About() {
           border-color: rgba(201,168,76,0.4) !important;
         }
         @media (max-width: 768px) {
+          /* Hero section compression */
+          .hero-section {
+            min-height: auto !important;
+            padding: 24px 24px 16px 24px !important;
+          }
+          .hero-logo {
+            max-height: 120px !important;
+            width: auto !important;
+            margin: 0 auto 16px auto !important;
+          }
+          .hero-headline {
+            font-size: 26px !important;
+            margin-bottom: 8px !important;
+          }
+          .hero-divider {
+            margin-bottom: 16px !important;
+          }
+
+          /* Stats section compression */
           .stats-section {
-            order: -1;
+            padding: 16px 24px !important;
           }
           .stat-number {
-            font-size: 28px !important;
+            font-size: 32px !important;
             white-space: nowrap;
           }
           .stat-label {
@@ -141,11 +160,13 @@ export default function About() {
           }
           .stats-grid {
             grid-template-columns: 1fr 1fr !important;
-            gap: 10px !important;
+            gap: 8px !important;
           }
           .stat-card {
-            padding: 16px 12px;
+            padding: 12px 8px !important;
           }
+
+          /* Brand pills */
           .brands-title {
             font-size: 18px !important;
           }
@@ -162,7 +183,7 @@ export default function About() {
       {/* ── HERO ── */}
       <section
         ref={heroRef}
-        className="relative flex items-center justify-center overflow-hidden"
+        className="hero-section relative flex items-center justify-center overflow-hidden"
         style={{ minHeight: "60vh" }}
         data-testid="about-hero"
       >
@@ -184,9 +205,9 @@ export default function About() {
         />
 
         <div className="relative max-w-[900px] mx-auto px-6 py-24 text-center">
-          <div className="w-12 h-px mx-auto mb-8 hero-text" style={{ background: `${GOLD}0.6)` }} />
+          <div className="hero-divider w-12 h-px mx-auto mb-8 hero-text" style={{ background: `${GOLD}0.6)` }} />
           <h1
-            className="font-bold tracking-tight hero-text mb-6"
+            className="hero-headline font-bold tracking-tight hero-text mb-6"
             style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1.15, color: "rgba(255,255,255,0.95)", letterSpacing: "-0.02em" }}
             data-testid="about-title"
           >
