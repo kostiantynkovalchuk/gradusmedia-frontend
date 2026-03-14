@@ -87,24 +87,36 @@ export function Header() {
 
       {mobileMenuOpen && (
         <div
-          className="lg:hidden absolute top-full left-0 right-0 border-b border-amber-primary/10"
+          className="lg:hidden absolute top-full left-0 right-0"
           style={{
-            background: "rgba(26, 15, 40, 0.95)",
+            background: "#1a1208",
             backdropFilter: "blur(16px)",
             boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+            borderBottom: "1px solid rgba(201, 168, 76, 0.2)",
           }}
           data-testid="nav-mobile"
         >
-          <nav className="flex flex-col p-4">
+          <nav
+            className="grid grid-cols-2 gap-x-4 gap-y-2 p-6"
+            style={{
+              padding: "24px 20px",
+            }}
+          >
             {navItems.map((item) => (
               <Link key={item.path} href={item.path}>
                 <Button
                   variant="ghost"
-                  className={`w-full justify-start text-body-md font-medium py-3 ${
+                  className={`w-full justify-start font-medium ${
                     location === item.path
                       ? "text-amber-primary"
+                      : item.highlight
+                      ? "text-amber-primary/80 hover:text-amber-primary"
                       : "text-text-secondary"
                   }`}
+                  style={{
+                    fontSize: "16px",
+                    padding: "12px 8px",
+                  }}
                   onClick={() => setMobileMenuOpen(false)}
                   data-testid={`nav-mobile-link-${item.title.toLowerCase()}`}
                 >
