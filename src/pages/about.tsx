@@ -213,21 +213,16 @@ export default function About() {
 
             {/* Logo */}
             <div className="flex items-center justify-center">
-              <div style={{
-                background: "hsl(30 20% 5%)",
-                borderRadius: "16px",
-                padding: "2rem",
-              }}>
-                <img
-                  src={logoLarge}
-                  alt="Gradus Media"
-                  style={{
-                    maxWidth: "280px",
-                    width: "100%",
-                    height: "auto",
-                  }}
-                />
-              </div>
+              <img
+                src={logoLarge}
+                alt="Gradus Media"
+                style={{
+                  maxWidth: "280px",
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                }}
+              />
             </div>
           </div>
         </div>
