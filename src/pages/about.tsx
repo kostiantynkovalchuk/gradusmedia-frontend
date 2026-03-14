@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { Store, BarChart2, Wine, TrendingUp, FileText, Lightbulb, ArrowRight } from "lucide-react";
-import logoLarge from "@assets/generated_images/glowing_amber_g_logo.png";
+import logoLarge from "../../attached_assets/generated_images/logo.webp";
 
 const GOLD = "rgba(201,168,76,";
 
@@ -213,15 +213,21 @@ export default function About() {
 
             {/* Logo */}
             <div className="flex items-center justify-center">
-              <img
-                src={logoLarge}
-                alt="Gradus Media"
-                style={{
-                  maxWidth: "280px",
-                  width: "100%",
-                  height: "auto",
-                }}
-              />
+              <div style={{
+                background: "hsl(30 20% 5%)",
+                borderRadius: "16px",
+                padding: "2rem",
+              }}>
+                <img
+                  src={logoLarge}
+                  alt="Gradus Media"
+                  style={{
+                    maxWidth: "280px",
+                    width: "100%",
+                    height: "auto",
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
