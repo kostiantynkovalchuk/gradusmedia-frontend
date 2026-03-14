@@ -106,7 +106,7 @@ export function MayaChatBanner() {
                   style={{ lineHeight: '1.2' }}
                   data-testid="maya-banner-title"
                 >
-                  Alex Gradus — ваш особистий HoReCa консультант
+                  Alex — це Ваш особистий експерт з прибутковості бару
                 </h2>
                 <p className="text-text-secondary text-sm">
                   Світові тренди + український ринок + перевірені постачальники
@@ -170,7 +170,7 @@ export function MayaChatBanner() {
                     style={{ lineHeight: '1.2' }}
                     data-testid="maya-banner-title-desktop"
                   >
-                    Alex Gradus — ваш особистий HoReCa консультант
+                    Alex — це Ваш особистий експерт з прибутковості бару
                   </h2>
                   <p className="text-text-secondary text-sm">
                     Світові тренди + український ринок + перевірені постачальники

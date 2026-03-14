@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { Store, BarChart2, Wine, TrendingUp, FileText, Lightbulb, ArrowRight } from "lucide-react";
+import logoLarge from "@assets/generated_images/logo.webp";
 
 const GOLD = "rgba(201,168,76,";
 
@@ -160,31 +161,25 @@ export default function About() {
             style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1.15, color: "rgba(255,255,255,0.95)", letterSpacing: "-0.02em" }}
             data-testid="about-title"
           >
-            Перша україномовна AI-платформа<br className="hidden md:block" /> для HoReCa бізнесу
+            Перша україномовна<br />AI-платформа для HoReCa бізнесу
           </h1>
-          <p
-            className="hero-text-delay mx-auto"
-            style={{ maxWidth: "640px", fontSize: "1.15rem", lineHeight: 1.75, color: "rgba(255,255,255,0.52)", fontWeight: 300 }}
-          >
-            Gradus Media — це перша україномовна AI-платформа для власників і керівників барів та ресторанів.
-          </p>
         </div>
       </section>
 
       {/* ── STATS ── */}
-      <section className="py-16 px-6" data-testid="about-stats">
+      <section className="py-14 px-6" data-testid="about-stats">
         <div ref={statsSection.ref} className="max-w-[1100px] mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
             {stats.map((s, i) => (
               <div
                 key={i}
-                className={`fade-in-up stagger-${i + 1} ${statsSection.inView ? "visible" : ""} p-8 text-center`}
-                style={glassCard}
+                className="text-center"
                 data-testid={`stat-card-${i}`}
               >
-                <p style={{ fontSize: "2.25rem", fontWeight: 700, color: `${GOLD}0.95)`, letterSpacing: "-0.02em", lineHeight: 1 }}>
+                <p style={{ fontSize: "2.75rem", fontWeight: 700, color: `${GOLD}0.95)`, letterSpacing: "-0.02em", lineHeight: 1 }}>
                   <CountUp target={s.num} suffix={s.suffix} format={s.format} />
                 </p>
+                <div className="mt-3 mx-auto w-8 h-px" style={{ background: `${GOLD}0.3)` }} />
                 <p className="mt-3" style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.5, fontWeight: 400 }}>
                   {s.label}
                 </p>
@@ -216,22 +211,26 @@ export default function About() {
               </div>
             </div>
 
-            {/* Pull quote */}
+            {/* Logo block */}
             <div
+              className="flex items-center justify-center"
               style={{
                 ...glassCard,
-                padding: "32px 28px",
-                borderLeft: `3px solid ${GOLD}0.6)`,
-                borderRadius: "0 16px 16px 0",
-                background: `${GOLD}0.04)`,
+                padding: "40px",
+                minHeight: "280px",
               }}
             >
-              <p style={{ fontSize: "1.15rem", lineHeight: 1.75, color: "rgba(255,255,255,0.75)", fontStyle: "italic", fontWeight: 300 }}>
-                "AI-консультант Alex — це як мати особистого експерта з прибутковості бару, доступного 24/7"
-              </p>
-              <p className="mt-5" style={{ fontSize: "0.78rem", color: `${GOLD}0.7)`, textTransform: "uppercase", letterSpacing: "0.08em", fontStyle: "normal" }}>
-                Користувачі Gradus Media
-              </p>
+              <img
+                src={logoLarge}
+                alt="Gradus Media"
+                className="w-full max-w-[220px] h-auto"
+                style={{
+                  mixBlendMode: "lighten",
+                  filter: "drop-shadow(0 0 40px rgba(201,168,76,0.25))",
+                  maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                }}
+              />
             </div>
           </div>
         </div>
