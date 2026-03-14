@@ -116,9 +116,34 @@ export function Footer() {
           <p className="text-text-tertiary text-body-sm mb-2">
             &copy; 2026 Gradus Media. Всі права захищені.
           </p>
-          <p className="text-text-tertiary text-body-xs">
+          <p className="text-text-tertiary text-body-xs mb-4">
             Створено з використанням AI для HoReCa індустрії України
           </p>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            <Link
+              href="/terms"
+              className="text-text-tertiary text-body-xs hover:text-amber-primary transition-colors"
+              data-testid="footer-link-terms"
+            >
+              Правила та умови
+            </Link>
+            <span className="text-text-tertiary text-body-xs">|</span>
+            <Link
+              href="/refund"
+              className="text-text-tertiary text-body-xs hover:text-amber-primary transition-colors"
+              data-testid="footer-link-refund"
+            >
+              Політика повернення
+            </Link>
+            <span className="text-text-tertiary text-body-xs">|</span>
+            <Link
+              href="/contacts"
+              className="text-text-tertiary text-body-xs hover:text-amber-primary transition-colors"
+              data-testid="footer-link-contacts"
+            >
+              Контакти
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

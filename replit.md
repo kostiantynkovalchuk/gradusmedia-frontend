@@ -39,6 +39,9 @@ Preferred communication style: Simple, everyday language.
 4. **Chat** (`/chat`) - AI assistant (Alex Gradus) chat with email-based auth, EmailGateModal, upgrade prompts, limit-reached UI
 5. **Pricing** (`/pricing`) - 3 subscription tiers (Free/Standard $7/Premium $10), billing toggle (monthly/annual -20%), FAQ
 6. **About** (`/about`) - Company information page
+7. **Terms** (`/terms`) - "Правила та умови" — legal terms required for WayForPay; ФОП details, service tiers, trial period, plan changes
+8. **Refund** (`/refund`) - "Політика повернення" — 7-day refund policy, how to request, 24h cancellation
+9. **Contacts** (`/contacts`) - "Контакти" — ФОП legal info, email, phone, address, WayForPay link
 
 ### Monetization System
 - **Email Gate**: EmailGateModal appears on first chat visit, requires name/email/position before using chat

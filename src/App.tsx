@@ -13,6 +13,9 @@ import ChatPage from "@/pages/chat";
 import PricingPage from "@/pages/pricing";
 import { FloatingChatBubble } from "@/components/FloatingChatBubble";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import TermsPage from "@/pages/terms";
+import RefundPage from "@/pages/refund";
+import ContactsPage from "@/pages/contacts";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,6 +27,9 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/chat" component={ChatPage} />
       <Route path="/pricing" component={PricingPage} />
+      <Route path="/terms" component={TermsPage} />
+      <Route path="/refund" component={RefundPage} />
+      <Route path="/contacts" component={ContactsPage} />
       <Route component={NotFound} />
     </Switch>
   );
