@@ -297,46 +297,36 @@ export default function About() {
       {/* ── CTA ── */}
       <section className="py-24 px-6" data-testid="about-cta">
         <div ref={ctaSection.ref} className={`fade-in-up ${ctaSection.inView ? "visible" : ""} max-w-[640px] mx-auto text-center`}>
-          <div
-            className="p-12 rounded-2xl"
-            style={{
-              background: `${GOLD}0.05)`,
-              border: `1px solid ${GOLD}0.18)`,
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }}
-          >
-            <h2 className="font-bold mb-4" style={{ fontSize: "1.9rem", color: "rgba(255,255,255,0.92)", letterSpacing: "-0.02em" }}>
-              Спробуйте безкоштовно
-            </h2>
-            <p className="mb-8" style={{ fontSize: "1rem", color: "rgba(255,255,255,0.45)", fontWeight: 300 }}>
-              5 запитів щодня. Без картки. Без реєстрації.
-            </p>
-            <Link href="/chat">
-              <button
-                className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl font-semibold transition-all"
-                style={{
-                  background: `linear-gradient(135deg, ${GOLD}0.9), rgba(180,140,50,0.9))`,
-                  color: "hsl(30 20% 5%)",
-                  fontSize: "0.95rem",
-                  boxShadow: "0 0 0 0 rgba(201,168,76,0)",
-                  transition: "filter 0.2s ease, box-shadow 0.2s ease",
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLButtonElement).style.filter = "brightness(1.1)";
-                  (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 24px ${GOLD}0.3)`;
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.filter = "";
-                  (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 0 0 0 ${GOLD}0)`;
-                }}
-                data-testid="button-about-cta"
-              >
-                Відкрити чат з Alex
-                <ArrowRight style={{ width: "16px", height: "16px" }} />
-              </button>
-            </Link>
-          </div>
+          <h2 className="font-bold mb-4" style={{ fontSize: "1.9rem", color: "rgba(255,255,255,0.92)", letterSpacing: "-0.02em" }}>
+            Спробуйте безкоштовно
+          </h2>
+          <p className="mb-8" style={{ fontSize: "1rem", color: "rgba(255,255,255,0.45)", fontWeight: 300 }}>
+            5 запитів щодня. Без картки. Без реєстрації.
+          </p>
+          <Link href="/chat">
+            <button
+              className="group inline-flex items-center gap-2 px-7 py-3 rounded-xl font-semibold transition-all"
+              style={{
+                background: `linear-gradient(135deg, ${GOLD}0.9), rgba(180,140,50,0.9))`,
+                color: "hsl(30 20% 5%)",
+                fontSize: "0.95rem",
+                boxShadow: "0 0 0 0 rgba(201,168,76,0)",
+                transition: "filter 0.2s ease, box-shadow 0.2s ease",
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLButtonElement).style.filter = "brightness(1.1)";
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 24px ${GOLD}0.3)`;
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLButtonElement).style.filter = "";
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 0 0 0 ${GOLD}0)`;
+              }}
+              data-testid="button-about-cta"
+            >
+              Відкрити чат з Alex
+              <ArrowRight style={{ width: "16px", height: "16px" }} />
+            </button>
+          </Link>
         </div>
       </section>
     </main>
