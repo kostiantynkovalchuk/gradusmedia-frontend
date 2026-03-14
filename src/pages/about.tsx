@@ -216,11 +216,10 @@ export default function About() {
               <img
                 src={logoLarge}
                 alt="Gradus Media"
-                className="w-full h-auto"
                 style={{
-                  mixBlendMode: "lighten",
-                  filter: "drop-shadow(0 0 40px rgba(201,168,76,0.2))",
                   maxWidth: "280px",
+                  width: "100%",
+                  height: "auto",
                 }}
               />
             </div>
