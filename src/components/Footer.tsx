@@ -25,8 +25,8 @@ export function Footer() {
   return (
     <footer className="bg-bg-darkest border-t border-amber-primary/10 mt-24" data-testid="footer">
       <div className="max-w-[1200px] mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-10">
-          <div className="lg:col-span-1" data-testid="footer-brand">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.5fr] gap-10 lg:gap-14 mb-10">
+          <div data-testid="footer-brand">
             <img
               src={logoSmall}
               alt="Gradus Media logo"
