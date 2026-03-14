@@ -108,12 +108,12 @@ export function MayaChatBanner() {
                 >
                   Alex — Ваш особистий експерт з прибутковості бару
                 </h2>
-                <p className="text-text-secondary text-sm">
+                <p className="text-text-secondary text-sm hidden md:block">
                   Світові тренди + український ринок + перевірені постачальники
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 mb-6 max-w-[300px] mx-auto">
+              <div className="grid grid-cols-2 gap-3 mb-6 max-w-[300px] mx-auto hidden md:grid">
                 <div className="text-center p-3 rounded-lg bg-white/5 border border-white/10">
                   <div className="text-xl font-bold text-amber-primary">800+</div>
                   <div className="text-xs text-text-tertiary">Закладів</div>
