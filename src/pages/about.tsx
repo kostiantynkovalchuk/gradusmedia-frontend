@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { Store, BarChart2, Wine, TrendingUp, FileText, Lightbulb, ArrowRight } from "lucide-react";
-import logoLarge from "@assets/generated_images/logo.webp";
+import logoLarge from "@assets/generated_images/glowing_amber_g_logo.png";
 
 const GOLD = "rgba(201,168,76,";
 
