@@ -18,14 +18,13 @@ const contactCards = [
   {
     icon: Mail,
     title: "Email",
-    lines: ["admin@gradusmedia.org"],
+    lines: [],
     email: "admin@gradusmedia.org",
   },
   {
     icon: Phone,
     title: "Телефон",
     lines: ["+380683830579"],
-    tel: "+380683830579",
   },
   {
     icon: MapPin,
