@@ -74,7 +74,7 @@ export default function About() {
   const ctaSection = useInView(0.2);
 
   return (
-    <main className="pt-20 min-h-screen overflow-x-hidden" data-testid="page-about">
+    <main className="pt-20 min-h-screen overflow-x-hidden flex flex-col md:block" data-testid="page-about">
       <title>Про Gradus Media — AI-консультант для HoReCa України</title>
       <meta name="description" content="Перша україномовна AI-платформа для барів та ресторанів. Поради щодо постачальників, меню та прибутковості від AI-консультанта Alex." />
 
@@ -128,6 +128,25 @@ export default function About() {
           background: rgba(201,168,76,0.15) !important;
           border-color: rgba(201,168,76,0.4) !important;
         }
+        @media (max-width: 768px) {
+          .stats-section {
+            order: -1;
+          }
+          .stat-number {
+            font-size: 28px !important;
+            white-space: nowrap;
+          }
+          .stat-label {
+            font-size: 11px !important;
+          }
+          .stats-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 10px !important;
+          }
+          .stat-card {
+            padding: 16px 12px;
+          }
+        }
       `}</style>
 
       {/* ── HERO ── */}
@@ -167,20 +186,20 @@ export default function About() {
       </section>
 
       {/* ── STATS ── */}
-      <section className="py-14 px-6" data-testid="about-stats">
+      <section className="stats-section py-14 px-6" data-testid="about-stats">
         <div ref={statsSection.ref} className="max-w-[1100px] mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
+          <div className="stats-grid grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
             {stats.map((s, i) => (
               <div
                 key={i}
-                className="text-center"
+                className="stat-card text-center"
                 data-testid={`stat-card-${i}`}
               >
-                <p style={{ fontSize: "2.75rem", fontWeight: 700, color: `${GOLD}0.95)`, letterSpacing: "-0.02em", lineHeight: 1 }}>
+                <p className="stat-number" style={{ fontSize: "2.75rem", fontWeight: 700, color: `${GOLD}0.95)`, letterSpacing: "-0.02em", lineHeight: 1 }}>
                   <CountUp target={s.num} suffix={s.suffix} format={s.format} />
                 </p>
                 <div className="mt-3 mx-auto w-8 h-px" style={{ background: `${GOLD}0.3)` }} />
-                <p className="mt-3" style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.5, fontWeight: 400 }}>
+                <p className="stat-label mt-3" style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.5, fontWeight: 400 }}>
                   {s.label}
                 </p>
               </div>
