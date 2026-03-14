@@ -132,24 +132,24 @@ export default function About() {
           /* Hero section compression */
           .hero-section {
             min-height: auto !important;
-            padding: 24px 24px 16px 24px !important;
+            padding: 20px 20px 14px 20px !important;
           }
           .hero-logo {
             max-height: 120px !important;
             width: auto !important;
-            margin: 0 auto 16px auto !important;
+            margin: 0 auto 14px auto !important;
           }
           .hero-headline {
             font-size: 26px !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 7px !important;
           }
           .hero-divider {
-            margin-bottom: 16px !important;
+            margin-bottom: 14px !important;
           }
 
           /* Stats section compression */
           .stats-section {
-            padding: 16px 24px !important;
+            padding: 14px 20px !important;
           }
           .stat-number {
             font-size: 32px !important;
@@ -160,10 +160,10 @@ export default function About() {
           }
           .stats-grid {
             grid-template-columns: 1fr 1fr !important;
-            gap: 8px !important;
+            gap: 7px !important;
           }
           .stat-card {
-            padding: 12px 8px !important;
+            padding: 10px 7px !important;
           }
 
           /* Brand pills */
