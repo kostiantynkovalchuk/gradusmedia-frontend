@@ -16,6 +16,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import TermsPage from "@/pages/terms";
 import RefundPage from "@/pages/refund";
 import ContactsPage from "@/pages/contacts";
+import FaqPage from "@/pages/faq";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/terms" component={TermsPage} />
       <Route path="/refund" component={RefundPage} />
       <Route path="/contacts" component={ContactsPage} />
+      <Route path="/faq" component={FaqPage} />
       <Route component={NotFound} />
     </Switch>
   );

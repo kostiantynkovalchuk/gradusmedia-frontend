@@ -10,7 +10,8 @@ const navigationLinks = [
 ];
 
 const companyLinks = [
-  { title: "Про нас", path: "/about" },
+  { title: "Про платформу", path: "/about" },
+  { title: "FAQ", path: "/faq" },
   { title: "Чат з Alex", path: "/chat" },
 ];
 

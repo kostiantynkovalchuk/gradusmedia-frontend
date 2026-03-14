@@ -11,7 +11,8 @@ const navItems = [
   { title: "Тренди", path: "/category/trends" },
   { title: "Чат з Alex", path: "/chat", highlight: true },
   { title: "Тарифи", path: "/pricing" },
-  { title: "Про нас", path: "/about" },
+  { title: "FAQ", path: "/faq" },
+  { title: "Про платформу", path: "/about" },
 ];
 
 export function Header() {
