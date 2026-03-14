@@ -385,12 +385,12 @@ export default function ChatPage() {
 
               <div className="text-center">
                 <h2
-                  className="text-2xl font-semibold text-text-primary mb-6"
+                  className="text-2xl font-semibold text-text-primary mb-6 hidden md:block"
                   style={{ lineHeight: "1.4" }}
                 >
                   "Gradus Media - це не просто новини та тренди, а дієві поради для вашого бізнесу"
                 </h2>
-                <div className="grid grid-cols-2 gap-4 max-w-[400px] mx-auto">
+                <div className="grid grid-cols-2 gap-4 max-w-[400px] mx-auto hidden md:grid">
                   {expertiseItems.map((item, i) => (
                     <div
                       key={i}
