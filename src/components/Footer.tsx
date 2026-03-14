@@ -81,21 +81,11 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <div className="mt-6">
-              <h4 className="text-text-primary font-semibold mb-3">Контакти</h4>
-              <a
-                href="mailto:admin@gradusmedia.org"
-                className="text-text-secondary text-body-sm hover:text-amber-primary transition-colors"
-                data-testid="link-email"
-              >
-                admin@gradusmedia.org
-              </a>
-            </div>
           </div>
 
           <div data-testid="footer-social">
             <h4 className="text-text-primary font-semibold mb-4">Слідкуйте за нами</h4>
-            <div className="flex gap-3">
+            <div className="flex gap-3 mb-6">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
@@ -110,6 +100,14 @@ export function Footer() {
                 </a>
               ))}
             </div>
+            <h4 className="text-text-primary font-semibold mb-3">Контакти</h4>
+            <a
+              href="mailto:admin@gradusmedia.org"
+              className="text-text-secondary text-body-sm hover:text-amber-primary transition-colors"
+              data-testid="link-email"
+            >
+              admin@gradusmedia.org
+            </a>
           </div>
         </div>
 
