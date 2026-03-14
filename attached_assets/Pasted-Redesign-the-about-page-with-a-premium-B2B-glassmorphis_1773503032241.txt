@@ -1,0 +1,150 @@
+Redesign the /about page with a premium B2B glassmorphism 
+aesthetic. This is a professional platform for HoReCa 
+business owners — refined, trustworthy, modern. 
+Not a nightclub. Think Linear.app meets a premium 
+Ukrainian brand.
+
+═══════════════════════════════════════
+DESIGN DIRECTION
+═══════════════════════════════════════
+
+Aesthetic: "Refined Dark Glass"
+- Dark base: existing site dark brown/black (#1a1208 range)
+- Glass cards: white/gold with 8-12% opacity, 
+  backdrop-filter: blur(12px), subtle 1px border 
+  rgba(255,255,255,0.08)
+- Accent: existing gold (#c9a84c or similar)
+- NO purple gradients, NO neon, NO heavy blur effects
+
+Typography hierarchy:
+- Hero headline: large, bold, tight letter-spacing
+- Section titles: medium weight, gold accent color
+- Body text: light weight, 1.7 line height, muted white
+
+═══════════════════════════════════════
+PAGE STRUCTURE & COMPONENTS
+═══════════════════════════════════════
+
+HERO SECTION:
+- Full-width, min-height 60vh
+- Subtle animated gradient mesh in background 
+  (dark gold tones, very slow movement — 20s cycle)
+- Headline: "Перша україномовна AI-платформа 
+  для HoReCa бізнесу"
+- Subline: "Gradus Media — це перша україномовна 
+  AI-платформа для власників і керівників барів 
+  та ресторанів."
+- NO button in hero — let user scroll naturally
+
+STATS ROW (scroll-triggered fade-in):
+4 glass cards in a row, each containing:
+- Large number (animate count-up on scroll: 
+  0 → final value over 1.5s)
+- Label below in smaller muted text
+
+Card 1: "500+" / "SKU в портфелі AVTD"
+Card 2: "40 000+" / "торгових точок України"
+Card 3: "25+" / "років досвіду на ринку"
+Card 4: "5" / "безкоштовних запитів щодня"
+
+Glass card style:
+background: rgba(201, 168, 76, 0.06)
+border: 1px solid rgba(201, 168, 76, 0.15)
+border-radius: 16px
+backdrop-filter: blur(10px)
+padding: 32px 24px
+text-align: center
+
+ABOUT TEXT SECTION:
+- Two column layout on desktop, single on mobile
+- Left: section title + body text (content from /about)
+- Right: glass card with quote-style highlight:
+  "AI-консультант Alex — це як мати особистого 
+  експерта з прибутковості бару, доступного 24/7"
+  styled as a pull-quote with gold left border
+
+BRAND PILLS SECTION:
+Title: "Портфель AVTD доступний через Gradus Media"
+Brands displayed as pill/tag components:
+GREENDAY | HELSINKI | UKRAINKA | DOVBUSH | 
+VILLA UA | FUNJU | KRISTI VALLEY | ADJARI
+
+Pill style:
+- Dark glass background
+- Gold border 1px
+- Subtle hover: gold background 15% opacity
+- Smooth transition 0.2s
+
+WHAT ALEX HELPS WITH (icon grid):
+6 glass cards in 2×3 grid (desktop), 1 column (mobile)
+Each card: icon + title + one sentence
+
+Card 1: 🏪 "Постачальники" 
+"Перевірені постачальники алкоголю з офіційними ліцензіями"
+
+Card 2: 📊 "Прибутковість"
+"Розрахунок pour cost, маржі та середнього чеку"
+
+Card 3: 🍹 "Барне меню"
+"Сезонні коктейлі з маржею 75-85%"
+
+Card 4: 📈 "Тренди 2026"
+"Актуальні тренди HoReCa ринку України та світу"
+
+Card 5: 📋 "Ліцензування"
+"Покроковий план відкриття закладу та ліцензій"
+
+Card 6: 💡 "Upsell стратегії"
+"Скрипти для персоналу та пакетні пропозиції"
+
+Card hover effect:
+- Lift: translateY(-4px)
+- Border brightens slightly
+- Transition: 0.25s ease
+
+CTA SECTION:
+- Centered, generous padding
+- Headline: "Спробуйте безкоштовно"
+- Subtext: "5 запитів щодня. Без картки. Без реєстрації."
+- Button: gold gradient, rounded, 
+  "Відкрити чат з Alex" → /chat
+- Button hover: slight brightness increase + 
+  subtle glow shadow
+
+═══════════════════════════════════════
+ANIMATIONS & INTERACTIONS
+═══════════════════════════════════════
+
+- Hero text: fade-in + slide-up on load (0.6s ease-out)
+- Stats cards: staggered fade-in on scroll 
+  (each card 100ms delay after previous)
+- Count-up animation on stats when scrolled into view
+- Brand pills: staggered fade-in left-to-right
+- Feature cards: fade-in on scroll, hover lift effect
+- Background gradient: slow pulse animation (opacity 
+  varies 0.4→0.6, 20s cycle, CSS only)
+
+Use Intersection Observer for scroll triggers.
+CSS transitions only — no heavy animation libraries.
+
+═══════════════════════════════════════
+RESPONSIVE
+═══════════════════════════════════════
+
+Desktop (1200px+): full layouts as described
+Tablet (768-1199px): 2-column grids where applicable
+Mobile (<768px): single column, reduced padding,
+  stats in 2×2 grid
+
+═══════════════════════════════════════
+CONSTRAINTS
+═══════════════════════════════════════
+
+- Keep existing site color palette (dark base + gold)
+- Do NOT change header/navigation/footer
+- Do NOT change any other pages
+- All text content exactly as provided in previous prompt
+- Page must load fast — no heavy external dependencies
+- Glassmorphism only on cards, not full-page overlays
+
+Push to GitHub when done.
