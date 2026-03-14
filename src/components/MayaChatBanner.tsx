@@ -288,7 +288,7 @@ export function MayaChatBanner() {
                   Почати діалог з Alex
                 </Button>
               </Link>
-              <p className="text-xs text-text-secondary">
+              <p className="text-xs text-text-secondary text-center">
                 Безкоштовно. Потім від <span className="text-amber-primary font-semibold">$7/міс</span> для безлімітного доступу
               </p>
             </div>
