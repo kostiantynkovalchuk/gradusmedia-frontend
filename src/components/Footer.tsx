@@ -25,8 +25,8 @@ export function Footer() {
   return (
     <footer className="bg-bg-darkest border-t border-amber-primary/10 mt-24" data-testid="footer">
       <div className="max-w-[1200px] mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.5fr] gap-10 lg:gap-14 mb-10">
-          <div data-testid="footer-brand">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.5fr] gap-10 lg:gap-14 mb-10 footer-columns">
+          <div data-testid="footer-brand" className="footer-brand">
             <img
               src={logoSmall}
               alt="Gradus Media logo"
@@ -47,7 +47,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div data-testid="footer-nav">
+          <div data-testid="footer-nav" className="footer-nav">
             <h4 className="text-text-primary font-semibold mb-4">Навігація</h4>
             <ul className="space-y-3">
               {navigationLinks.map((link) => (
@@ -65,7 +65,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div data-testid="footer-company">
+          <div data-testid="footer-company" className="footer-company">
             <h4 className="text-text-primary font-semibold mb-4">Компанія</h4>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
@@ -83,7 +83,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div data-testid="footer-social">
+          <div data-testid="footer-social" className="footer-social">
             <h4 className="text-text-primary font-semibold mb-4">Слідкуйте за нами</h4>
             <div className="flex gap-3 mb-6">
               {socialLinks.map((social) => (

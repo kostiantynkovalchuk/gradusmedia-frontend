@@ -146,6 +146,16 @@ export default function About() {
           .stat-card {
             padding: 16px 12px;
           }
+          .brands-title {
+            font-size: 18px !important;
+          }
+          .brands-container {
+            gap: 8px !important;
+          }
+          .brand-pill {
+            font-size: 13px !important;
+            padding: 6px 14px !important;
+          }
         }
       `}</style>
 
@@ -252,10 +262,10 @@ export default function About() {
       {/* ── BRANDS ── */}
       <section className="py-14 px-6" data-testid="about-brands">
         <div ref={brandsSection.ref} className="max-w-[1100px] mx-auto text-center">
-          <p className={`fade-in-up ${brandsSection.inView ? "visible" : ""} mb-6`} style={{ fontSize: "0.7rem", color: `${GOLD}0.7)`, textTransform: "uppercase", letterSpacing: "0.12em" }}>
+          <p className={`brands-title fade-in-up ${brandsSection.inView ? "visible" : ""} mb-6`} style={{ fontSize: "0.7rem", color: `${GOLD}0.7)`, textTransform: "uppercase", letterSpacing: "0.12em" }}>
             Портфель AVTD доступний через Gradus Media
           </p>
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="brands-container flex flex-wrap gap-3 justify-center">
             {brands.map((brand, i) => (
               <span
                 key={brand}

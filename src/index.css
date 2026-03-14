@@ -256,25 +256,38 @@
   .masonry-wrapper {
     padding: 0 16px;
   }
-  
+
   .masonry-container {
     gap: 16px;
   }
-  
+
   .masonry-column {
     gap: 16px;
   }
-  
+
   .article-card {
     min-height: 360px;
   }
-  
+
   .article-card .headline {
     font-size: 1.125rem;
   }
-  
+
   .article-card .excerpt {
     display: none;
+  }
+
+  /* Footer mobile layout */
+  .footer-columns {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-social {
+    grid-column: 1 / -1;
   }
 }
 
