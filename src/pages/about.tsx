@@ -211,24 +211,16 @@ export default function About() {
               </div>
             </div>
 
-            {/* Logo block */}
-            <div
-              className="flex items-center justify-center"
-              style={{
-                ...glassCard,
-                padding: "40px",
-                minHeight: "280px",
-              }}
-            >
+            {/* Logo */}
+            <div className="flex items-center justify-center">
               <img
                 src={logoLarge}
                 alt="Gradus Media"
-                className="w-full max-w-[220px] h-auto"
+                className="w-full h-auto"
                 style={{
                   mixBlendMode: "lighten",
-                  filter: "drop-shadow(0 0 40px rgba(201,168,76,0.25))",
-                  maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                  filter: "drop-shadow(0 0 40px rgba(201,168,76,0.2))",
+                  maxWidth: "280px",
                 }}
               />
             </div>
