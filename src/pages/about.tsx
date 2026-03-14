@@ -149,7 +149,7 @@ export default function About() {
 
           /* Stats section compression */
           .stats-section {
-            padding: 14px 20px !important;
+            padding: 16px 24px !important;
           }
           .stat-number {
             font-size: 32px !important;
@@ -160,10 +160,10 @@ export default function About() {
           }
           .stats-grid {
             grid-template-columns: 1fr 1fr !important;
-            gap: 7px !important;
+            gap: 8px !important;
           }
           .stat-card {
-            padding: 10px 7px !important;
+            padding: 12px 8px !important;
           }
 
           /* Brand pills */
