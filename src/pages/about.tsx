@@ -323,7 +323,7 @@ export default function About() {
           <div className={`fade-in-up ${featuresSection.inView ? "visible" : ""} text-center mb-10`}>
             <p className="mb-2 uppercase tracking-widest" style={{ fontSize: "0.7rem", color: `${GOLD}0.7)` }}>Чим допомагає Alex</p>
             <h2 className="font-semibold" style={{ fontSize: "1.6rem", color: "rgba(255,255,255,0.9)", lineHeight: 1.3 }}>
-              Конкретні відповіді для HoReCa бізнесу
+              Конкретна допомога HoReCa бізнесу
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
