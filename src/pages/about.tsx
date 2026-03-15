@@ -262,17 +262,18 @@ export default function About() {
             </div>
 
             {/* Right: Video */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-end">
               <video
                 controls
                 playsInline
                 preload="metadata"
-                className="rounded-2xl"
+                className="rounded-2xl w-full lg:w-auto"
                 style={{
                   boxShadow: "0 20px 60px rgba(0, 0, 0, 0.7)",
                   border: "3px solid rgba(201, 168, 76, 0.3)",
                   aspectRatio: "9/16",
                   maxHeight: "500px",
+                  maxWidth: "280px",
                 }}
               >
                 <source src="/video/Alex_About_Platform.mp4" type="video/mp4" />
