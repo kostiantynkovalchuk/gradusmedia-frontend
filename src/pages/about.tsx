@@ -241,7 +241,7 @@ export default function About() {
       {/* ── ABOUT TEXT ── */}
       <section className="py-16 px-6" data-testid="about-description">
         <div ref={aboutSection.ref} className="max-w-[1100px] mx-auto">
-          <div className={`fade-in-up ${aboutSection.inView ? "visible" : ""} flex flex-col lg:flex-row gap-8 items-center`}>
+          <div className={`fade-in-up ${aboutSection.inView ? "visible" : ""} flex flex-col md:flex-row gap-12 justify-center items-center`}>
             {/* Left: Text Content */}
             <div className="flex-1">
               <p className="mb-2 uppercase tracking-widest" style={{ fontSize: "0.7rem", color: `${GOLD}0.7)` }}>Про платформу</p>
@@ -250,7 +250,7 @@ export default function About() {
               </h2>
               <div style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.75, fontWeight: 300, fontSize: "1rem" }} className="space-y-4">
                 <p>
-                  Платформу створено командою Gradus Media спільно з Торговим Домом АВ (AVTD) — найбільшим дистриб'ютором алкоголю в Україні з 25+ роками досвіду та портфелем 500+ SKU.
+                  Платформу створено командою Gradus Media спільно з Торговим Домом АВ (AVTD) — найбільшим дистриб'утором алкоголю в Україні з 25+ роками досвіду та портфелем 500+ SKU.
                 </p>
                 <p>
                   На відміну від загальних пошукових систем, Gradus Media розуміє специфіку українського ринку напоїв: локальних виробників, регуляторні вимоги, сезонні тренди та реальні ціни від перевірених постачальників.
@@ -262,18 +262,16 @@ export default function About() {
             </div>
 
             {/* Right: Video */}
-            <div className="flex-shrink-0 w-full lg:w-auto flex justify-center lg:justify-end">
+            <div className="flex-shrink-0">
               <video
                 controls
                 playsInline
                 preload="metadata"
-                className="rounded-2xl w-full lg:w-auto"
+                className="rounded-2xl h-[600px]"
                 style={{
                   boxShadow: "0 20px 60px rgba(0, 0, 0, 0.7)",
                   border: "3px solid rgba(201, 168, 76, 0.3)",
                   aspectRatio: "9/16",
-                  maxHeight: "500px",
-                  maxWidth: "280px",
                 }}
               >
                 <source src="/video/Alex_About_Platform.mp4" type="video/mp4" />
