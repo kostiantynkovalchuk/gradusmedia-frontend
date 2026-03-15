@@ -239,7 +239,13 @@ export default function About() {
       </section>
 
       {/* ── ABOUT TEXT ── */}
-      <section className="py-16 px-6" data-testid="about-description">
+      <section
+        className="py-16 px-6"
+        data-testid="about-description"
+        style={{
+          background: "linear-gradient(180deg, hsl(263 50% 12%) 0%, hsl(var(--bg-dark)) 100%)",
+        }}
+      >
         <div ref={aboutSection.ref} className="max-w-[1100px] mx-auto">
           <div className={`fade-in-up ${aboutSection.inView ? "visible" : ""} flex flex-col md:flex-row gap-16 justify-center items-center`}>
             {/* Left: Text Content */}
