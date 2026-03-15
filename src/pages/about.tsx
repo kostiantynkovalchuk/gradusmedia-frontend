@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { Store, BarChart2, Wine, TrendingUp, FileText, Lightbulb, ArrowRight } from "lucide-react";
-import logoLarge from "../../attached_assets/generated_images/logo.webp";
 
 const GOLD = "rgba(201,168,76,";
 
@@ -242,8 +241,9 @@ export default function About() {
       {/* ── ABOUT TEXT ── */}
       <section className="py-16 px-6" data-testid="about-description">
         <div ref={aboutSection.ref} className="max-w-[1100px] mx-auto">
-          <div className={`fade-in-up ${aboutSection.inView ? "visible" : ""} grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 items-start`}>
-            <div>
+          <div className={`fade-in-up ${aboutSection.inView ? "visible" : ""} flex flex-col lg:flex-row gap-8 items-center`}>
+            {/* Left: Text Content */}
+            <div className="flex-1">
               <p className="mb-2 uppercase tracking-widest" style={{ fontSize: "0.7rem", color: `${GOLD}0.7)` }}>Про платформу</p>
               <h2 className="mb-6 font-semibold" style={{ fontSize: "1.6rem", color: "rgba(255,255,255,0.9)", lineHeight: 1.3 }}>
                 Створено разом з лідером ринку
@@ -261,20 +261,23 @@ export default function About() {
               </div>
             </div>
 
-            {/* Logo */}
-            <div className="flex items-center justify-center">
-              <div style={{ background: "#1a1208" }}>
-                <img
-                  src={logoLarge}
-                  alt="Gradus Media"
-                  style={{
-                    maxWidth: "280px",
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
-                  }}
-                />
-              </div>
+            {/* Right: Video */}
+            <div className="flex-shrink-0">
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                className="rounded-2xl"
+                style={{
+                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.7)",
+                  border: "3px solid rgba(201, 168, 76, 0.3)",
+                  aspectRatio: "9/16",
+                  maxHeight: "500px",
+                }}
+              >
+                <source src="/video/Alex_About_Platform.mp4" type="video/mp4" />
+                Ваш браузер не підтримує відео.
+              </video>
             </div>
           </div>
         </div>
