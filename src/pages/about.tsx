@@ -241,9 +241,9 @@ export default function About() {
       {/* ── ABOUT TEXT ── */}
       <section className="py-16 px-6" data-testid="about-description">
         <div ref={aboutSection.ref} className="max-w-[1100px] mx-auto">
-          <div className={`fade-in-up ${aboutSection.inView ? "visible" : ""} flex flex-col md:flex-row gap-12 justify-center items-center`}>
+          <div className={`fade-in-up ${aboutSection.inView ? "visible" : ""} flex flex-col md:flex-row gap-16 justify-center items-center`}>
             {/* Left: Text Content */}
-            <div className="flex-1">
+            <div className="flex-1 max-w-[500px]">
               <p className="mb-2 uppercase tracking-widest" style={{ fontSize: "0.7rem", color: `${GOLD}0.7)` }}>Про платформу</p>
               <h2 className="mb-6 font-semibold" style={{ fontSize: "1.6rem", color: "rgba(255,255,255,0.9)", lineHeight: 1.3 }}>
                 Створено разом з лідером ринку
