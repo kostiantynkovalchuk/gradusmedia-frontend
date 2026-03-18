@@ -66,6 +66,7 @@ export default function ChatPage() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [remainingQuestions, setRemainingQuestions] = useState(5);
+  const [subscriptionTier, setSubscriptionTier] = useState<"free" | "standard" | "premium">("free");
   const [showEmailGate, setShowEmailGate] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
@@ -86,9 +87,7 @@ export default function ChatPage() {
     if (storedEmail) {
       setUserEmail(storedEmail);
     }
-  }, []);
 
-  useEffect(() => {
     const starterQuestion = sessionStorage.getItem("mayaStarterQuestion");
     if (starterQuestion) {
       setInputValue(starterQuestion);
@@ -100,6 +99,36 @@ export default function ChatPage() {
   }, []);
 
   useEffect(() => {
+    if (!userEmail) return;
+
+    fetch(`${API_BASE}/api/user/subscription`, {
+      headers: { email: userEmail },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("no_endpoint");
+        return res.json();
+      })
+      .then((data) => {
+        const tier = data.tier as string;
+        const status = data.status as string;
+        if ((tier === "standard" || tier === "premium") && status === "active") {
+          setSubscriptionTier(tier as "standard" | "premium");
+          setRemainingQuestions(999);
+          localStorage.setItem("maya_user_tier", tier);
+          localStorage.setItem("mayaQuestionsRemaining", "999");
+        }
+      })
+      .catch(() => {
+        const storedTier = localStorage.getItem("maya_user_tier");
+        if (storedTier === "standard" || storedTier === "premium") {
+          setSubscriptionTier(storedTier as "standard" | "premium");
+          setRemainingQuestions(999);
+          localStorage.setItem("mayaQuestionsRemaining", "999");
+        }
+      });
+  }, [userEmail]);
+
+  useEffect(() => {
     fetch(`${API_BASE}/api/payments/uah-rate`)
       .then(res => res.json())
       .then(data => { if (data.rate) setUahRate(data.rate); })
@@ -107,12 +136,12 @@ export default function ChatPage() {
   }, []);
 
   useEffect(() => {
-    if (remainingQuestions === 0) {
+    if (remainingQuestions === 0 && subscriptionTier === "free") {
       setTimeout(() => {
         pricingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 300);
     }
-  }, [remainingQuestions]);
+  }, [remainingQuestions, subscriptionTier]);
 
   const handlePayment = async (tier: string) => {
     const email = userEmail || localStorage.getItem("mayaUserEmail");
@@ -154,6 +183,8 @@ export default function ChatPage() {
         function () {
           setPaymentLoading(null);
           localStorage.setItem("maya_user_tier", tier);
+          localStorage.setItem("mayaQuestionsRemaining", "999");
+          setSubscriptionTier(tier as "standard" | "premium");
           setRemainingQuestions(999);
           toast({ title: "Підписку активовано!", description: "Чат розблоковано. Дякуємо!" });
         },
@@ -584,7 +615,7 @@ export default function ChatPage() {
                   }}
                   data-testid="questions-counter"
                 >
-                  {remainingQuestions}/5 питань сьогодні
+                  {remainingQuestions >= 999 ? "Необмежений доступ" : `${remainingQuestions}/5 питань сьогодні`}
                 </div>
               </div>
 
@@ -801,7 +832,7 @@ export default function ChatPage() {
                   </p>
                 )}
 
-                {remainingQuestions === 0 && (
+                {remainingQuestions === 0 && subscriptionTier === "free" && (
                   <div ref={pricingRef} data-testid="limit-reached">
                     <div
                       className="mt-6 p-8 rounded-2xl text-center"
