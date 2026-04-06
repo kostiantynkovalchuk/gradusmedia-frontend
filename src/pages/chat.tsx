@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import { EmailGateModal } from "@/components/EmailGateModal";
 import { useToast } from "@/hooks/use-toast";
+import { trackEvent } from "@/lib/analytics";
 
 declare global {
   interface Window {
@@ -152,6 +153,7 @@ export default function ChatPage() {
       return;
     }
 
+    trackEvent('trial_started', { tier });
     setPaymentLoading(tier);
     try {
       const response = await fetch(`${API_BASE}/api/payments/create-checkout`, {
@@ -235,6 +237,10 @@ export default function ChatPage() {
 
   const sendMessage = async (text: string, email?: string) => {
     const resolvedEmail = email || userEmail || localStorage.getItem("mayaUserEmail");
+
+    if (messages.length === 1) {
+      trackEvent('chat_started');
+    }
 
     const userMessage: ChatMessage = {
       role: "user",

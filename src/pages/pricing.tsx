@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Check, Star, ArrowRight, Shield, RefreshCcw, Building2, Ban, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import { useToast } from "@/hooks/use-toast";
+import { trackEvent } from "@/lib/analytics";
 
 declare global {
   interface Window {
@@ -26,6 +26,7 @@ export default function PricingPage() {
   const { toast } = useToast();
 
   useEffect(() => {
+    trackEvent('pricing_viewed');
     fetch(`${API_BASE}/api/payments/uah-rate`)
       .then(res => res.json())
       .then(data => {
@@ -55,6 +56,7 @@ export default function PricingPage() {
       return;
     }
 
+    trackEvent('trial_started', { tier });
     setPaymentLoading(tier);
     try {
       const response = await fetch(`${API_BASE}/api/payments/create-checkout`, {

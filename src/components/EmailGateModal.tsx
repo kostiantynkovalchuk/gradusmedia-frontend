@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Mail, User, Briefcase, Check, AlertCircle, X } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 interface EmailGateModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ export function EmailGateModal({ isOpen, onClose, onSubmit }: EmailGateModalProp
     setIsSubmitting(true);
     try {
       await onSubmit({ name, email, position });
+      trackEvent('email_submitted', { position });
     } catch (err) {
       setError("Не вдалося зареєструватися. Спробуйте ще раз.");
       setIsSubmitting(false);
