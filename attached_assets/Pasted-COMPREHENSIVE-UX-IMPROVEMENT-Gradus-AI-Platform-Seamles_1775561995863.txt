@@ -1,0 +1,235 @@
+COMPREHENSIVE UX IMPROVEMENT — Gradus AI Platform
+Seamless funnel: LinkedIn/FB/TG → website → trial → Telegram → paid
+
+Stack: Vite frontend (Cloudflare Pages) + FastAPI backend (Render.com)
+Email: no service yet — recommend and implement Resend (resend.com)
+       free tier: 3000 emails/month — perfect for current scale
+       Alex photo available at: /assets/alex_new_b.png (uploaded to project)
+
+════════════════════════════════════════════════════════════
+TASK 1 — EMAIL SERVICE SETUP (backend)
+════════════════════════════════════════════════════════════
+
+Install and configure Resend for transactional emails:
+
+1. pip install resend
+2. Add to Render env vars: RESEND_API_KEY (will be provided)
+3. Create backend/services/email_service.py:
+   - send_email(to, subject, html) base function
+   - All emails sent from: alex@gradusmedia.org
+   - Sender name: "Alex Gradus | GradusMedia"
+   - Reply-to: support@gradusmedia.org
+
+Email template base (use for all emails):
+- Dark background (#1a1a2e or similar to match site)
+- Gold accent (#c9a84c — matches site brand)
+- Alex photo at top (circle crop, centered)
+  Image: https://gradusmedia.org/assets/alex_new_b.png
+- Clean single-column layout
+- Mobile-first
+- Footer: "GradusMedia · gradusmedia.org · відписатись"
+
+════════════════════════════════════════════════════════════
+TASK 2 — ONBOARDING SEQUENCE (backend + frontend)
+════════════════════════════════════════════════════════════
+
+Trigger: user submits email gate on gradusmedia.org
+
+Step 1 — Immediate welcome email (send within 60 seconds):
+Subject: "Привіт від Alex 👋 Ваш trial активовано"
+
+HTML content:
+- Alex photo (circle, top center)
+- "Привіт, [name]! Я Alex Gradus."
+- "Ваш 7-денний безкоштовний доступ активовано."
+- What Alex can help with (3 bullet points):
+  * 🍹 Коктейльні тренди та меню
+  * 💰 Знизити витрати бару на 15-20%
+  * 📋 Ліцензії, постачальники, ціноутворення
+- CTA button (gold): "Задати перше питання →"
+  linking to: https://gradusmedia.org/чат
+- Secondary link: "або в Telegram → @alexgradus_bot"
+- Note: "У вас 5 питань на день протягом 7 днів"
+
+Step 2 — Day 3 email (72h after registration):
+Subject: "Олексію, ось що ще вміє Alex 🥃"
+
+HTML content:
+- Alex photo
+- "Більшість власників барів використовують Alex для..."
+- Show example Q&A:
+  Q: "Як знизити витрати на бар на 20%?"
+  A: [first 3 sentences of the preset answer]
+- "Спробуйте самі →" CTA
+- Reminder: "Залишилось X днів trial"
+- Telegram link
+
+Step 3 — Day 6 email (urgency):
+Subject: "Завтра закінчується ваш доступ до Alex ⏰"
+
+HTML content:
+- Alex photo
+- "Ваш безкоштовний період закінчується завтра"
+- What they lose (3 points)
+- What Standard gives them (3 points)
+- Big CTA: "Продовжити за $7/міс →"
+  linking to: https://gradusmedia.org/тарифи
+- Urgency: "Ціна $7 — менше ніж одна пляшка вина"
+
+Step 4 — Day 8 email (win-back):
+Subject: "Alex сумує 🥃 Повертайтесь"
+
+HTML content:
+- Alex photo
+- "Ваш trial завершився, але Alex нікуди не пішов"
+- One compelling insight they missed this week
+  (pull latest news headline from DB)
+- Soft CTA: "Повернутись за $7/міс →"
+- PS: "Якщо є питання — просто відповідіть на цей лист"
+
+Implementation:
+- Store email sequence state in maya_users table:
+  Add columns: onboarding_step INTEGER DEFAULT 0,
+               onboarding_scheduled_at TIMESTAMP
+- Scheduler jobs (APScheduler):
+  * Every 5 min: check for users who need next email
+  * Send email, increment onboarding_step
+  * Stop sequence if user upgrades to paid tier
+- Never send onboarding emails to already-paid users
+
+════════════════════════════════════════════════════════════
+TASK 3 — ACTIVE TELEGRAM MIGRATION (backend)
+════════════════════════════════════════════════════════════
+
+After user sends their FIRST message on web chat:
+- Backend detects first message (messages count = 1 
+  in alex_conversations for this email)
+- Include in Alex's response a natural Telegram nudge:
+  Append after Claude response:
+
+  "---
+  💬 До речі — зі мною зручніше у Telegram.
+  Там немає браузера, просто пишіть будь-коли:
+  👉 @alexgradus_bot"
+
+Only show this ONCE per user (track in maya_users:
+add column telegram_nudge_sent BOOLEAN DEFAULT FALSE)
+Set to TRUE after sending, never show again.
+
+════════════════════════════════════════════════════════════
+TASK 4 — UTM PARAMETERS ON LINKEDIN POSTS (backend)
+════════════════════════════════════════════════════════════
+
+In linkedin_digest_service.py:
+Every mention of gradusmedia.org in the post body 
+must use UTM-tagged URL:
+
+https://gradusmedia.org?utm_source=linkedin&utm_medium=social&utm_campaign=weekly_digest&utm_content=thursday_post
+
+First comment URL also tagged:
+https://gradusmedia.org?utm_source=linkedin&utm_medium=social&utm_campaign=weekly_digest&utm_content=first_comment
+
+This allows GA4 to show exactly how many users 
+LinkedIn drives to trial signup.
+
+════════════════════════════════════════════════════════════
+TASK 5 — TELEGRAM CHANNEL CTA (backend)
+════════════════════════════════════════════════════════════
+
+In channel_poster.py (posts news to @gradus_media_ua):
+Append to every post after the article text:
+
+"💬 Запитайте Alex детальніше → @alexgradus_bot"
+
+Place it after the article link, before hashtags.
+This converts passive news readers into active bot users.
+
+════════════════════════════════════════════════════════════
+TASK 6 — SOCIAL PROOF SECTION (frontend)
+════════════════════════════════════════════════════════════
+
+Add a social proof section on gradusmedia.org 
+between the hero section and pricing:
+
+3 testimonial cards, dark background, gold accents:
+
+Card 1:
+"Скоротили витрати на бар на 18% за перший місяць"
+— Олексій М., bar manager, Київ ⭐⭐⭐⭐⭐
+
+Card 2:
+"Alex відповів на питання про ліцензію за 2 хвилини.
+Юрист коштував би 500 грн за консультацію"
+— Вікторія С., власниця кафе, Львів ⭐⭐⭐⭐⭐
+
+Card 3:
+"Нарешті розумію що відбувається на світовому ринку.
+Читаю дайджест щотижня"
+— Роман В., ресторатор, Дніпро ⭐⭐⭐⭐⭐
+
+Note: these are placeholder testimonials — 
+mark with a TODO comment so they can be replaced 
+with real ones when collected.
+Style: card layout, mobile responsive, 
+matches existing dark gold theme.
+
+════════════════════════════════════════════════════════════
+TASK 7 — TRIAL EXPIRY REACTIVATION EMAIL (backend)
+════════════════════════════════════════════════════════════
+
+This is Day 8 email — already covered in Task 2 Step 4.
+No additional implementation needed.
+
+════════════════════════════════════════════════════════════
+ENVIRONMENT VARIABLES NEEDED (add to Render):
+════════════════════════════════════════════════════════════
+
+RESEND_API_KEY = [will be provided after Resend signup]
+EMAIL_FROM = alex@gradusmedia.org
+EMAIL_REPLY_TO = support@gradusmedia.org
+
+════════════════════════════════════════════════════════════
+DATABASE CHANGES NEEDED:
+════════════════════════════════════════════════════════════
+
+Migration 036 — add to maya_users table:
+- onboarding_step INTEGER DEFAULT 0
+- onboarding_scheduled_at TIMESTAMP
+- telegram_nudge_sent BOOLEAN DEFAULT FALSE
+
+════════════════════════════════════════════════════════════
+IMPLEMENTATION ORDER (do in this sequence):
+════════════════════════════════════════════════════════════
+
+1. Migration 036 first
+2. email_service.py + Resend setup
+3. Onboarding email sequence + scheduler
+4. Telegram nudge after first message
+5. UTM parameters on LinkedIn posts
+6. Telegram channel CTA
+7. Social proof section (frontend)
+
+════════════════════════════════════════════════════════════
+DO NOT TOUCH:
+════════════════════════════════════════════════════════════
+- GA4 tracking (G-ECPKJS3QN8)
+- Existing chat endpoints
+- Maya Hunt pipeline
+- Photo report bot
+- LinkedIn digest service (except UTM addition)
+- Pricing page structure
+- alex_conversations / alex_user_profiles tables
+- Any existing bot handlers
+
+════════════════════════════════════════════════════════════
+AFTER IMPLEMENTATION:
+════════════════════════════════════════════════════════════
+
+Test full flow:
+1. Submit new email on gradusmedia.org
+2. Confirm welcome email arrives within 60 seconds
+3. Confirm email has Alex photo, correct CTA, Telegram link
+4. Send first chat message → confirm Telegram nudge appears
+5. Check Render logs for scheduler email jobs
+6. Verify UTM links in next LinkedIn post
+7. Check Telegram channel next post has @alexgradus_bot CTA
