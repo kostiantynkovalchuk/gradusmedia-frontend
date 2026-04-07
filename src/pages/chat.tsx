@@ -374,14 +374,6 @@ export default function ChatPage() {
     "Що потрібно для ліцензії на алкоголь?",
   ];
 
-  const quickStartQuestionsDesktop = [
-    "Які коктейлі в тренді літа 2026?",
-    "Де купити преміум алкоголь?",
-    "Як знизити витрати на бар на 20%?",
-    "Що потрібно для ліцензії на алкоголь?",
-    "Як скласти літнє меню коктейлів?",
-    "Топ-5 українських craft spirits?",
-  ];
 
   const expertiseItems = [
     { icon: MessageCircle, label: "Тренди та інсайти" },
@@ -561,35 +553,8 @@ export default function ChatPage() {
                 <h3 className="text-xl md:text-2xl text-text-primary font-semibold mb-6">
                   Швидкий старт — оберіть питання або напишіть своє:
                 </h3>
-                {/* Mobile: Show 4 questions */}
-                <div className="md:hidden flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
+                <div className="flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
                   {quickStartQuestions.map((question, i) => (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        setInputValue(question);
-                        setTimeout(() => {
-                          chatContainerRef.current?.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                          });
-                        }, 100);
-                      }}
-                      className="px-4 py-2.5 rounded-full text-text-primary text-sm font-medium transition-all duration-300 whitespace-nowrap hover-elevate"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.05)",
-                        border: "1px solid rgba(245, 158, 11, 0.2)",
-                      }}
-                      data-testid={`quick-question-${i}`}
-                    >
-                      {question}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Desktop: Show all 6 questions */}
-                <div className="hidden md:flex flex-wrap justify-center gap-3 max-w-[900px] mx-auto">
-                  {quickStartQuestionsDesktop.map((question, i) => (
                     <button
                       key={i}
                       onClick={() => {
