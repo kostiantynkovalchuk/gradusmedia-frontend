@@ -229,6 +229,12 @@ export default function ChatPage() {
     setShowEmailGate(false);
     setRemainingQuestions(result.remaining_questions || 5);
 
+    toast({
+      title: "Дякуємо!",
+      description: "Також доступно в Telegram: @alexgradus_bot — t.me/alexgradus_bot",
+      duration: 6000,
+    });
+
     if (pendingMessage) {
       setPendingMessage(null);
       sendMessage(pendingMessage, data.email);
@@ -272,6 +278,24 @@ export default function ChatPage() {
           }),
         }
       );
+
+      if (response.status === 402) {
+        const errData = await response.json().catch(() => ({}));
+        const reason = errData.reason || "daily_limit";
+        const limitMessage: ChatMessage = {
+          role: "assistant",
+          content: reason === "trial_expired"
+            ? "**Ваш 7-денний безкоштовний період завершився**\n\nПродовжте доступ до Alex від $7/міс — [Обрати тариф](/pricing)"
+            : "**Ви використали 5 безкоштовних питань сьогодні**\n\nПовертайтесь завтра або отримайте необмежений доступ — [Обрати тариф](/pricing)",
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, limitMessage]);
+        if (reason === "daily_limit") {
+          setRemainingQuestions(0);
+          localStorage.setItem("mayaQuestionsRemaining", "0");
+        }
+        return;
+      }
 
       const data = await response.json();
 
@@ -344,18 +368,18 @@ export default function ChatPage() {
   };
 
   const quickStartQuestions = [
-    "Які коктейлі тренд цього сезону?",
-    "Кращі постачальники преміум алкоголю?",
+    "Які коктейлі в тренді літа 2026?",
+    "Де купити преміум алкоголь?",
     "Як знизити витрати на бар на 20%?",
     "Що потрібно для ліцензії на алкоголь?",
   ];
 
   const quickStartQuestionsDesktop = [
-    "Які коктейлі тренд цього сезону?",
-    "Кращі постачальники преміум алкоголю?",
+    "Які коктейлі в тренді літа 2026?",
+    "Де купити преміум алкоголь?",
     "Як знизити витрати на бар на 20%?",
     "Що потрібно для ліцензії на алкоголь?",
-    "Ідеї для зимового коктейльного меню?",
+    "Як скласти літнє меню коктейлів?",
     "Топ-5 українських craft spirits?",
   ];
 
@@ -608,9 +632,20 @@ export default function ChatPage() {
                   borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
                 }}
               >
-                <div className="flex items-center gap-3 text-text-secondary font-medium">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span>Alex онлайн</span>
+                <div className="flex flex-col gap-0.5">
+                  <div className="flex items-center gap-3 text-text-secondary font-medium">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <span>Alex онлайн</span>
+                  </div>
+                  <a
+                    href="https://t.me/alexgradus_bot"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-text-tertiary hover:text-amber-primary transition-colors duration-200 pl-5"
+                    data-testid="link-telegram-bot-chat"
+                  >
+                    Alex також у Telegram → @alexgradus_bot
+                  </a>
                 </div>
                 <div
                   className="px-3 py-1.5 rounded-md text-xs font-semibold"

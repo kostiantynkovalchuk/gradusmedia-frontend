@@ -1,0 +1,101 @@
+FRONTEND TASKS — gradusmedia.org (Vite + Cloudflare Pages)
+
+Context: gradusmedia.org is a HoReCa AI platform for Ukrainian 
+bar/restaurant owners. Backend API is at https://gradus-ai.onrender.com
+
+═══════════════════════════════════════════════════════
+TASK 1 — Quick-start buttons on homepage hero section
+═══════════════════════════════════════════════════════
+
+Update the 4 quick-start question buttons to exactly:
+
+1. "Які коктейлі в тренді літа 2026?"
+2. "Де купити преміум алкоголь?"
+3. "Як знизити витрати на бар на 20%?"
+4. "Що потрібно для ліцензії на алкоголь?"
+
+Copy must match exactly — these trigger backend presets.
+Also check for any other test/winter/outdated preset 
+questions anywhere on the site and update them.
+
+═══════════════════════════════════════════════════════
+TASK 2 — Add Telegram bot link to the site
+═══════════════════════════════════════════════════════
+
+Alex Gradus is now available on Telegram: @alexgradus_bot
+
+Add a Telegram CTA in these locations:
+
+1. Hero section — below the main CTA button 
+   "Почати діалог з Alex", add secondary link:
+   "або відкрити в Telegram →" 
+   linking to https://t.me/alexgradus_bot
+
+2. After email gate submission — success message should say:
+   "Дякуємо! Також доступно в Telegram: @alexgradus_bot"
+   with a link to https://t.me/alexgradus_bot
+
+3. Chat page — add a small banner or note:
+   "Alex також доступний у Telegram → @alexgradus_bot"
+   linking to https://t.me/alexgradus_bot
+
+═══════════════════════════════════════════════════════
+TASK 3 — HTTP 402 handling in web chat
+═══════════════════════════════════════════════════════
+
+The backend now returns HTTP 402 with a reason field 
+when free tier limits are reached.
+
+Handle these two cases in the chat UI:
+
+Case 1 — reason: "trial_expired":
+Show message inside chat (not alert/popup):
+"Ваш 7-денний безкоштовний період завершився 🕐
+ Продовжте доступ до Alex від $7/міс"
+With CTA button: "Обрати тариф →" linking to /тарифи
+
+Case 2 — reason: "daily_limit":
+Show message inside chat:
+"Ви використали 5 безкоштовних питань сьогодні 💬
+ Повертайтесь завтра або отримайте необмежений доступ"
+With CTA button: "Обрати тариф →" linking to /тарифи
+
+Both messages should appear as a chat bubble from Alex 
+(not a system error), styled consistently with existing 
+chat UI. Do not show raw error messages or alerts.
+
+═══════════════════════════════════════════════════════
+TASK 4 — LinkedIn social link audit
+═══════════════════════════════════════════════════════
+
+Verify LinkedIn link is correctly set to:
+https://www.linkedin.com/in/kostiantyn-kovalchuk-89016b322/
+
+Check all instances across the site — footer, about page, 
+any social links section. Update any that still show # or 
+old URL.
+
+═══════════════════════════════════════════════════════
+TASK 5 — Telegram social link audit  
+═══════════════════════════════════════════════════════
+
+Verify Telegram icon in footer links to:
+https://t.me/gradus_media_ua
+
+This was updated last session — just confirm it's correct 
+and not reverted.
+
+═══════════════════════════════════════════════════════
+DO NOT TOUCH:
+- GA4 tracking code (G-ECPKJS3QN8) — already working
+- VITE_API_URL env var
+- Any backend API endpoints
+- Email gate logic
+- Pricing page tier structure
+═══════════════════════════════════════════════════════
+
+After all changes deploy to Cloudflare Pages, confirm:
+1. 4 new quick-start buttons visible on homepage
+2. Telegram CTA visible below main hero button
+3. LinkedIn and Telegram footer links correct
+4. 402 error states render as Alex chat bubbles

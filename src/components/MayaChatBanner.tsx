@@ -7,8 +7,8 @@ const quickStartQuestions = [
   {
     id: 1,
     icon: MessageCircle,
-    text: "Які коктейлі тренд цього сезону?",
-    prompt: "Розкажи про найпопулярніші коктейльні тренди цього сезону в українському HoReCa"
+    text: "Які коктейлі в тренді літа 2026?",
+    prompt: "Розкажи про найпопулярніші коктейльні тренди літа 2026 в українському HoReCa"
   },
   {
     id: 2,
@@ -288,6 +288,16 @@ export function MayaChatBanner() {
                   Почати діалог з Alex
                 </Button>
               </Link>
+              <a
+                href="https://t.me/alexgradus_bot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm text-text-secondary hover:text-amber-primary transition-colors duration-200"
+                data-testid="link-telegram-bot-banner"
+              >
+                або відкрити в Telegram
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
               <p className="text-xs text-text-secondary text-center">
                 Безкоштовно. Потім від <span className="text-amber-primary font-semibold">$7/міс</span> для безлімітного доступу
               </p>
