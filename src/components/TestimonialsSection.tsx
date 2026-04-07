@@ -45,7 +45,7 @@ function Stars() {
 
 export function TestimonialsSection() {
   return (
-    <section className="py-16 px-6" data-testid="testimonials-section">
+    <section className="pt-6 pb-16 md:pt-8 px-6" data-testid="testimonials-section">
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-10">
           <p

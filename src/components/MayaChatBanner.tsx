@@ -39,7 +39,7 @@ export function MayaChatBanner() {
 
   return (
     <section
-      className="w-full py-12 md:py-16 relative overflow-visible"
+      className="w-full pt-12 pb-6 md:pt-16 md:pb-8 relative overflow-visible"
       data-testid="maya-chat-banner"
     >
       <div className="absolute inset-0 pointer-events-none">
