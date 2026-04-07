@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { SiFacebook, SiLinkedin, SiInstagram } from "react-icons/si";
+import { SiFacebook, SiLinkedin, SiTelegram } from "react-icons/si";
 import logoSmall from "@assets/generated_images/logo.webp";
 
 const navigationLinks = [
@@ -17,8 +17,8 @@ const companyLinks = [
 
 const socialLinks = [
   { icon: SiFacebook, label: "Facebook", href: "https://www.facebook.com/gradusmediaUA/" },
-  { icon: SiLinkedin, label: "LinkedIn", href: "#" },
-  { icon: SiInstagram, label: "Instagram", href: "#" },
+  { icon: SiLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/kostiantyn-kovalchuk-89016b322/" },
+  { icon: SiTelegram, label: "Telegram", href: "https://t.me/gradus_media_ua" },
 ];
 
 export function Footer() {
