@@ -285,7 +285,7 @@ export default function ChatPage() {
         const limitMessage: ChatMessage = {
           role: "assistant",
           content: reason === "trial_expired"
-            ? "**Ваш 7-денний безкоштовний період завершився**\n\nПродовжте доступ до Alex від $7/міс — [Обрати тариф](/pricing)"
+            ? "**Ваш 14-денний безкоштовний період завершився**\n\nПродовжте доступ до Alex від $7/міс — [Обрати тариф](/pricing)"
             : "**Ви використали 5 безкоштовних питань сьогодні**\n\nПовертайтесь завтра або отримайте необмежений доступ — [Обрати тариф](/pricing)",
           timestamp: new Date(),
         };
