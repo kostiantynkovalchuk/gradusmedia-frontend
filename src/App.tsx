@@ -17,6 +17,7 @@ import TermsPage from "@/pages/terms";
 import RefundPage from "@/pages/refund";
 import ContactsPage from "@/pages/contacts";
 import FaqPage from "@/pages/faq";
+import UnsubscribePage from "@/pages/unsubscribe";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/refund" component={RefundPage} />
       <Route path="/contacts" component={ContactsPage} />
       <Route path="/faq" component={FaqPage} />
+      <Route path="/unsubscribe" component={UnsubscribePage} />
       <Route component={NotFound} />
     </Switch>
   );
