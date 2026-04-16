@@ -175,21 +175,21 @@ export default function PricingPage() {
     {
       id: "premium",
       name: "Преміум",
-      price: 10,
-      priceAnnual: 100,
-      period: billingCycle === "monthly" ? "місяць" : "рік",
+      price: 15,
+      priceAnnual: 12,
+      period: "місяць",
       description: "Максимум для вашого бізнесу",
       features: [
         "Все зі Стандарт +",
         "Відеоконсультація 1x/міс (30 хв)",
-        "Ексклюзивні знижки AVTD (10-15%)",
+        "Ексклюзивні знижки AVTD",
         "Custom аналіз меню",
         "Пріоритетна підтримка",
       ],
       cta: "Спробувати 14 днів безкоштовно",
       ctaLink: "#",
       popular: false,
-      savings: billingCycle === "annual" ? "Економія $20/рік" : null,
+      savings: billingCycle === "annual" ? "Економія $36/рік" : null,
     },
   ];
 

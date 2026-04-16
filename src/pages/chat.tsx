@@ -930,13 +930,13 @@ export default function ChatPage() {
                           {
                             id: "premium",
                             name: "Преміум",
-                            price: 10,
-                            priceAnnual: 100,
-                            period: billingCycle === "monthly" ? "міс" : "рік",
+                            price: 15,
+                            priceAnnual: 12,
+                            period: "міс",
                             description: "Максимум для бізнесу",
-                            features: ["Все зі Стандарт +", "Відеоконсультація 1x/міс", "Знижки AVTD 10-15%", "Custom аналіз меню"],
+                            features: ["Все зі Стандарт +", "Відеоконсультація 1x/міс", "Знижки AVTD", "Custom аналіз меню"],
                             popular: false,
-                            savings: billingCycle === "annual" ? "Економія $20/рік" : null,
+                            savings: billingCycle === "annual" ? "Економія $36/рік" : null,
                           },
                         ].map((tier) => {
                           const displayPrice = billingCycle === "annual" ? tier.priceAnnual : tier.price;
